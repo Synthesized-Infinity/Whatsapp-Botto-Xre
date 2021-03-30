@@ -29,7 +29,7 @@ export class Message {
 
         const command = args[0].slice(1).toLowerCase()
 
-        const slicedJoinedArgs = args.join(' ').slice(command.length + 1)
+        const slicedJoinedArgs = args.join(' ').slice(command.length + 1).trim()
         const barSplit = slicedJoinedArgs.includes('|') ? slicedJoinedArgs.split('|') : []
 
         const media = (message?.imageMessage) ? M : (message?.videoMessage) ? M : (message?.extendedTextMessage?.contextInfo?.quotedMessage?.imageMessage || message?.extendedTextMessage?.contextInfo?.quotedMessage?.videoMessage) ? JSON.parse(JSON.stringify(M).replace('quotedM','m')).message.extendedTextMessage.contextInfo : null
