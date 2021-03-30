@@ -24,7 +24,7 @@ export class Message {
         const opt = this.parseArgs(body)
         if (!opt) return
         const { flags, args } = opt
-        if (args[0].startsWith(this.client._config.prefix)) return void this.freeText(body, M)
+        if (!args[0].startsWith(this.client._config.prefix)) return void this.freeText(body, M)
 
         const command = args[0].slice(1).toLowerCase()
 
