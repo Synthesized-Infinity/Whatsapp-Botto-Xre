@@ -23,7 +23,7 @@
 - Anime ~ Get Anime information and data by either name or aid.
 - Manga ~ Get Manga information and data by either name or mid.
 - Character ~ Get Character information and data by either name or cid.
-- ### MORE WILL COME ###
+- Many are on their way brr brr....
 
 ## Installation 
 
