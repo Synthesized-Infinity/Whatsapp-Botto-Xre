@@ -1,5 +1,5 @@
-import { MessageType } from "@adiwajshing/baileys"
-import { Sticker } from "wa-sticker-formatter"
+import { MessageType } from '@adiwajshing/baileys'
+import { Sticker } from 'wa-sticker-formatter'
 
 export default async (data: Buffer, crop: boolean, author = 'Xre', pack = 'WhatsApp Botto') => {
     const sticker = new Sticker(data, {

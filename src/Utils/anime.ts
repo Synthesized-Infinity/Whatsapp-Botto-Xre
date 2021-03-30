@@ -5,7 +5,7 @@ import Utils from '.'
 
 
 export const getWById = async (id: string, type: 'anime' | 'manga' | 'character' = 'character') => {4
-    if (!id) return { body: responses["empty-query"] }
+    if (!id) return { body: responses['empty-query'] }
     try {
         const r = await Utils.fetch(`https://api.jikan.moe/v3/${type}/${id}`, {}) 
         let sim = r
@@ -18,7 +18,7 @@ export const getWById = async (id: string, type: 'anime' | 'manga' | 'character'
 }
 
 export const wSearch = async (q: string, preifx: string, type: 'anime' | 'manga' | 'character' = 'character') => {
-    if (!q) return { body: responses["empty-query"] }
+    if (!q) return { body: responses['empty-query'] }
     try {
         const res = await Utils.fetch(`https://api.jikan.moe/v3/search/${type}?q=${q}`, {})
         let z = `🎋 *${type}* 🎋\n\n`

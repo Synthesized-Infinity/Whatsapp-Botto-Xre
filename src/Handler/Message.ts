@@ -1,12 +1,12 @@
-import { MessageType, WAMessage } from "@adiwajshing/baileys";
-import chalk from "chalk";
-import { query } from "express";
-import Client, { Reply } from "../Client";
-import { help, GroupEx } from "../lib";
+import { MessageType, WAMessage } from '@adiwajshing/baileys'
+import chalk from 'chalk'
+import { query } from 'express'
+import Client, { Reply } from '../Client'
+import { help, GroupEx } from '../lib'
 
 import responses from '../lib/responses.json'
-import Utils from "../Utils";
-import sticker from "../Utils/sticker";
+import Utils from '../Utils'
+import sticker from '../Utils/sticker'
 export class Message {
 
     validTypes = [MessageType.text, MessageType.image, MessageType.video, MessageType.extendedText]
@@ -46,7 +46,7 @@ export class Message {
     
         switch(command) {
             default:
-                this.client.reply(from, { body: responses["invalid-command"]}, M)
+                this.client.reply(from, { body: responses['invalid-command']}, M)
                 break
             case 'hi':
                 this.client.reply(from!, { body: `Hi! ${username}`}, M)
@@ -59,7 +59,7 @@ export class Message {
                 this.client.reply(from!, { body: help(this.client, username)}, M)
                 break
             case 'sticker':
-                const sticker = (!media) ? { body: responses["wrong-format-media"]} : await Utils.createSticker(
+                const sticker = (!media) ? { body: responses['wrong-format-media']} : await Utils.createSticker(
                     await this.client.downloadMediaMessage(media), 
                     flags.includes('--strech'),
                     barSplit[1],

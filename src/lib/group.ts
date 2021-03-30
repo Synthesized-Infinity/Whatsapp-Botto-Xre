@@ -1,5 +1,5 @@
-import Client from "../Client";
-import Utils from "../Utils";
+import Client from '../Client'
+import Utils from '../Utils'
 import respones from './responses.json'
 
 export class GroupEx {
@@ -9,8 +9,8 @@ export class GroupEx {
     }
 
     toggleEvent(chat: string, user: string, contacts: string[], uia: boolean, xim: Boolean, type: 'promote' | 'demote' | 'remove') {
-        if (!uia) return { body: respones["user-lacks-permission"]}
-        if (!xim) return { body: respones["no-permission"]}
+        if (!uia) return { body: respones['user-lacks-permission']}
+        if (!xim) return { body: respones['no-permission']}
         if (contacts.length === 0) return { body: respones['wrong-format']}
         switch(type) {
             case 'demote':

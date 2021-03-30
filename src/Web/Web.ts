@@ -1,7 +1,6 @@
 import express from 'express'
-import { EventEmitter } from 'events';
-import Client from '../Client';
-import chalk from 'chalk';
+import { EventEmitter } from 'events'
+import Client from '../Client'
 
 export class Web extends EventEmitter {
 

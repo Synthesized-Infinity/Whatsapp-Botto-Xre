@@ -1,5 +1,5 @@
-import axios, { AxiosRequestConfig } from "axios";
-import { getWById, wSearch } from "./anime";
+import axios, { AxiosRequestConfig } from 'axios'
+import { getWById, wSearch } from './anime'
 import CreateSticker from './sticker'
 export default class Utils{
 

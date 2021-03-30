@@ -1,7 +1,7 @@
-import Client from "../Client";
+import Client from '../Client'
 import path from 'path'
 import commands from './commands.json'
-import Utils from "../Utils";
+import Utils from '../Utils'
 
 export const help = (client: Client, usename: string) => {
 

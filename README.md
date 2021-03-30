@@ -4,7 +4,7 @@
 # _**WhatsApp-Botto-xRe**_
 
 > A WhatsApp Bot Built on Top of [Baileys](https://github.com/adiwajshing/baileys) <br>
-> This is a work in progress. More features and commands will be added soon
+> Work in progress. More features and commands will be added soon
 >
 </div><br/>
 <br/>
@@ -26,13 +26,16 @@
 - [FFMpeg](https://ffmpeg.org/download.html)
 - [ImageMagick](https://imagemagick.org/index.php) (Make sure to enable the `legacy functions` while installing)
 
-Clone the repo after installing these
+Clone the repo and install the npm packages after installing these
 ```SH
-git clone https://github.com/somnathdas/whatsapp-botto-xre
+> git clone https://github.com/somnathdas/whatsapp-botto-xre
+> cd Whatsapp-Botto-Xre
+> npm i
 ```
+
 ## Configaration
 
-> Edit the `config.json` accoring to your needs
+> Edit the `config.json` according to your needs
 ```JSON
 {
     "name": "Xre",
