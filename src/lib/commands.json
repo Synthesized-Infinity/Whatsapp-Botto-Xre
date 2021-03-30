@@ -1,0 +1,65 @@
+{
+    "general": [
+        {
+            "command": "help",
+            "description": "Well....",
+            "usage": "help"
+        }
+    ],
+    "admin": [
+        {
+            "command": "promote",
+            "description": "Makes the tagged user admin",
+            "usage": "promote @tag"
+        },
+        {
+            "command": "demote",
+            "description": "Demotes the tagged from admin",
+            "usage": "demote @tag"
+        },
+        {
+            "command": "remove",
+            "description": "removes the tagged person",
+            "usage": "removes @tag"
+        }
+    ],
+    "media": [
+        {
+            "command": "sticker",
+            "description": "Converts images/videos into sticker",
+            "usage": "sticker as caption of an image/video"
+        }
+    ],
+    "weeb": [
+        {
+            "command": "anime",
+            "description": "Searches for anime based on the given query",
+            "usage": "anime title"
+        },
+        {
+            "command": "manga",
+            "description": "Searches for manga based on the given query",
+            "usage": "manga title"
+        },
+        {
+            "command": "character",
+            "description": "Searches for character based on the given query",
+            "usage": "character name"
+        },
+        {
+            "command": "aid",
+            "description": "Displays the info of the given Anime ID",
+            "usage": "aid 29202"
+        },
+        {
+            "command": "mid",
+            "description": "Displays the info of the given Manga ID",
+            "usage": "mid 29202"
+        },
+        {
+            "command": "chid",
+            "description": "Displays the info of the given Character ID",
+            "usage": "chid 29202"
+        }
+    ]
+}

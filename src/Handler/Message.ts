@@ -1,0 +1,108 @@
+import { MessageType, WAMessage } from "@adiwajshing/baileys";
+import chalk from "chalk";
+import { query } from "express";
+import Client, { Reply } from "../Client";
+import { help, GroupEx } from "../lib";
+
+import responses from '../lib/responses.json'
+import Utils from "../Utils";
+import sticker from "../Utils/sticker";
+export class Message {
+
+    validTypes = [MessageType.text, MessageType.image, MessageType.video, MessageType.extendedText]
+    constructor(private client: Client, public group: GroupEx) {
+
+    }
+
+
+    handle = async (M: WAMessage) => {
+        const from = M.key.remoteJid
+        if (!from) return
+        const { message } = M
+        const body = (message?.conversation) ? message.conversation : (message?.extendedTextMessage) ? message.extendedTextMessage.text : (message?.imageMessage) ? message.imageMessage.caption : (message?.videoMessage) ? message.videoMessage.caption : null
+        if (!body) return 
+        const opt = this.parseArgs(body)
+        if (!opt) return
+        const { flags, args } = opt
+        const cmd = args[0].startsWith(this.client._config.prefix)
+        if (!cmd) return 
+
+        const command = args[0].slice(1).toLowerCase()
+
+        const slicedJoinedArgs = args.join(' ').slice(command.length + 1)
+        const barSplit = slicedJoinedArgs.includes('|') ? slicedJoinedArgs.split('|') : []
+
+        const media = (message?.imageMessage) ? M : (message?.videoMessage) ? M : (message?.extendedTextMessage?.contextInfo?.quotedMessage?.imageMessage || message?.extendedTextMessage?.contextInfo?.quotedMessage?.videoMessage) ? JSON.parse(JSON.stringify(M).replace('quotedM','m')).message.extendedTextMessage.contextInfo : null
+        const sender = M.participant
+        const mentioned = (message?.extendedTextMessage?.contextInfo?.mentionedJid) ? message.extendedTextMessage.contextInfo?.mentionedJid : (message?.extendedTextMessage?.contextInfo?.participant) ? [message.extendedTextMessage.contextInfo.participant] : []
+        
+        const group = await this.client.getGroupInfo(from!)
+        
+        const user = this.client.contacts[sender]
+        const username = user?.notify || user?.vname || user?.name || ''
+        const [admin, iAdmin] = [group.admins.includes(sender), group.admins.includes(this.client.user.jid)]
+
+        console.log(chalk.green('[EXEC]', command), chalk.yellow('From', username, 'in', group.metadata.subject))
+    
+        switch(command) {
+            default:
+                this.client.reply(from, { body: responses["invalid-command"]}, M)
+                break
+            case 'hi':
+                this.client.reply(from!, { body: `Hi! ${username}`}, M)
+                break
+            case 'promote':
+            case 'demote':
+            case 'remove':
+                this.client.reply(from, this.group.toggleEvent(from, sender, mentioned || [], admin, iAdmin, command))
+            case 'help':
+                this.client.reply(from!, { body: help(this.client, username)}, M)
+                break
+            case 'sticker':
+                const sticker = (!media) ? { body: responses["wrong-format-media"]} : await Utils.createSticker(
+                    await this.client.downloadMediaMessage(media), 
+                    flags.includes('--strech'),
+                    barSplit[1],
+                    barSplit[2]
+                )
+                this.client.reply(from, sticker, M)
+                break
+            case 'anime': 
+            case 'manga':
+            case 'character':
+                this.client.reply(from, await Utils.searchAMC(slicedJoinedArgs, command), M)
+                break
+            case 'aid':
+            case 'mid':
+            case 'chid':  
+                this.client.reply(from, await Utils.getAMCById(slicedJoinedArgs, (command === 'aid') ? 'anime' : (command === 'mid') ? 'manga' : 'character'), M)
+                break
+        }
+         
+    }
+
+    validate = (M: WAMessage) => {
+        if (!M.message) return false
+        if (!!M.key.fromMe || !M.participant) return false
+        const type = Object.keys(M.message)[0]
+        if (!this.validTypes.includes(type as any)) return
+        return type
+    }
+
+    parseArgs(text: string): false | parsedArgs {
+        const [args, flags]: any = [[], []]
+        if (!text) return false
+        const baseArgs = text.split(' ')
+        baseArgs.forEach((arg) => {
+            if (arg?.startsWith('--')) flags.push(arg)
+            args.push(arg)
+        })
+        return { args, flags }
+    }
+
+}
+
+export interface parsedArgs {
+    args: string[],
+    flags: string[]
+}

@@ -1,0 +1,8 @@
+{
+    "invalid-command": "❗ Couldn't find any matching commands. Try again with the commands from the help list",
+    "wrong-format": "❌ Wrong Format",
+    "wrong-format-media": "❌ Couldn't find any Image/Video in context",
+    "empty-query": "❌ No query provided!",
+    "user-lacks-permission": "❌ This is an Admin only Command",
+    "no-permission": "❌ Cannot execute without being admin"
+}
