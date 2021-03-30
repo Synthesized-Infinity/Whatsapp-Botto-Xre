@@ -24,8 +24,7 @@ export class Message {
         const opt = this.parseArgs(body)
         if (!opt) return
         const { flags, args } = opt
-        const cmd = args[0].startsWith(this.client._config.prefix)
-        if (!cmd) return 
+        if (args[0].startsWith(this.client._config.prefix)) return void this.freeText(body, M)
 
         const command = args[0].slice(1).toLowerCase()
 
@@ -36,13 +35,13 @@ export class Message {
         const sender = M.participant
         const mentioned = (message?.extendedTextMessage?.contextInfo?.mentionedJid) ? message.extendedTextMessage.contextInfo?.mentionedJid : (message?.extendedTextMessage?.contextInfo?.participant) ? [message.extendedTextMessage.contextInfo.participant] : []
         
-        const group = await this.client.getGroupInfo(from!)
+        const group = await this.client.getGroupInfo(from)
         
         const user = this.client.contacts[sender]
         const username = user?.notify || user?.vname || user?.name || ''
         const [admin, iAdmin] = [group.admins.includes(sender), group.admins.includes(this.client.user.jid)]
 
-        console.log(chalk.green('[EXEC]', command), chalk.yellow('From', username, 'in', group.metadata.subject))
+        console.log(chalk.green('[EXEC]', command), chalk.yellow('From', username), chalk.blue('in', group.metadata.subject))
     
         switch(command) {
             default:
@@ -89,7 +88,7 @@ export class Message {
         return type
     }
 
-    parseArgs(text: string): false | parsedArgs {
+    parseArgs = (text: string): false | parsedArgs => {
         const [args, flags]: any = [[], []]
         if (!text) return false
         const baseArgs = text.split(' ')
@@ -98,6 +97,28 @@ export class Message {
             args.push(arg)
         })
         return { args, flags }
+    }
+
+    freeText = async (text: string, M: WAMessage) => {
+        const args = text.split(' ')
+        const from = M.key.remoteJid!
+        const user = this.client.contacts[M.participant!]
+        const username = user?.notify || user?.vname || user?.name || ''
+        const group = await this.client.getGroupInfo(from!)
+
+        let [txt, body] = [args[0].toLowerCase(), '']
+        switch (txt) {
+            case 'hey':
+                body = 'Hi there!'
+                break
+            case 'test':
+                body = 'Well...'
+                break
+        }
+        if (body) {
+            console.log(chalk.green('[EXEC]', text), chalk.yellow('From', username), chalk.blue('in', group.metadata.subject))
+            this.client.reply(from, { body }, M) 
+        }
     }
 
 }

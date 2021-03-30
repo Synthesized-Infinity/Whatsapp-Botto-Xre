@@ -52,9 +52,8 @@ export const start = async (PORT: number, config: string) => {
 
     const Router = new BaseRoutes(client, web)
 
-    
-    
-    web.on('web-open', (PORT) => console.log(chalk.green('[WEB]'), chalk.yellow(`Web Server Started on`, `http://localhost:${PORT}`)))
+
+    web.on('web-open', (PORT) => console.log(chalk.green('[WEB]'), chalk.yellow(`Web Server Started on`, `http://localhost:${PORT} | http://localhost:${PORT}/endpoints`)))
 
     Router.start()
 

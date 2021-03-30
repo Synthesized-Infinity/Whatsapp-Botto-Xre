@@ -1,0 +1,26 @@
+[
+    {
+        "endpoint": "/",
+        "query": null,
+        "description": "Main endpoint"
+    },
+    {
+        "endpoint": "user",
+        "query": [
+            "jid"
+        ],
+        "description": "retrives the given user's info"
+    },
+    {
+        "endpoint": "/config",
+        "query": null,
+        "description": "Main endpoint"
+    },
+    {
+        "endpoint": "/client",
+        "query": [
+            "state"
+        ],
+        "description": "turn on or off the client"
+    }
+]
