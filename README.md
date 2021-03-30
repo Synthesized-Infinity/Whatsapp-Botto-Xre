@@ -41,7 +41,6 @@ Clone the repo and install the npm packages after installing these
 ```
 
 ## Configaration
-
 > Edit the `config.json` according to your needs
 ```JSON
 {
@@ -53,6 +52,14 @@ Clone the repo and install the npm packages after installing these
 `name` The name of the Bot <br>
 `prefix` The Prefix of the Bot <br>
 `admins` The [JIDs](https://adiwajshing.github.io/Baileys/interfaces/wauser.html#jid) of the users who you want to the Admins/Mods for the bot
+
+> Create a file called `.env` 
+
+In the created `.env` and make sure to add every fields wrriten below
+```txt
+MONGO_URI=YOUR_MONGODB_CONNECTION_URI
+```
+`MONGO_URI` is the [connection URI](https://docs.mongodb.com/manual/reference/connection-string/) for the Database
 
 ## Building
 

@@ -1,6 +1,6 @@
 import { MessageType, WAMessage } from '@adiwajshing/baileys'
 import chalk from 'chalk'
-import { query } from 'express'
+import { Connection, Model, Mongoose } from 'mongoose'
 import Client, { Reply } from '../Client'
 import { help, GroupEx } from '../lib'
 
@@ -36,16 +36,19 @@ export class Message {
         const mentioned = (message?.extendedTextMessage?.contextInfo?.mentionedJid) ? message.extendedTextMessage.contextInfo?.mentionedJid : (message?.extendedTextMessage?.contextInfo?.participant) ? [message.extendedTextMessage.contextInfo.participant] : []
         
         const group = await this.client.getGroupInfo(from)
-        
+
         const user = this.client.contacts[sender]
         const username = user?.notify || user?.vname || user?.name || ''
         const [admin, iAdmin] = [group.admins.includes(sender), group.admins.includes(this.client.user.jid)]
-
+        const mod = this.client._config.admins.includes(sender)
         console.log(chalk.green('[EXEC]', command), chalk.yellow('From', username), chalk.blue('in', group.metadata.subject))
-    
+        
         switch(command) {
             default:
                 this.client.reply(from, { body: responses['invalid-command']}, M)
+                break
+            case 'eval':
+                if (mod) return void eval(slicedJoinedArgs)
                 break
             case 'hi':
                 this.client.reply(from!, { body: `Hi! ${username}`}, M)
@@ -53,7 +56,7 @@ export class Message {
             case 'promote':
             case 'demote':
             case 'remove':
-                this.client.reply(from, this.group.toggleEvent(from, sender, mentioned || [], admin, iAdmin, command))
+                this.client.reply(from, this.group.toggleEvent(from, sender, mentioned || [], admin, iAdmin, command), M)
             case 'help':
                 this.client.reply(from!, { body: help(this.client, username)}, M)
                 break
@@ -76,6 +79,10 @@ export class Message {
             case 'chid':  
                 this.client.reply(from, await Utils.getAMCById(slicedJoinedArgs, (command === 'aid') ? 'anime' : (command === 'mid') ? 'manga' : 'character'), M)
                 break
+            case 'register':
+                return void this.client.reply(from, await this.group.register(admin, group.data, true, slicedJoinedArgs.toLowerCase().trim()), M)
+            case 'unregister':
+                return void this.client.reply(from, await this.group.register(admin, group.data, false, slicedJoinedArgs.toLowerCase().trim()), M)
         }
          
     }

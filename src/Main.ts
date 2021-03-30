@@ -1,16 +1,22 @@
 import Client from './Client'
 import path from 'path'
 import chalk from 'chalk'
+import mongoose from 'mongoose'
 import { existsSync, writeFileSync } from 'fs-extra'
+import qr from 'qr-image'
+
 import { Web, BaseRoutes } from './Web'
 import { Message } from './Handler'
 import { GroupEx } from './lib'
-import qr from 'qr-image'
+import { EventHandler as EvHandler} from './Handler'
+import { schema } from './Mongo'
 
-export const start = async (PORT: number, config: string) => {
+export const start = async (config: string, PORT: number, MONGO_URI: string) => {
 
-    const client = new Client(config)
+    const client = new Client(schema.group, config)
     
+    const db = mongoose.connection
+
     client.logger.level = 'fatal'
     const session = path.join(__dirname, '..', 'session.json')
     const auth = (existsSync(session)) ? require(session) : null
@@ -21,8 +27,13 @@ export const start = async (PORT: number, config: string) => {
     const Router = new BaseRoutes(client, web)
     Router.start()
 
+    const GroupExtention = new GroupEx(client)
+    const MessageHandler = new Message(client, GroupExtention)
+    const EventHandler = new EvHandler(client)
     //Events
     
+    db.once('open', async () => console.log(chalk.green('Connected to Database'))) 
+
     client.on('config', (config) => {
         console.log(chalk.green('[SERVER]', 'Config Loaded'))
         console.table(chalk.yellow(config))
@@ -47,12 +58,11 @@ export const start = async (PORT: number, config: string) => {
         MessageHandler.handle(all[0])
     })
 
-    await client.connect()
+    client.on('group-participants-update', (event) => EventHandler.handle(event))
+    
+    mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
 
-
-    const GroupExtention = new GroupEx(client)
-    const MessageHandler = new Message(client, GroupExtention)
-
+    await client.connect() 
 
     web.on('web-open', (PORT) => console.log(chalk.green('[WEB]'), chalk.yellow(`Web Server Started on`, `http://localhost:${PORT} | http://localhost:${PORT}/endpoints`)))
 
