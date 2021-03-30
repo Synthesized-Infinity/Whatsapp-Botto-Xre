@@ -20,9 +20,9 @@
 ## Features [Not limited to]
 - Sticker ~ Create stickers or animated stickers, hassle free and smoothly.
 - Promotion/Demotion ~ Can Promote and demote members in the group.
-- Anime ~ Get Anime information and data.
-- Manga ~ Get Manga information and data.
-- Character ~ Get Character information and data. 
+- Anime ~ Get Anime information and data by either name or aid.
+- Manga ~ Get Manga information and data by either name or mid.
+- Character ~ Get Character information and data by either name or cid.
 - ### MORE WILL COME ###
 
 ## Installation 
