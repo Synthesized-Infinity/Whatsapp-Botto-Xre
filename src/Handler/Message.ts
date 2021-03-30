@@ -15,7 +15,7 @@ export class Message {
     }
 
 
-    handle = async (M: WAMessage) => {
+    handle = async (M: WAMessage): Promise<void> => {
         const from = M.key.remoteJid
         if (!from) return
         const { message } = M
@@ -31,7 +31,7 @@ export class Message {
         const slicedJoinedArgs = args.join(' ').slice(command.length + 1).trim()
         const barSplit = slicedJoinedArgs.includes('|') ? slicedJoinedArgs.split('|') : []
 
-        const media = (message?.imageMessage) ? M : (message?.videoMessage) ? M : (message?.extendedTextMessage?.contextInfo?.quotedMessage?.imageMessage || message?.extendedTextMessage?.contextInfo?.quotedMessage?.videoMessage) ? JSON.parse(JSON.stringify(M).replace('quotedM','m')).message.extendedTextMessage.contextInfo : null
+        const media = (message?.imageMessage || message?.videoMessage) ? M : (message?.extendedTextMessage?.contextInfo?.quotedMessage?.imageMessage || message?.extendedTextMessage?.contextInfo?.quotedMessage?.videoMessage) ? JSON.parse(JSON.stringify(M).replace('quotedM','m')).message.extendedTextMessage.contextInfo : null
         const sender = M.participant
         const mentioned = (message?.extendedTextMessage?.contextInfo?.mentionedJid) ? message.extendedTextMessage.contextInfo?.mentionedJid : (message?.extendedTextMessage?.contextInfo?.participant) ? [message.extendedTextMessage.contextInfo.participant] : []
         

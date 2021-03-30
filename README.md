@@ -19,10 +19,10 @@
 
 ## Features [Not limited to]
 - Sticker ~ Create stickers or animated stickers, hassle free and smoothly.
-- Promotion/Demotion ~ Can Promote and demote members in the group.
+- Group Utils ~ Can promote demote and remove members in the group.
 - Anime ~ Get Anime information and data by either name or aid.
 - Manga ~ Get Manga information and data by either name or mid.
-- Character ~ Get Character information and data by either name or cid.
+- Character ~ Get Character information and data by either name or chid.
 - Many are on their way brr brr....
 
 ## Installation 
@@ -63,7 +63,9 @@ Run `npm run build` and the Compiled JS files, Decleration Files, Maps and Decla
 ```SH
 npm start
 ```
-Running the above command will start the bot. Now you're on your own. Good Luck!
+Running the above command will start the bot. 
+To authenticate scan the QR which shows up in the terminal or the link which is logged when the QR event fires using the WA-Web Scanner on your WhatsApp.
+Now you're on your own. Good Luck!
 
 ## Contribution
 

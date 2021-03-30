@@ -3,7 +3,7 @@ import path from 'path'
 import commands from './commands.json'
 import Utils from '../Utils'
 
-export const help = (client: Client, usename: string) => {
+export const help = (client: Client, username: string) => {
 
     const keys = Object.keys(commands)
     let base = `🤖 ${client._config.name} Command List 🤖\n\n`

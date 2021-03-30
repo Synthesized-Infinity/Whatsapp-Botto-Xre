@@ -17,6 +17,17 @@ export class BaseRoutes {
             console.log(chalk.yellow('[WEB]', req.url))
             res.json({ message: 'Hi there' })
         })
+        this.router.get('/qr', (req, res) => {
+            if (!this.web.QR) {
+                if (this.client.state === 'open') return res.json({ message: `You're already authenticated`})
+                return res.json({ message: `QR code is not generated Yet`})
+            }
+            res.writeHead(200, {
+              'Content-Type': 'image/png',
+              'Content-Length': this.web.QR.length
+            })
+            res.end(this.web.QR)
+        })
 
         this.router.get('/endpoints', (req, res) => {
             res.json(endpoints)

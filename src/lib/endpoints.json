@@ -12,6 +12,11 @@
         "description": "retrives the given user's info"
     },
     {
+        "endpoint": "/qr",
+        "query": null,
+        "description": "Displays the Auth QR"
+    },
+    {
         "endpoint": "/config",
         "query": null,
         "description": "Main endpoint"

@@ -6,9 +6,11 @@ export class Web extends EventEmitter {
 
     app: express.Express
 
-    constructor(public client: Client, PORT: number) {
+    QR: null | Buffer = null
+
+    constructor(public client: Client, public PORT: number) {
         super()
         this.app = express()
-        this.app.listen(PORT, () => this.emit('web-open', PORT))
+        this.app.listen(this.PORT, () => this.emit('web-open', this.PORT))
     }
 } 
