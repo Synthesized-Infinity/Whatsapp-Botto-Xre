@@ -1,7 +1,7 @@
 <div align="center">
-<img src="https://www.itl.cat/pngfile/big/30-300767_the-legend-of-zelda.png" alt="MWL" width="500" />
+<img src="https://i.ibb.co/F3sc7Nb/Purple-Music-Store-Etsy-Banner.png" alt="Whatsapp-Botto-Xre" border="0">
 
-# _**WhatsApp-Botto-xRe**_
+# **WhatsApp-Botto-xRe**
 
 > A WhatsApp Bot Built on Top of [Baileys](https://github.com/adiwajshing/baileys) <br>
 > Work in progress. More features and commands will be added soon
