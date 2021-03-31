@@ -13,9 +13,9 @@
 - 💖 Object Oriented 
 - 💙 Written in [TypeScript](https://www.typescriptlang.org/)
 - 💛 Event-Based 
-- 💚 [Express](https://expressjs.com/) Integration
+- 💚 [Express](https://expressjs.com/) Contorl Panel
 - 💜 Self-Resoting Auth
-- 💝 Build with [Baileys](https://github.com/adiwajshing/baileys) (The Best WhatsApp Library Out There) 
+- 💝 Built with [Baileys](https://github.com/adiwajshing/baileys) (The Best WhatsApp Library Out There) 
 
 ## Features [Not limited to]
 - Sticker ~ Create stickers or animated stickers, hassle free and smoothly.
@@ -30,12 +30,13 @@
 > Make sure you have the following softwares installed
 - [Git](https://git-scm.com/)
 - [Node.JS](https://nodejs.org/en/)
+- [WebP](https://developers.google.com/speed/webp/download)
 - [FFMpeg](https://ffmpeg.org/download.html)
 - [ImageMagick](https://imagemagick.org/index.php) (Make sure to enable the `legacy functions` while installing)
 
 Clone the repo and install the npm packages after installing these
 ```SH
-> git clone https://github.com/somnathdas/whatsapp-botto-xre
+> git clone https://github.com/SomnathDas/Whatsapp-Botto-Xre
 > cd Whatsapp-Botto-Xre
 > npm i
 ```

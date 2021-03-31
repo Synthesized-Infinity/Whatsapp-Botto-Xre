@@ -7,7 +7,7 @@ const GroupSchema = new Schema({
         unique: true
     },
     events: {
-        type: String,
+        type: Boolean,
         required: false,
         unique: true
     }
