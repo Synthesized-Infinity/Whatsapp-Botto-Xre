@@ -18,5 +18,5 @@ export default class Utils {
 
     static searchAMC = wSearch
 
-    static emojies = ['📗', '🎈', '👑', '⚓', '〽', '⭕']
+    static emojies = ['📗', '👑', '⚓', '〽', '⭕', '⏳']
 }

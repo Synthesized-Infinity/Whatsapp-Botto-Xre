@@ -22,6 +22,14 @@ export const start = async (config: string, PORT: number, MONGO_URI: string): Pr
     if (auth) client.loadAuthInfo(auth)
 
     const web = new Web(client, PORT)
+
+    web.on('web-open', (PORT) =>
+        console.log(
+            chalk.green('[WEB]'),
+            chalk.yellow(`Web Server Started on`, `http://localhost:${PORT} | http://localhost:${PORT}/endpoints`)
+        )
+    )
+
     const Router = new BaseRoutes(client, web)
     Router.start()
 
@@ -30,7 +38,7 @@ export const start = async (config: string, PORT: number, MONGO_URI: string): Pr
     const EventHandler = new EvHandler(client)
     //Events
 
-    db.once('open', async () => console.log(chalk.green('Connected to Database')))
+    db.once('open', async () => console.log(chalk.green('[SERVER]'), chalk.yellow('Connected to Database')))
 
     client.on('config', (config) => {
         console.log(chalk.green('[SERVER]', 'Config Loaded'))
@@ -69,11 +77,4 @@ export const start = async (config: string, PORT: number, MONGO_URI: string): Pr
     })
 
     await client.connect()
-
-    web.on('web-open', (PORT) =>
-        console.log(
-            chalk.green('[WEB]'),
-            chalk.yellow(`Web Server Started on`, `http://localhost:${PORT} | http://localhost:${PORT}/endpoints`)
-        )
-    )
 }

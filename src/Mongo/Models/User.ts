@@ -10,6 +10,11 @@ const UserSchema = new Schema({
         type: Boolean,
         required: true,
         default: false
+    },
+    warnings: {
+        type: Number,
+        required: true,
+        default: 0
     }
 })
 
@@ -18,4 +23,5 @@ export interface IUserModel extends IUser, Document {}
 export interface IUser {
     jid: string
     ban: boolean
+    warnings: number
 }

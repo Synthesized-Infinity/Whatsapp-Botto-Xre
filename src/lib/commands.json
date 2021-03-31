@@ -21,6 +21,21 @@
             "command": "remove",
             "description": "removes the tagged person",
             "usage": "removes @tag"
+        },
+        {
+            "command": "register",
+            "description": "registers certain featues on the group chat",
+            "usage": "register feature"
+        },
+        {
+            "command": "unregister",
+            "description": "unregisters certain featues on the group chat",
+            "usage": "unregister feature"
+        },
+        {
+            "command": "opts",
+            "description": "displays all options which can be used with register and unregister",
+            "usgae": "opts"
         }
     ],
     "media": [
