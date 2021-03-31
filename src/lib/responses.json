@@ -5,9 +5,14 @@
     "empty-query": "❌ No query provided!",
     "user-lacks-permission": "❌ This is an Admin only Command",
     "no-permission": "❌ Cannot execute without being admin",
-    "already-enabled": "💚 {T} It is already enabled",
-    "enable-sucessful": "💛 Successfully Enabled {T}",
-    "not-enabled": "🔴 {T} is not Enabled",
-    "disable-successful": "🔴 {T} Sucessully Disabled",
-    "invalid-command-short": "Invalid Command: *{C}*"
+    "already-enabled": "▶ {T} It is already enabled",
+    "enable-sucessful": "▶ Successfully Enabled {T}",
+    "not-enabled": "{T} is not Enabled",
+    "disable-successful": "Sucessully Disabled *{T}*",
+    "invalid-command-short": "Invalid Command: *{C}*",
+    "banned-user": "Sucessfully Banned {U} from Using Commands",
+    "unbanned-user": "{U} is now allowed to use Commands again",
+    "already-banned": "{U} is already Banned from Using Commands",
+    "already-unbanned": "{U} is not banned",
+    "banned": "You are banned from using commands ❌"
 }

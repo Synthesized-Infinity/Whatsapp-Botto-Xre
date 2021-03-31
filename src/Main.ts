@@ -12,7 +12,7 @@ import { EventHandler as EvHandler } from './Handler'
 import { schema } from './Mongo'
 
 export const start = async (config: string, PORT: number, MONGO_URI: string): Promise<void> => {
-    const client = new Client(schema.group, config)
+    const client = new Client(schema.group, schema.user, config)
 
     const db = mongoose.connection
 

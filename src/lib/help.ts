@@ -8,7 +8,7 @@ export const help = (client: Client, command?: string): string => {
         for (const catogary in commands) {
             for (const index of (commands as commandList)[catogary]) {
                 if (index.command === command) {
-                    return `*Prefix ${client._config.prefix}*\n\n*Command:* ${index.command}\n*Description: ${index.description}\nUsage: ${index.usage}`
+                    return `💮 *Prefix ${client._config.prefix}*\n\n*Note! Use The Prefix infront of the command while using*\n\n*🌲 Command:* ${index.command}\n📗 *Description:* ${index.description}\n💚 *Usage:* ${index.usage}`
                 }
             }
         }
@@ -20,7 +20,7 @@ export const help = (client: Client, command?: string): string => {
     for (const cat in cmds) {
         base += `${Utils.capitalize(cat)} ${Utils.emojies[cats.indexOf(cat)]}\n\`\`\``
         cmds[cat].forEach((cmd) => {
-            base += `${cmd.command}${cmds[cat][cmds[cat].length - 1] === cmd ? '' : ','}`
+            base += `${cmd.command}${cmds[cat][cmds[cat].length - 1] === cmd ? '' : ', '}`
         })
         base += '```\n\n'
     }

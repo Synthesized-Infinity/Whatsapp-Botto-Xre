@@ -52,7 +52,8 @@ export class Message {
 
         const group = await this.client.getGroupInfo(from)
 
-        const user = this.client.contacts[sender]
+        const { user, data: userData } = await this.client.getUser(sender)
+
         const username = user?.notify || user?.vname || user?.name || ''
         const [admin, iAdmin] = [group.admins.includes(sender), group.admins.includes(this.client.user.jid)]
         const mod = this.client._config.admins.includes(sender)
@@ -61,6 +62,7 @@ export class Message {
             chalk.yellow('From', username),
             chalk.blue('in', group.metadata.subject)
         )
+        if (userData.ban) return void this.client.reply(from, { body: responses['banned'] }, M)
 
         switch (command) {
             default:
@@ -68,6 +70,11 @@ export class Message {
                 break
             case 'eval':
                 if (mod) return void eval(slicedJoinedArgs)
+                break
+            case 'ban':
+            case 'unban':
+                if (!mod || mentioned.length === 0) return
+                return this.client.banAction(from, mentioned, command === 'ban', M)
                 break
             case 'hi':
                 this.client.reply(from, { body: `Hi! ${username}` }, M)

@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose'
+import { model, Schema, Document } from 'mongoose'
 
 const GroupSchema = new Schema({
     jid: {
@@ -10,7 +10,19 @@ const GroupSchema = new Schema({
         type: Boolean,
         required: false,
         default: false
+    },
+    nsfw: {
+        type: Boolean,
+        required: false,
+        default: false
     }
 })
 
-export const group = model('groups', GroupSchema)
+export const group = model<IGroupModel>('groups', GroupSchema)
+
+export interface IGroupModel extends IGroup, Document {}
+export interface IGroup {
+    jid: string
+    events: boolean
+    nsfw: boolean
+}

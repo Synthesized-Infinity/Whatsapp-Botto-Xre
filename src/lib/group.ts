@@ -1,4 +1,5 @@
-import Client, { groupConfig, Reply } from '../Client'
+import Client, { Reply } from '../Client'
+import { IGroup } from '../Mongo/Models'
 import Utils from '../Utils'
 import responses from './responses.json'
 
@@ -30,7 +31,7 @@ export class GroupEx {
         }
     }
 
-    register = async (admin: boolean, chat: groupConfig, register: boolean, type: string): Promise<Reply> => {
+    register = async (admin: boolean, chat: IGroup, register: boolean, type: string): Promise<Reply> => {
         if (!admin) return { body: responses['user-lacks-permission'] }
         if (register) {
             switch (type) {
@@ -42,6 +43,12 @@ export class GroupEx {
                     await this.client.GroupModel.updateOne({ jid: chat.jid }, { $set: { events: true } })
                     return {
                         body: responses['enable-sucessful'].replace('{T}', 'Events')
+                    }
+                case 'nsfw':
+                    if (chat.nsfw) return { body: responses['already-enabled'].replace('{T}', 'NSFW') }
+                    await this.client.GroupModel.updateOne({ jid: chat.jid }, { $set: { nsfw: true } })
+                    return {
+                        body: responses['enable-sucessful'].replace('{T}', 'NSFW')
                     }
                 default:
                     return {
@@ -58,6 +65,15 @@ export class GroupEx {
                     await this.client.GroupModel.updateOne({ jid: chat.jid }, { $set: { events: false } })
                     return {
                         body: responses['disable-successful'].replace('{T}', 'Events')
+                    }
+                case 'nsfw':
+                    if (!chat.nsfw)
+                        return {
+                            body: responses['not-enabled'].replace('{T}', 'NSFW')
+                        }
+                    await this.client.GroupModel.updateOne({ jid: chat.jid }, { $set: { nsfw: false } })
+                    return {
+                        body: responses['disable-successful'].replace('{T}', 'NSFW')
                     }
                 default:
                     return {

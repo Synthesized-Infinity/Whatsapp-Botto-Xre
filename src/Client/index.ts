@@ -1,11 +1,11 @@
-import { MessageType, WAConnection, WAGroupMetadata, WAMessage } from '@adiwajshing/baileys/'
+import { MessageType, WAConnection, WAContact, WAGroupMetadata, WAMessage } from '@adiwajshing/baileys/'
 import { Model } from 'mongoose'
-
+import { IGroup, IGroupModel, IUserModel } from '../Mongo/Models'
+import responses from '../lib/responses.json'
 export default class Client extends WAConnection {
     private config: config
 
-    /* eslint-disable @typescript-eslint/no-explicit-any*/
-    constructor(public GroupModel: Model<any>, configPath?: string) {
+    constructor(public GroupModel: Model<IGroupModel>, public UserModel: Model<IUserModel>, configPath?: string) {
         super()
         this.config = configPath
             ? require(configPath)
@@ -16,8 +16,7 @@ export default class Client extends WAConnection {
               }
         this.emit('config', this.config)
     }
-    /* eslint-disable @typescript-eslint/no-explicit-any*/
-    async reply(jid: string, options: Reply, quote?: WAMessage): Promise<any> {
+    async reply(jid: string, options: Reply, quote?: WAMessage): Promise<unknown> {
         return await this.sendMessage(jid, options.body, options.type || MessageType.text, {
             quoted: quote,
             caption: options.caption
@@ -28,11 +27,25 @@ export default class Client extends WAConnection {
         return this.config
     }
 
+    async getUser(jid: string): Promise<{ user: WAContact; data: IUserModel }> {
+        let data = await this.UserModel.findOne({ jid })
+        if (!data) data = await new this.UserModel({ jid }).save()
+        return { user: this.contacts[jid], data }
+    }
+
+    async banUser(jid: string, ban: boolean): Promise<boolean> {
+        let data = await this.UserModel.findOne({ jid })
+        if (!data) data = await new this.UserModel({ jid }).save()
+        if ((ban && data.ban) || (!ban && !data.ban)) return false
+        await this.UserModel.updateOne({ jid }, { $set: { ban } })
+        return true
+    }
+
     async getGroupInfo(jid: string): Promise<Groupinfo> {
         const metadata = await this.groupMetadata(jid)
         const admins: string[] = []
         metadata.participants.forEach((user) => (user.isAdmin ? admins.push(user.jid) : ''))
-        let data: groupConfig = await this.GroupModel.findOne({ jid })
+        let data = await this.GroupModel.findOne({ jid })
         if (!data) data = await new this.GroupModel({ jid }).save()
         return { metadata, admins, data }
     }
@@ -44,16 +57,28 @@ export default class Client extends WAConnection {
             return null
         }
     }
+
+    async banAction(chat: string, users: string[], ban: boolean, M: WAMessage): Promise<void> {
+        for (const user of users) {
+            const { notify, vname, name } = this.contacts[user]
+            const username = notify || vname || name || user.split('@')[0]
+            if (!this.config.admins.includes(user)) {
+                const response = (await this.banUser(user, ban))
+                    ? ban
+                        ? responses['banned-user']
+                        : responses['unbanned-user']
+                    : !ban
+                    ? responses['already-unbanned']
+                    : responses['already-banned']
+                this.reply(chat, { body: response.replace('{U}', username) }, M)
+            }
+        }
+    }
 }
 export interface Groupinfo {
     metadata: WAGroupMetadata
     admins: string[]
-    data: groupConfig
-}
-
-export interface groupConfig {
-    jid: string
-    events: boolean | null
+    data: IGroup
 }
 
 export interface config {
