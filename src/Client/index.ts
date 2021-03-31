@@ -2,46 +2,48 @@ import { MessageType, WAConnection, WAGroupMetadata, WAMessage } from '@adiwajsh
 import { Model } from 'mongoose'
 
 export default class Client extends WAConnection {
+    private config: config
 
-    private config: config 
-
+    /* eslint-disable @typescript-eslint/no-explicit-any*/
     constructor(public GroupModel: Model<any>, configPath?: string) {
         super()
-        this.config = (configPath) ? require(configPath) : {
-            name: 'XRE',
-            prefix: '!',
-            admins: [
-                ''
-            ]
-        }
+        this.config = configPath
+            ? require(configPath)
+            : {
+                  name: 'XRE',
+                  prefix: '!',
+                  admins: ['']
+              }
         this.emit('config', this.config)
     }
-
-    async reply(jid: string, options: Reply, quote?: WAMessage) {
-        return await this.sendMessage(jid, options.body, options.type || MessageType.text, { quoted: quote, caption: options.caption})
+    /* eslint-disable @typescript-eslint/no-explicit-any*/
+    async reply(jid: string, options: Reply, quote?: WAMessage): Promise<any> {
+        return await this.sendMessage(jid, options.body, options.type || MessageType.text, {
+            quoted: quote,
+            caption: options.caption
+        })
     }
 
-    get _config() {
+    get _config(): config {
         return this.config
     }
 
-    async getGroupInfo(jid: string) {
+    async getGroupInfo(jid: string): Promise<Groupinfo> {
         const metadata = await this.groupMetadata(jid)
         const admins: string[] = []
-        metadata.participants.forEach((user) => user.isAdmin ? admins.push(user.jid) : '')
+        metadata.participants.forEach((user) => (user.isAdmin ? admins.push(user.jid) : ''))
         let data: groupConfig = await this.GroupModel.findOne({ jid })
         if (!data) data = await new this.GroupModel({ jid }).save()
         return { metadata, admins, data }
     }
 
-    async getPfp(jid: string) {
+    async getPfp(jid: string): Promise<string | null> {
         try {
             return await this.getProfilePicture(jid)
-        } catch(err) {
+        } catch (err) {
             return null
         }
     }
-
 }
 export interface Groupinfo {
     metadata: WAGroupMetadata
@@ -50,23 +52,18 @@ export interface Groupinfo {
 }
 
 export interface groupConfig {
-    jid: string,
+    jid: string
     events: boolean | null
 }
 
-
 export interface config {
-
     name: string
     prefix: string
     admins: string[]
-
 }
 
 export interface Reply {
-
     body: string | Buffer
     type?: MessageType
     caption?: string
-
 }

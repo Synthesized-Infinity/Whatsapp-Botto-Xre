@@ -3,7 +3,6 @@ import { EventEmitter } from 'events'
 import Client from '../Client'
 
 export class Web extends EventEmitter {
-
     app: express.Express
 
     QR: null | Buffer = null
@@ -13,4 +12,4 @@ export class Web extends EventEmitter {
         this.app = express()
         this.app.listen(this.PORT, () => this.emit('web-open', this.PORT))
     }
-} 
+}
