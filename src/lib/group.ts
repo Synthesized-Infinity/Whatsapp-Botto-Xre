@@ -1,6 +1,6 @@
 import Client, { groupConfig, Reply } from '../Client'
 import Utils from '../Utils'
-import respones from './responses.json'
+import responses from './responses.json'
 
 export class GroupEx {
     constructor(public client: Client) {}
@@ -13,9 +13,9 @@ export class GroupEx {
         xim: boolean,
         type: 'promote' | 'demote' | 'remove'
     ): Reply => {
-        if (!uia) return { body: respones['user-lacks-permission'] }
-        if (!xim) return { body: respones['no-permission'] }
-        if (contacts.length === 0) return { body: respones['wrong-format'] }
+        if (!uia) return { body: responses['user-lacks-permission'] }
+        if (!xim) return { body: responses['no-permission'] }
+        if (contacts.length === 0) return { body: responses['wrong-format'] }
         switch (type) {
             case 'demote':
                 this.client.groupDemoteAdmin(chat, contacts)
@@ -32,21 +32,21 @@ export class GroupEx {
     }
 
     register = async (admin: boolean, chat: groupConfig, register: boolean, type: string): Promise<Reply> => {
-        if (!admin) return { body: respones['user-lacks-permission'] }
+        if (!admin) return { body: responses['user-lacks-permission'] }
         if (register) {
             switch (type) {
                 case 'events':
                     if (chat.events)
                         return {
-                            body: respones['already-enabled'].replace('{T}', 'Events')
+                            body: responses['already-enabled'].replace('{T}', 'Events')
                         }
                     await this.client.GroupModel.updateOne({ jid: chat.jid }, { $set: { events: true } })
                     return {
-                        body: respones['enable-sucessful'].replace('{T}', 'Events')
+                        body: responses['enable-sucessful'].replace('{T}', 'Events')
                     }
                 default:
                     return {
-                        body: `${respones['wrong-format']} | Invalid Type: ${type}`
+                        body: `${responses['wrong-format']} | Invalid Type: ${type}`
                     }
             }
         } else {
@@ -54,15 +54,15 @@ export class GroupEx {
                 case 'events':
                     if (!chat.events)
                         return {
-                            body: respones['not-enabled'].replace('{T}', 'Events')
+                            body: responses['not-enabled'].replace('{T}', 'Events')
                         }
                     await this.client.GroupModel.updateOne({ jid: chat.jid }, { $set: { events: false } })
                     return {
-                        body: respones['disable-successful'].replace('{T}', 'Events')
+                        body: responses['disable-successful'].replace('{T}', 'Events')
                     }
                 default:
                     return {
-                        body: `${respones['wrong-format']} | Invalid Type: ${type}`
+                        body: `${responses['wrong-format']} | Invalid Type: ${type}`
                     }
             }
         }
