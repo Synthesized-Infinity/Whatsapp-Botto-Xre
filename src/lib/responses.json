@@ -14,5 +14,6 @@
     "unbanned-user": "{U} is now allowed to use Commands again",
     "already-banned": "{U} is already Banned from Using Commands",
     "already-unbanned": "{U} is not banned",
-    "banned": "You are banned from using commands ❌"
+    "banned": "You are banned from using commands ❌",
+    "options": "..."
 }

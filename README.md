@@ -48,13 +48,15 @@ Clone the repo and install the npm packages after installing these
 `prefix` The Prefix of the Bot <br>
 `admins` The [JIDs](https://adiwajshing.github.io/Baileys/interfaces/wauser.html#jid) of the users who you want to the Admins/Mods for the bot
 
-> Create a file called `.env` 
+Now, follow the instructions [here](https://docs.mongodb.com/manual/installation/) to install MongoDB and run a Local DB in your system or Create a Cloud Database using [Mongo Atlas](https://www.mongodb.com/cloud/atlas/register) 
+
+> Create a file named `.env` 
 
 In the created `.env` and make sure to add every fields wrriten below
 ```txt
 MONGO_URI=YOUR_MONGODB_CONNECTION_URI
 ```
-`MONGO_URI` is the [connection URI](https://docs.mongodb.com/manual/reference/connection-string/) for the Database
+`MONGO_URI` is the [connection URI](https://docs.mongodb.com/manual/reference/connection-string/) for the Database (If you're using Mongo Atlas, Use the Connection URI got from there. Else use the URL in [`.env.example`](https://github.com/SomnathDas/Whatsapp-Botto-Xre/blob/a06de9dc143a8a887475bd77d4d059e3193c2875/.env.example#L1))
 
 ## ⌨ Building
 
@@ -79,4 +81,5 @@ Now you're on your own. Good Luck!
 
 
 ## 📑 License
+
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FSomnathDas%2FWhatsapp-Botto-Xre.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FSomnathDas%2FWhatsapp-Botto-Xre?ref=badge_large)
