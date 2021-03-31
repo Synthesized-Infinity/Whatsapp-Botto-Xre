@@ -17,4 +17,6 @@ export default class Utils {
     static getAMCById = getWById
 
     static searchAMC = wSearch
+
+    static emojies = ['📗', '🎈', '👑', '⚓', '〽', '⭕']
 }

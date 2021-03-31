@@ -8,5 +8,6 @@
     "already-enabled": "💚 {T} It is already enabled",
     "enable-sucessful": "💛 Successfully Enabled {T}",
     "not-enabled": "🔴 {T} is not Enabled",
-    "disable-successful": "🔴 {T} Sucessully Disabled"
+    "disable-successful": "🔴 {T} Sucessully Disabled",
+    "invalid-command-short": "Invalid Command: *{C}*"
 }

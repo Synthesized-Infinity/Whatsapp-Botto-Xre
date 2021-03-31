@@ -1,16 +1,29 @@
 import Client from '../Client'
 import commands from './commands.json'
 import Utils from '../Utils'
+import responses from './responses.json'
 
-export const help = (client: Client): string => {
-    const keys = Object.keys(commands)
-    let base = `🤖 ${client._config.name} Command List 🤖\n\n`
-    base += `💮 *Prefix ${client._config.prefix}*\n\n`
-    keys.forEach((key) => {
-        base += `*${Utils.capitalize(key)}* ⚡\n`
-        /* eslint-disable @typescript-eslint/no-explicit-any*/
-        base += `\`\`\`${(commands as any)[key].map((cmd: command) => `${cmd.command} `)}\`\`\`\n\n`
-    })
+export const help = (client: Client, command?: string): string => {
+    if (command) {
+        for (const catogary in commands) {
+            for (const index of (commands as commandList)[catogary]) {
+                if (index.command === command) {
+                    return `*Prefix ${client._config.prefix}*\n\n*Command:* ${index.command}\n*Description: ${index.description}\nUsage: ${index.usage}`
+                }
+            }
+        }
+        return responses['invalid-command-short'].replace('{C}', command)
+    }
+    let base = `🤖 ${client._config.name} Command List 🤖\n\n💮 *Prefix ${client._config.prefix}*\n\n`
+    const cmds = commands as commandList
+    const cats = Object.keys(cmds)
+    for (const cat in cmds) {
+        base += `${Utils.capitalize(cat)} ${Utils.emojies[cats.indexOf(cat)]}\n\`\`\``
+        cmds[cat].forEach((cmd) => {
+            base += `${cmd.command}${cmds[cat][cmds[cat].length - 1] === cmd ? '' : ','}`
+        })
+        base += '```\n\n'
+    }
     return base
 }
 export interface commandList {
