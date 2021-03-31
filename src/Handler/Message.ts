@@ -75,11 +75,7 @@ export class Message {
             case 'promote':
             case 'demote':
             case 'remove':
-                this.client.reply(
-                    from,
-                    this.group.toggleEvent(from, sender, mentioned || [], admin, iAdmin, command),
-                    M
-                )
+                this.client.reply(from, this.group.toggleEvent(from, mentioned || [], admin, iAdmin, command), M)
             case 'help':
                 this.client.reply(from, { body: help(this.client) }, M)
                 break

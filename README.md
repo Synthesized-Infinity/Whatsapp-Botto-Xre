@@ -38,7 +38,7 @@ Clone the repo and install the npm packages after installing these
 ```SH
 > git clone https://github.com/SomnathDas/Whatsapp-Botto-Xre
 > cd Whatsapp-Botto-Xre
-> npm i
+> npm i && npm i -D
 ```
 
 ## Configaration

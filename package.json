@@ -11,7 +11,7 @@
     "build": "tsc -p .",
     "start": "node dist",
     "lint": "eslint \"src/**/*.ts\"",
-    "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write"
+    "prettier-format": "prettier --config .prettierrc \"src/**/*.ts\" --write"
   },
   "repository": {
     "type": "git",

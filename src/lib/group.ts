@@ -7,7 +7,6 @@ export class GroupEx {
 
     toggleEvent = (
         chat: string,
-        user: string,
         contacts: string[],
         uia: boolean,
         xim: boolean,
