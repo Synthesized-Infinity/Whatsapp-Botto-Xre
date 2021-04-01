@@ -68,6 +68,14 @@ export const start = async (config: string, PORT: number, MONGO_URI: string): Pr
         MessageHandler.handle(all[0])
     })
 
+    client.on('chats-received', (update) => {
+        if (update.hasNewChats) console.log(chalk.green('[SERVER]'), chalk.yellow('Chats Recived and Cached'))
+    })
+
+    client.on('contacts-received', () => {
+        console.log(chalk.green('[SERVER]'), chalk.yellow('Contacts Recived and Cached'))
+    })
+
     client.on('group-participants-update', (event) => EventHandler.handle(event))
 
     mongoose.connect(MONGO_URI, {

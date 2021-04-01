@@ -15,5 +15,6 @@
     "already-banned": "{U} is already Banned from Using Commands",
     "already-unbanned": "{U} is not banned",
     "banned": "You are banned from using commands ❌",
-    "options": "..."
+    "options": "...",
+    "invalid-context": "Request Failed. Invalid Context. Try again"
 }
