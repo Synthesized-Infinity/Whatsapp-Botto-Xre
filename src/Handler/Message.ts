@@ -129,12 +129,13 @@ export class Message {
         }
     }
 
-    validate = (M: WAMessage): string | boolean => {
+    validate = (M: WAMessage): MessageType | boolean => {
         if (!M.message) return false
         if (!!M.key.fromMe || !M.participant) return false
+        if (!M.key.remoteJid?.endsWith('@g.us')) return false
         const type = Object.keys(M.message)[0]
         if (!this.validTypes.includes(type as MessageType)) return false
-        return type
+        return type as MessageType
     }
 
     parseArgs = (text: string): false | parsedArgs => {

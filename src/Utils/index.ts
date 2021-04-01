@@ -3,11 +3,10 @@ import { getWById, wSearch } from './anime'
 import CreateSticker from './sticker'
 import Embed from './Embed'
 export default class Utils {
-    /* eslint-disable @typescript-eslint/no-explicit-any*/
-    static fetch = async (url: string, options: AxiosRequestConfig): Promise<any> =>
+    static fetch = async (url: string, options: AxiosRequestConfig): Promise<Buffer | res> =>
         (await axios.get(url, options)).data
 
-    static download = async (url: string): Promise<Buffer> => await Utils.fetch(url, { responseType: 'arraybuffer' })
+    static download = async (url: string): Promise<Buffer> => (await Utils.fetch(url, { responseType: 'arraybuffer' }) as Buffer)
 
     static randomNumber = (min: number, max: number): number => Math.floor(Math.random() * max) + min
 
@@ -24,4 +23,8 @@ export default class Utils {
     static emojies = ['📗', '👑', '⚓', '〽', '⭕', '⏳']
 
 
+}
+
+export interface res {
+    [pro: string]: string | string[] 
 }
