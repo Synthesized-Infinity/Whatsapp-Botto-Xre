@@ -32,7 +32,7 @@ export class Message {
 
         const slicedJoinedArgs = args
             .join(' ')
-            .slice(command.length + 1)
+            .slice(command.length + this.client._config.prefix.length)
             .trim()
         const barSplit = slicedJoinedArgs.includes('|') ? slicedJoinedArgs.split('|') : []
 
@@ -133,13 +133,12 @@ export class Message {
         if (!M.message) return false
         if (!!M.key.fromMe || !M.participant) return false
         const type = Object.keys(M.message)[0]
-        /* eslint-disable @typescript-eslint/no-explicit-any*/
-        if (!this.validTypes.includes(type as any)) return false
+        if (!this.validTypes.includes(type as MessageType)) return false
         return type
     }
 
     parseArgs = (text: string): false | parsedArgs => {
-        const [args, flags]: any = [[], []]
+        const [args, flags]: string[][] = [[], []]
         if (!text) return false
         const baseArgs = text.split(' ')
         baseArgs.forEach((arg) => {
