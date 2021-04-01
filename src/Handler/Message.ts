@@ -168,7 +168,7 @@ export class Message {
         }
         if (body) {
             console.log(
-                chalk.green('[EXEC]', text),
+                chalk.green('TEXT', text),
                 chalk.yellow('From', username),
                 chalk.blue('in', group.metadata.subject)
             )

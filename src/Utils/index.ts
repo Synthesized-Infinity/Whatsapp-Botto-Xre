@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import { getWById, wSearch } from './anime'
 import CreateSticker from './sticker'
+import Embed from './Embed'
 export default class Utils {
     /* eslint-disable @typescript-eslint/no-explicit-any*/
     static fetch = async (url: string, options: AxiosRequestConfig): Promise<any> =>
@@ -18,5 +19,9 @@ export default class Utils {
 
     static searchAMC = wSearch
 
+    static Embed = Embed
+
     static emojies = ['📗', '👑', '⚓', '〽', '⭕', '⏳']
+
+
 }
