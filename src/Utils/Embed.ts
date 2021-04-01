@@ -1,7 +1,6 @@
 export default class Embed implements IEmbed {
-
     header = `ᴇᴍʙᴇᴅ ᴛᴇxᴛ`
-    
+
     body = ''
 
     footer = 'ᴡᴀ-ʙᴏᴛᴛᴏ-xʀᴇ'
@@ -19,7 +18,7 @@ export default class Embed implements IEmbed {
     setBody = (body: string): void => {
         const args = body.split('\n')
         body = ''
-        args.forEach((text) => body += `┠≽ ${text}`)
+        args.forEach((text) => (body += `┠≽ ${text}`))
     }
 
     setFooter = (footer: string): void => {
@@ -29,12 +28,10 @@ export default class Embed implements IEmbed {
     get = (): string => {
         return `┏〈 ${this.header} 〉\n ╽\n${this.body}\n╿\n╰╼≽`
     }
-
-
 }
 
 export interface IEmbed {
-    header?: string,
-    body?: string,
+    header?: string
+    body?: string
     footer?: string
 }
