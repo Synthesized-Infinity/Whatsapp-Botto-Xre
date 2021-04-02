@@ -59,7 +59,7 @@ In the created `.env` and make sure to add every fields wrriten below
 MONGO_URI=YOUR_MONGODB_CONNECTION_URI
 DELTA=DELTA_API_URL
 ```
-`MONGO_URI` is the [connection URI](https://docs.mongodb.com/manual/reference/connection-string/) for the Database (If you're using Mongo Atlas, Use the Connection URI got from there. Else use the URL in [`.env.example`](https://github.com/SomnathDas/Whatsapp-Botto-Xre/blob/a06de9dc143a8a887475bd77d4d059e3193c2875/.env.example#L1))<br>
+`MONGO_URI` is the [connection URI](https://docs.mongodb.com/manual/reference/connection-string/) for the Database (If you're using Mongo Atlas, Use the Connection URI got from there, else use the URL in [`.env.example`](https://github.com/SomnathDas/Whatsapp-Botto-Xre/blob/a06de9dc143a8a887475bd77d4d059e3193c2875/.env.example#L1))<br>
 `DELTA` is the Chatbot API url. If this the provied then the bot will reply every text message (which does not starts with the prefix provided in the config in Direct Messages) <br>
 
 ## ⌨ Building
