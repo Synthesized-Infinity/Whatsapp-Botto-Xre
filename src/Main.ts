@@ -64,8 +64,10 @@ export const start = async (config: string, PORT: number, MONGO_URI: string): Pr
         if (!update.messages) return
         const { messages } = update
         const all = messages.all()
-        if (!MessageHandler.validate(all[0])) return
-        MessageHandler.handle(all[0])
+        const validatedMessage = MessageHandler.validate(all[0])
+        if (!validatedMessage) return
+        if (validatedMessage.chat === 'group') return void MessageHandler.handleGroupMessage(all[0])
+        return void MessageHandler.handleDirectMessage(all[0])
     })
 
     client.on('chats-received', (update) => {

@@ -41,12 +41,14 @@ Clone the repo and install the npm packages after installing these
 {
     "name": "Xre",
     "prefix": "!",
-    "admins": []
+    "admins": [],
+    "adminGroupId": ""
 }
 ```
 `name` The name of the Bot <br>
 `prefix` The Prefix of the Bot <br>
-`admins` The [JIDs](https://adiwajshing.github.io/Baileys/interfaces/wauser.html#jid) of the users who you want to the Admins/Mods for the bot
+`admins (optional but recomended)` The [JIDs](https://adiwajshing.github.io/Baileys/interfaces/wauser.html#jid) of the users who you want to the Admins/Mods for the bot <br>
+`adminGroupId (optional)` If this field is provied, the members of this group will automatically become admins (use !id to get the gid)
 
 Now, follow the instructions [here](https://docs.mongodb.com/manual/installation/) to install MongoDB and run a Local DB in your system or Create a Cloud Database using [Mongo Atlas](https://www.mongodb.com/cloud/atlas/register) 
 
@@ -55,8 +57,10 @@ Now, follow the instructions [here](https://docs.mongodb.com/manual/installation
 In the created `.env` and make sure to add every fields wrriten below
 ```txt
 MONGO_URI=YOUR_MONGODB_CONNECTION_URI
+DELTA=DELTA_API_URL
 ```
-`MONGO_URI` is the [connection URI](https://docs.mongodb.com/manual/reference/connection-string/) for the Database (If you're using Mongo Atlas, Use the Connection URI got from there. Else use the URL in [`.env.example`](https://github.com/SomnathDas/Whatsapp-Botto-Xre/blob/a06de9dc143a8a887475bd77d4d059e3193c2875/.env.example#L1))
+`MONGO_URI` is the [connection URI](https://docs.mongodb.com/manual/reference/connection-string/) for the Database (If you're using Mongo Atlas, Use the Connection URI got from there. Else use the URL in [`.env.example`](https://github.com/SomnathDas/Whatsapp-Botto-Xre/blob/a06de9dc143a8a887475bd77d4d059e3193c2875/.env.example#L1))<br>
+`DELTA` is the Chatbot API url. If this the provied then the bot will reply every text message (which does not starts with the prefix provided in the config in Direct Messages) <br>
 
 ## ⌨ Building
 

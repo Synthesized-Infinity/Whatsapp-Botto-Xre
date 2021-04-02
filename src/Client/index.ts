@@ -12,8 +12,13 @@ export default class Client extends WAConnection {
             : {
                   name: 'XRE',
                   prefix: '!',
-                  admins: ['']
+                  admins: [],
+                  adminGroupId: ''
               }
+        if (this.config.adminGroupId)
+            this.getGroupInfo(this.config.adminGroupId).then((info) =>
+                info.admins.map((admin) => void this.config.admins.push(admin))
+            )
         this.emit('config', this.config)
     }
     async reply(jid: string, options: Reply, quote?: WAMessage): Promise<unknown> {
@@ -85,6 +90,7 @@ export interface config {
     name: string
     prefix: string
     admins: string[]
+    adminGroupId: ''
 }
 
 export interface Reply {

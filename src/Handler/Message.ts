@@ -1,4 +1,4 @@
-import { MessageType, WAMessage } from '@adiwajshing/baileys'
+import { MessageType, proto, WAMessage } from '@adiwajshing/baileys'
 import chalk from 'chalk'
 import Client from '../Client'
 import { help, GroupEx } from '../lib'
@@ -9,40 +9,29 @@ export class Message {
     validTypes = [MessageType.text, MessageType.image, MessageType.video, MessageType.extendedText]
     constructor(private client: Client, public group: GroupEx) {}
 
-    handle = async (M: WAMessage): Promise<void> => {
+    handleGroupMessage = async (M: WAMessage): Promise<void> => {
         const from = M.key.remoteJid
         if (!from) return
+
         const { message } = M
-        const body = message?.conversation
-            ? message.conversation
-            : message?.extendedTextMessage
-            ? message.extendedTextMessage.text
-            : message?.imageMessage
-            ? message.imageMessage.caption
-            : message?.videoMessage
-            ? message.videoMessage.caption
-            : null
+        if (!message) return
+        const { body, media } = this.getBase(M, message)
         if (!body) return
         const opt = this.parseArgs(body)
         if (!opt) return
-        const { flags, args } = opt
-        if (!args[0].startsWith(this.client._config.prefix)) return void this.freeText(body, M)
+        const { args, flags } = opt
 
+        if (!args[0].startsWith(this.client._config.prefix)) return
         const command = args[0].slice(1).toLowerCase()
 
+        if (!command) return
         const slicedJoinedArgs = args
             .join(' ')
             .slice(command.length + this.client._config.prefix.length)
             .trim()
+
         const barSplit = slicedJoinedArgs.includes('|') ? slicedJoinedArgs.split('|') : []
 
-        const media =
-            message?.imageMessage || message?.videoMessage
-                ? M
-                : message?.extendedTextMessage?.contextInfo?.quotedMessage?.imageMessage ||
-                  message?.extendedTextMessage?.contextInfo?.quotedMessage?.videoMessage
-                ? JSON.parse(JSON.stringify(M).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo
-                : null
         const sender = M.participant
         const mentioned = message?.extendedTextMessage?.contextInfo?.mentionedJid
             ? message.extendedTextMessage.contextInfo?.mentionedJid
@@ -71,6 +60,14 @@ export class Message {
             case 'eval':
                 if (mod) return void eval(slicedJoinedArgs)
                 break
+            case 'join':
+                return void this.client.reply(
+                    from,
+                    from === this.client._config.adminGroupId
+                        ? await this.group.join(slicedJoinedArgs, mod, username)
+                        : { body: responses['cannot-execute'] },
+                    M
+                )
             case 'ban':
             case 'unban':
                 if (!mod || mentioned.length === 0) return
@@ -130,13 +127,86 @@ export class Message {
         }
     }
 
-    validate = (M: WAMessage): MessageType | boolean => {
+    handleDirectMessage = async (M: WAMessage): Promise<void> => {
+        const from = M.key.remoteJid
+        if (!from) return
+
+        const { message } = M
+        if (!message) return
+        const { body } = this.getBase(M, message)
+        if (!body) return
+        const opt = this.parseArgs(body)
+        if (!opt) return
+        const { args } = opt
+
+        const { user } = await this.client.getUser(from)
+        const username = user?.notify || user?.vname || user?.name || ''
+
+        console.log(chalk.green('[DM]', args[0], args.length), chalk.yellow('From', username))
+
+        if (!args[0].startsWith(this.client._config.prefix))
+            return process.env.DELTA
+                ? void this.client.reply(
+                      from,
+                      {
+                          body: (
+                              await Utils.fetch(
+                                  `${process.env.DELTA}/${encodeURI(
+                                      `chatbot?message=${body}&name=${this.client._config.name}&user=${from}&gender=female`
+                                  )}`,
+                                  {}
+                              )
+                          ).message
+                      },
+                      M
+                  )
+                : void null
+
+        const command = args[0].slice(1).toLowerCase()
+
+        /* const slicedJoinedArgs = args
+        .join(' ')
+        .slice(command.length + this.client._config.prefix.length)
+        .trim()*/
+
+        const mod = this.client._config.admins.includes(from)
+        if (!command) return
+
+        switch (command) {
+            case 'join':
+                return void this.client.reply(from, await this.group.join(body, mod, username))
+        }
+    }
+
+    validate = (M: WAMessage): { type: MessageType; chat: 'group' | 'dm' } | false => {
         if (!M.message) return false
-        if (!!M.key.fromMe || !M.participant) return false
-        if (!M.key.remoteJid?.endsWith('@g.us')) return false
+        if (!!M.key.fromMe) return false
+        if (M.key.remoteJid?.endsWith('broadcast')) return false
         const type = Object.keys(M.message)[0]
         if (!this.validTypes.includes(type as MessageType)) return false
-        return type as MessageType
+        return { type: type as MessageType, chat: M.key.remoteJid?.endsWith('g.us') ? 'group' : 'dm' }
+    }
+
+    getBase = (M: WAMessage, message: proto.IMessage): { body: string | null | undefined; media: WAMessage | null } => {
+        const body = message?.conversation
+            ? message.conversation
+            : message?.extendedTextMessage
+            ? message.extendedTextMessage.text
+            : message?.imageMessage
+            ? message.imageMessage.caption
+            : message?.videoMessage
+            ? message.videoMessage.caption
+            : null
+
+        const media =
+            message?.imageMessage || message?.videoMessage
+                ? M
+                : message?.extendedTextMessage?.contextInfo?.quotedMessage?.imageMessage ||
+                  message?.extendedTextMessage?.contextInfo?.quotedMessage?.videoMessage
+                ? JSON.parse(JSON.stringify(M).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo
+                : null
+
+        return { body, media }
     }
 
     parseArgs = (text: string): false | parsedArgs => {

@@ -16,5 +16,11 @@
     "already-unbanned": "{U} is not banned",
     "banned": "You are banned from using commands ❌",
     "options": "...",
-    "invalid-context": "Request Failed. Invalid Context. Try again"
+    "invalid-context": "Request Failed. Invalid Context. Try again",
+    "join-request": "{U} Wants me to join \n{L}",
+    "join-req-forwarded": "Your Join request has been forwarded",
+    "no-url-provided": "No URL was provided in your request",
+    "cannot-process-request": "Couldn't process the request",
+    "failed-to-join": "Failed to join group. Check the invite url and try again",
+    "cannot-execute": "Cannot execute this command in this chat"
 }
