@@ -1,8 +1,8 @@
 import { MessageType, proto, WAMessage } from '@adiwajshing/baileys'
 import chalk from 'chalk'
 import Client from '../Client'
-import { help, GroupEx } from '../lib'
-
+import { help, GroupEx, toggleableGroupActions } from '../lib'
+import moment from 'moment-timezone'
 import responses from '../lib/responses.json'
 import Utils from '../Utils'
 export class Message {
@@ -21,7 +21,7 @@ export class Message {
         if (!opt) return
         const { args, flags } = opt
 
-        if (!args[0].startsWith(this.client._config.prefix)) return
+        if (!args[0].startsWith(this.client._config.prefix)) return this.freeText(body, M)
         const command = args[0].slice(1).toLowerCase()
 
         if (!command) return
@@ -47,9 +47,13 @@ export class Message {
         const [admin, iAdmin] = [group.admins.includes(sender), group.admins.includes(this.client.user.jid)]
         const mod = this.client._config.admins.includes(sender)
         console.log(
-            chalk.green('[EXEC]', command),
-            chalk.yellow('From', username),
-            chalk.blue('in', group.metadata.subject)
+            chalk.green('[EXEC]'),
+            chalk.blue(moment(Number(M.messageTimestamp) * 1000).format('DD/MM HH:mm:ss')),
+            chalk.blueBright(command),
+            chalk.yellow('from'),
+            chalk.white(username),
+            chalk.yellow('in'),
+            chalk.white(group.metadata.subject)
         )
         if (userData.ban) return void this.client.reply(from, { body: responses['banned'] }, M)
 
@@ -57,6 +61,8 @@ export class Message {
             default:
                 this.client.reply(from, { body: responses['invalid-command'] }, M)
                 break
+            case 'group':
+                return void this.client.reply(from, await this.group.simplifiedGroupInfo(group), M)
             case 'eval':
                 if (mod) return void eval(slicedJoinedArgs)
                 break
@@ -113,15 +119,15 @@ export class Message {
                 )
                 break
             case 'register':
-                return void this.client.reply(
-                    from,
-                    await this.group.register(admin, group.data, true, slicedJoinedArgs.toLowerCase().trim()),
-                    M
-                )
             case 'unregister':
                 return void this.client.reply(
                     from,
-                    await this.group.register(admin, group.data, false, slicedJoinedArgs.toLowerCase().trim()),
+                    await this.group.register(
+                        admin,
+                        group.data,
+                        command === 'register',
+                        slicedJoinedArgs.toLowerCase().trim() as toggleableGroupActions
+                    ),
                     M
                 )
         }
@@ -141,10 +147,16 @@ export class Message {
 
         const { user } = await this.client.getUser(from)
         const username = user?.notify || user?.vname || user?.name || ''
+        const cmd = args[0].startsWith(this.client._config.prefix)
+        console.log(
+            chalk.green(!cmd ? '[CHAT]' : '[EXEC]'),
+            chalk.blue(moment(Number(M.messageTimestamp) * 1000).format('DD/MM HH:mm:ss')),
+            chalk.blueBright(args[0], `[${args.length}]`),
+            chalk.yellow('from'),
+            chalk.white(username)
+        )
 
-        console.log(chalk.green('[DM]', args[0], args.length), chalk.yellow('From', username))
-
-        if (!args[0].startsWith(this.client._config.prefix))
+        if (!cmd)
             return process.env.DELTA
                 ? void this.client.reply(
                       from,
@@ -164,15 +176,12 @@ export class Message {
 
         const command = args[0].slice(1).toLowerCase()
 
-        /* const slicedJoinedArgs = args
-        .join(' ')
-        .slice(command.length + this.client._config.prefix.length)
-        .trim()*/
-
         const mod = this.client._config.admins.includes(from)
         if (!command) return
 
         switch (command) {
+            default:
+                return void this.client.reply(from, { body: responses['direct-message-cmd'] }, M)
             case 'join':
                 return void this.client.reply(from, await this.group.join(body, mod, username))
         }
@@ -240,9 +249,13 @@ export class Message {
         }
         if (body) {
             console.log(
-                chalk.green('TEXT', text),
-                chalk.yellow('From', username),
-                chalk.blue('in', group.metadata.subject)
+                chalk.white('[TEXT]'),
+                chalk.blue(moment(Number(M.messageTimestamp) * 1000).format('DD/MM HH:mm:ss')),
+                chalk.blueBright(text),
+                chalk.yellow('from'),
+                chalk.white(username),
+                chalk.yellow('in'),
+                chalk.white(group.metadata.subject)
             )
             this.client.reply(from, { body }, M)
         }

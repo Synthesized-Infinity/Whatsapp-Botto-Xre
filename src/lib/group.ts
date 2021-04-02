@@ -1,9 +1,9 @@
-import { WAGroupModification } from '@adiwajshing/baileys'
-import Client, { Reply } from '../Client'
+import { MessageType, WAGroupModification } from '@adiwajshing/baileys'
+import Client, { Groupinfo, Reply } from '../Client'
 import { IGroup } from '../Mongo/Models'
 import Utils from '../Utils'
 import responses from './responses.json'
-
+import moment from 'moment-timezone'
 export class GroupEx {
     constructor(public client: Client) {}
 
@@ -42,56 +42,18 @@ export class GroupEx {
         else return { body: responses['invalid-context'] }
     }
 
-    register = async (admin: boolean, chat: IGroup, register: boolean, type: string): Promise<Reply> => {
+    register = async (
+        admin: boolean,
+        chat: IGroup,
+        register: boolean,
+        type: toggleableGroupActions
+    ): Promise<Reply> => {
         if (!admin) return { body: responses['user-lacks-permission'] }
-        if (register) {
-            switch (type) {
-                case 'events':
-                    if (chat.events)
-                        return {
-                            body: responses['already-enabled'].replace('{T}', 'Events')
-                        }
-                    await this.client.GroupModel.updateOne({ jid: chat.jid }, { $set: { events: true } })
-                    return {
-                        body: responses['enable-sucessful'].replace('{T}', 'Events')
-                    }
-                case 'nsfw':
-                    if (chat.nsfw) return { body: responses['already-enabled'].replace('{T}', 'NSFW') }
-                    await this.client.GroupModel.updateOne({ jid: chat.jid }, { $set: { nsfw: true } })
-                    return {
-                        body: responses['enable-sucessful'].replace('{T}', 'NSFW')
-                    }
-                default:
-                    return {
-                        body: `${responses['wrong-format']} | Invalid Type: ${type}`
-                    }
-            }
-        } else {
-            switch (type) {
-                case 'events':
-                    if (!chat.events)
-                        return {
-                            body: responses['not-enabled'].replace('{T}', 'Events')
-                        }
-                    await this.client.GroupModel.updateOne({ jid: chat.jid }, { $set: { events: false } })
-                    return {
-                        body: responses['disable-successful'].replace('{T}', 'Events')
-                    }
-                case 'nsfw':
-                    if (!chat.nsfw)
-                        return {
-                            body: responses['not-enabled'].replace('{T}', 'NSFW')
-                        }
-                    await this.client.GroupModel.updateOne({ jid: chat.jid }, { $set: { nsfw: false } })
-                    return {
-                        body: responses['disable-successful'].replace('{T}', 'NSFW')
-                    }
-                default:
-                    return {
-                        body: `${responses['wrong-format']} | Invalid Type: ${type}`
-                    }
-            }
-        }
+        if (!Object.values(toggleableGroupActions).includes(type))
+            return { body: responses['invalid-group-action'].replace('{A}', type) }
+        if (register && chat[type]) return { body: responses['already-enabled'].replace('{T}', Utils.capitalize(type)) }
+        await this.client.GroupModel.updateOne({ jid: chat.jid }, { $set: { [type]: register } })
+        return { body: responses['enable-sucessful'].replace('{T}', Utils.capitalize(type)) }
     }
 
     async join(text: string, mod: boolean, username = 'User'): Promise<Reply> {
@@ -123,4 +85,28 @@ export class GroupEx {
             }
         }
     }
+
+    async simplifiedGroupInfo(info: Groupinfo): Promise<Reply> {
+        const { metadata, data } = info
+        const [events, NSFW, icon] = [data?.events || false, data?.nsfw || false, await this.client.getPfp(metadata.id)]
+        const owner = this.client.contacts[metadata.owner]
+        return {
+            body: icon ? await Utils.download(icon) : Utils.yui404,
+            caption: `💮 *Title:* ${metadata.subject}\n\n👑 *Created By:* ${
+                owner?.notify || owner?.vname || owner?.name || metadata.owner.split('@')[0]
+            }\n\n📅 *Created On:* ${moment(metadata.creation * 1000).format('DD/MM HH:mm:ss')}\n\n🔊 *Announce:* ${
+                metadata.announce || false
+            }\n\n🍀 *Restricted:* ${metadata.restrict || metadata.restrict || false}\n\n🏊 *Participiants:* ${
+                metadata.participants.length
+            }\n\n🏅 *Admins:* ${
+                metadata.participants.filter((participiant) => participiant.isAdmin).length
+            }\n\n🔮 *Events:* ${events}\n\n🔞 *NSFW:* ${NSFW}\n\n〽 *Description:* ${metadata.desc}`,
+            type: MessageType.image
+        }
+    }
+}
+
+export enum toggleableGroupActions {
+    events = 'events',
+    NSFW = 'nsfw'
 }

@@ -22,5 +22,7 @@
     "no-url-provided": "No URL was provided in your request",
     "cannot-process-request": "Couldn't process the request",
     "failed-to-join": "Failed to join group. Check the invite url and try again",
-    "cannot-execute": "Cannot execute this command in this chat"
+    "cannot-execute": "Cannot execute this command in this chat",
+    "invalid-group-action": "Invalid Group Action: {T}",
+    "direct-message-cmd": "*Commands cannot be used in Direct Messages.* Send a text without the prefix to have a chat"
 }

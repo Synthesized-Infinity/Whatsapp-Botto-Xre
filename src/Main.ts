@@ -41,22 +41,22 @@ export const start = async (config: string, PORT: number, MONGO_URI: string): Pr
     db.once('open', async () => console.log(chalk.green('[SERVER]'), chalk.yellow('Connected to Database')))
 
     client.on('config', (config) => {
-        console.log(chalk.green('[SERVER]', 'Config Loaded'))
+        console.log(chalk.green('[SERVER]'), chalk.yellow('Config Loaded'))
         console.table(chalk.yellow(config))
     })
 
     client.on('qr', (QR) => {
         web.QR = qr.imageSync(QR)
         console.log(
-            chalk.green('[SERVER]', 'Scan the QR Code to Proceed'),
-            chalk.yellow('You can also Authenticate at'),
-            chalk.green(`http://localhost:${web.PORT}/qr`)
+            chalk.green('[SERVER]'),
+            chalk.yellow('Scan the QR Code to Proceed You can also Authenticate at'),
+            chalk.blueBright(`http://localhost:${web.PORT}/qr`)
         )
     })
 
     client.on('open', () => {
         web.QR = null
-        console.log(chalk.green('[SERVER]'), chalk.yellow('Up and Ready to Go! 💚'))
+        console.log(chalk.green('[SERVER]'), chalk.yellow('Up and Ready to Go!'))
         writeFileSync(session, JSON.stringify(client.base64EncodedAuthInfo(), null, '\t'))
     })
 
