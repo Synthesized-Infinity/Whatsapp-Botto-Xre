@@ -2,16 +2,23 @@ import { MessageType, WAParticipantAction } from '@adiwajshing/baileys'
 import chalk from 'chalk'
 import Client, { Groupinfo } from '../Client'
 import Utils from '../Utils'
-
+import moment from 'moment-timezone'
 export class EventHandler {
     constructor(public client: Client) {}
 
     handle = async (event: event): Promise<void> => {
         const group = await this.client.getGroupInfo(event.jid)
         if (!group.data.events) return
+        console.log(
+            chalk.green('[EVENT]'),
+            chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')),
+            chalk.blueBright(event.action),
+            chalk.yellow('in'),
+            chalk.blueBright(group.metadata.subject)
+        )
+
         if (event.action === 'add') return void this.add(event, group)
         if (event.action === 'remove') return this.leave(event)
-        console.log(chalk.green('[EVENT]', event.action), chalk.blue('in', group.metadata.subject))
     }
 
     add = async (event: event, group: Groupinfo): Promise<void> => {

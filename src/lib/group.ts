@@ -56,7 +56,7 @@ export class GroupEx {
         return { body: responses['enable-sucessful'].replace('{T}', Utils.capitalize(type)) }
     }
 
-    async join(text: string, mod: boolean, username = 'User'): Promise<Reply> {
+    join = async (text: string, mod: boolean, username = 'User'): Promise<Reply> => {
         const regExec = Utils.urlMatch(text)
         if (!regExec) return { body: responses['no-url-provided'] }
         if (!mod) {
@@ -86,7 +86,7 @@ export class GroupEx {
         }
     }
 
-    async simplifiedGroupInfo(info: Groupinfo): Promise<Reply> {
+    simplifiedGroupInfo = async (info: Groupinfo): Promise<Reply> => {
         const { metadata, data } = info
         const [events, NSFW, icon] = [data?.events || false, data?.nsfw || false, await this.client.getPfp(metadata.id)]
         const owner = this.client.contacts[metadata.owner]

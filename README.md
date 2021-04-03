@@ -41,12 +41,14 @@ Clone the repo and install the npm packages after installing these
 {
     "name": "Xre",
     "prefix": "!",
+    "cron": "0 */6 * * *",
     "admins": [],
     "adminGroupId": ""
 }
 ```
 `name` The name of the Bot <br>
 `prefix` The Prefix of the Bot <br>
+`cron` Cron schedule for clearing all chats (Default: `"0 */6 * * *"`. Every 6 Hours). change this field to `null` if you don't want to schedule. [Learn More](https://www.npmjs.com/package/node-cron) <br>
 `admins (optional but recomended)` The [JIDs](https://adiwajshing.github.io/Baileys/interfaces/wauser.html#jid) of the users who you want to the Admins/Mods for the bot <br>
 `adminGroupId (optional)` If this field is provied, the members of this group will automatically become admins (use !id to get the gid)
 

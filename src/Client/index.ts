@@ -2,6 +2,9 @@ import { MessageType, WAConnection, WAContact, WAGroupMetadata, WAMessage } from
 import { Model } from 'mongoose'
 import { IGroup, IGroupModel, IUserModel } from '../Mongo/Models'
 import responses from '../lib/responses.json'
+import { schedule, validate } from 'node-cron'
+import chalk from 'chalk'
+import moment from 'moment-timezone'
 export default class Client extends WAConnection {
     private config: config
 
@@ -13,8 +16,10 @@ export default class Client extends WAConnection {
                   name: 'XRE',
                   prefix: '!',
                   admins: [],
-                  adminGroupId: ''
+                  adminGroupId: '',
+                  corn: null
               }
+        if (this.config.cron) this.clearCycle(this.config.cron)
         if (this.config.adminGroupId)
             this.getGroupInfo(this.config.adminGroupId).then((info) =>
                 info.admins.map((admin) => void this.config.admins.push(admin))
@@ -79,6 +84,47 @@ export default class Client extends WAConnection {
             }
         }
     }
+
+    clearCycle = async (time: string): Promise<void> => {
+        if (!validate(time))
+            return console.log(
+                chalk.redBright('[CRON]'),
+                chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')),
+                chalk.red('Invalid Cron String', time)
+            )
+        console.log(
+            chalk.blueBright('[CRON]'),
+            chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')),
+            chalk.yellow('Cron Job for Clearing all chas has been scheduled for'),
+            chalk.greenBright(time)
+        )
+        schedule(time, async () => {
+            console.log(
+                chalk.blueBright('[CRON]'),
+                chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')),
+                chalk.yellow('Clearing All Chats...')
+            )
+            await this.clearAllChats()
+            console.log(
+                chalk.blueBright('[CRON]'),
+                chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')),
+                chalk.yellow('Cleared All Chats')
+            )
+        })
+    }
+
+    clearAllChats = async (): Promise<{ status: 200 | 500 }> => {
+        const chats = this.chats.all()
+        this.setMaxListeners(25)
+        try {
+            for (const chat of chats) {
+                await this.modifyChat(chat.jid, 'clear')
+            }
+            return { status: 200 }
+        } catch (err) {
+            return { status: 500 }
+        }
+    }
 }
 export interface Groupinfo {
     metadata: WAGroupMetadata
@@ -91,6 +137,7 @@ export interface config {
     prefix: string
     admins: string[]
     adminGroupId: ''
+    cron: string | null
 }
 
 export interface Reply {

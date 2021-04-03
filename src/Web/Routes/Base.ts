@@ -3,6 +3,7 @@ import { Router } from 'express'
 import Client from '../../Client'
 import { Web } from '../Web'
 import endpoints from '../../lib/endpoints.json'
+import moment from 'moment-timezone'
 export class BaseRoutes {
     router = Router()
 
@@ -12,7 +13,7 @@ export class BaseRoutes {
 
     async start(): Promise<void> {
         this.router.get('/', (req, res) => {
-            console.log(chalk.yellow('[WEB]', req.url))
+            console.log(chalk.yellow('[WEB]'), chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')), req.url)
             res.json({ message: 'Hi there' })
         })
         this.router.get('/qr', (req, res) => {
@@ -32,18 +33,18 @@ export class BaseRoutes {
         })
 
         this.router.get('/config', (req, res) => {
-            console.log(chalk.yellow('[WEB]', req.url))
+            console.log(chalk.yellow('[WEB]'), chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')), req.url)
             res.json(this.client._config)
         })
 
         this.router.get('/user', (req, res) => {
-            console.log(chalk.yellow('[WEB]', req.url))
+            console.log(chalk.yellow('[WEB]'), chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')), req.url)
             const json = req.query.jid ? this.client.contacts[String(req.query.jid)] || {} : this.client.user
             res.json(json)
         })
 
         this.router.get('/client', async (req, res) => {
-            console.log(chalk.yellow('[WEB]', req.url))
+            console.log(chalk.yellow('[WEB]'), chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')), req.url)
             const query = req.query
             if (query?.state === this.connectionOptions[1]) {
                 if (this.client.state === 'close')

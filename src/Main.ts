@@ -11,6 +11,8 @@ import { GroupEx } from './lib'
 import { EventHandler as EvHandler } from './Handler'
 import { schema } from './Mongo'
 
+import moment from 'moment-timezone'
+
 export const start = async (config: string, PORT: number, MONGO_URI: string): Promise<void> => {
     const client = new Client(schema.group, schema.user, config)
 
@@ -26,6 +28,7 @@ export const start = async (config: string, PORT: number, MONGO_URI: string): Pr
     web.on('web-open', (PORT) =>
         console.log(
             chalk.green('[WEB]'),
+            chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')),
             chalk.yellow(`Web Server Started on`, `http://localhost:${PORT} | http://localhost:${PORT}/endpoints`)
         )
     )
@@ -38,17 +41,28 @@ export const start = async (config: string, PORT: number, MONGO_URI: string): Pr
     const EventHandler = new EvHandler(client)
     //Events
 
-    db.once('open', async () => console.log(chalk.green('[SERVER]'), chalk.yellow('Connected to Database')))
+    db.once('open', async () =>
+        console.log(
+            chalk.green('[SERVER]'),
+            chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')),
+            chalk.yellow('Connected to Database')
+        )
+    )
 
     client.on('config', (config) => {
-        console.log(chalk.green('[SERVER]'), chalk.yellow('Config Loaded'))
-        console.table(chalk.yellow(config))
+        console.log(
+            chalk.green('[SERVER]'),
+            chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')),
+            chalk.yellow('Config Loaded')
+        ),
+            console.table(chalk.yellow(config))
     })
 
     client.on('qr', (QR) => {
         web.QR = qr.imageSync(QR)
         console.log(
             chalk.green('[SERVER]'),
+            chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')),
             chalk.yellow('Scan the QR Code to Proceed You can also Authenticate at'),
             chalk.blueBright(`http://localhost:${web.PORT}/qr`)
         )
@@ -56,7 +70,9 @@ export const start = async (config: string, PORT: number, MONGO_URI: string): Pr
 
     client.on('open', () => {
         web.QR = null
-        console.log(chalk.green('[SERVER]'), chalk.yellow('Up and Ready to Go!'))
+        console.log(chalk.green('[SERVER]'), 
+        chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')),
+        chalk.yellow('Up and Ready to Go!'))
         writeFileSync(session, JSON.stringify(client.base64EncodedAuthInfo(), null, '\t'))
     })
 
@@ -71,11 +87,20 @@ export const start = async (config: string, PORT: number, MONGO_URI: string): Pr
     })
 
     client.on('chats-received', (update) => {
-        if (update.hasNewChats) console.log(chalk.green('[SERVER]'), chalk.yellow('Chats Recived and Cached'))
+        if (update.hasNewChats)
+            console.log(
+                chalk.green('[SERVER]'),
+                chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')),
+                chalk.yellow('Chats Recived and Cached')
+            )
     })
 
     client.on('contacts-received', () => {
-        console.log(chalk.green('[SERVER]'), chalk.yellow('Contacts Recived and Cached'))
+        console.log(
+            chalk.green('[SERVER]'),
+            chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')),
+            chalk.yellow('Contacts Recived and Cached')
+        )
     })
 
     client.on('group-participants-update', (event) => EventHandler.handle(event))
