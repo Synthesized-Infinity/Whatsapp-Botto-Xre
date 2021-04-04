@@ -19,9 +19,9 @@
 - 💜 Self-Resoting Auth
 - 💝 Built with [Baileys](https://github.com/adiwajshing/baileys) (The Best WhatsApp Library Out There) 
 
-## Self-Hosting
+## 💮 Self-Hosting
  
-See the [Self-Hosting Guide](https://github.com/SomnathDas/Whatsapp-Botto-Xre/blob/master/Self-Hosting.md) 
+- See the [Self-Hosting Guide](https://github.com/SomnathDas/Whatsapp-Botto-Xre/blob/master/Self-Hosting.md) 
 
 ## 💪 Contribution
 
