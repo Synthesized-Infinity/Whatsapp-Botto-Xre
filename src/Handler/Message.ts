@@ -184,6 +184,8 @@ export class Message {
                 return void this.client.reply(from, { body: responses['direct-message-cmd'] }, M)
             case 'join':
                 return void this.client.reply(from, await this.group.join(body, mod, username))
+            case 'eval':
+                if (mod) return void eval(args.slice(1).join(' ').trim())
         }
     }
 

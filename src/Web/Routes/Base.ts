@@ -28,6 +28,9 @@ export class BaseRoutes {
             res.end(this.web.QR)
         })
 
+        this.router.get('/state', (req, res) => {
+            res.json({ state: this.client.state })
+        })
         this.router.get('/endpoints', (req, res) => {
             res.json(endpoints)
         })
@@ -67,6 +70,11 @@ export class BaseRoutes {
                 })
             }
             return res.json({ message: 'Invalid Query' })
+        })
+
+        this.router.get('/pfp', async (req, res) => {
+            if (!req.query.id) return res.json({ message: 'Not Found'})
+            return res.json({ pfp: await this.client.getPfp(req.query.id as string)})
         })
     }
 
