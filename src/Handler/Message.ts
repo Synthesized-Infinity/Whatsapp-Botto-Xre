@@ -164,7 +164,7 @@ export class Message {
                           body: (
                               await Utils.fetch(
                                   `${process.env.DELTA}/${encodeURI(
-                                      `chatbot?message=${body}&name=${this.client._config.name}&user=${from}&gender=female`
+                                      `chatbot?message=${body}&name=${this.client._config.name}&user=${from}&gender=${(['male', 'female'].includes(this.client._config.gender.toLocaleLowerCase()) ? this.client._config.gender : 'female')}`
                                   )}`,
                                   {}
                               )

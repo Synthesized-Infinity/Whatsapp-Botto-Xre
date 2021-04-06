@@ -43,6 +43,7 @@ Edit the `config.json` accoring to your needs
 ```JSON
 {
     "name": "Xre",
+    "gender": "male",
     "prefix": "!",
     "cron": "0 */6 * * *",
     "admins": [],
@@ -50,6 +51,7 @@ Edit the `config.json` accoring to your needs
 }
 ```
 `name` The name of the Bot <br>
+`gender` The Gender of the bot. Can be "male" or "female"
 `prefix` The Prefix of the Bot <br>
 `cron` Cron schedule for clearing all chats (Default: `"0 */6 * * *"`. Every 6 Hours). change this field to `null` if you don't want to schedule. [Learn More](https://www.npmjs.com/package/node-cron) <br>
 `admins (optional but recomended)` The [JIDs](https://adiwajshing.github.io/Baileys/interfaces/wauser.html#jid) of the users who you want to the Admins/Mods for the bot <br>

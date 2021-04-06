@@ -17,6 +17,7 @@ export default class Client extends WAConnection {
                   prefix: '!',
                   admins: [],
                   adminGroupId: '',
+                  gender: 'male',
                   corn: null
               }
         if (this.config.cron) this.clearCycle(this.config.cron)
@@ -134,6 +135,7 @@ export interface Groupinfo {
 
 export interface config {
     name: string
+    gender: 'male' | 'female'
     prefix: string
     admins: string[]
     adminGroupId: ''
