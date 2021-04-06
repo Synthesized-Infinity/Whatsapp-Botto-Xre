@@ -70,9 +70,11 @@ export const start = async (config: string, PORT: number, MONGO_URI: string): Pr
 
     client.on('open', () => {
         web.QR = null
-        console.log(chalk.green('[SERVER]'), 
-        chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')),
-        chalk.yellow('Up and Ready to Go!'))
+        console.log(
+            chalk.green('[SERVER]'),
+            chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')),
+            chalk.yellow('Up and Ready to Go!')
+        )
         writeFileSync(session, JSON.stringify(client.base64EncodedAuthInfo(), null, '\t'))
     })
 

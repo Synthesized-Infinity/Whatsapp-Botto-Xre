@@ -73,8 +73,8 @@ export class BaseRoutes {
         })
 
         this.router.get('/pfp', async (req, res) => {
-            if (!req.query.id) return res.json({ message: 'Not Found'})
-            return res.json({ pfp: await this.client.getPfp(req.query.id as string)})
+            if (!req.query.id) return res.json({ message: 'Not Found' })
+            return res.json({ pfp: await this.client.getPfp(req.query.id as string) })
         })
     }
 
