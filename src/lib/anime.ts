@@ -1,9 +1,9 @@
 import { MessageType } from '@adiwajshing/baileys'
 import responses from './responses.json'
 import Utils from '../Utils'
-import { Reply } from '../Client'
+import { IReply } from '../Typings'
 
-export const getWById = async (id: string, type: 'anime' | 'manga' | 'character' = 'character'): Promise<Reply> => {
+export const getWById = async (id: string, type: 'anime' | 'manga' | 'character' = 'character'): Promise<IReply> => {
     if (!id) return { body: responses['empty-query'] }
     try {
         const r = await Utils.fetch(`https://api.jikan.moe/v3/${type}/${id}`, {})
@@ -35,7 +35,7 @@ export const wSearch = async (
     q: string,
     preifx: string,
     type: 'anime' | 'manga' | 'character' = 'character'
-): Promise<Reply> => {
+): Promise<IReply> => {
     if (!q) return { body: responses['empty-query'] }
     try {
         const res = await Utils.fetch(`https://api.jikan.moe/v3/search/${type}?q=${q}`, {})

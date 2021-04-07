@@ -17,7 +17,6 @@ export default class Client extends WAConnection {
                   prefix: '!',
                   admins: [],
                   adminGroupId: '',
-                  gender: 'male',
                   corn: null
               }
         if (this.config.cron) this.clearCycle(this.config.cron)

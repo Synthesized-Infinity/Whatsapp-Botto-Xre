@@ -1,9 +1,9 @@
 import { MessageType, WAGroupModification } from '@adiwajshing/baileys'
-import Client, { Groupinfo, Reply } from '../Client'
-import { IGroup } from '../Mongo/Models'
+import Client from '../Client'
 import Utils from '../Utils'
 import responses from './responses.json'
 import moment from 'moment-timezone'
+import { IGroup, IGroupinfo, IReply } from '../Typings'
 export class GroupEx {
     constructor(public client: Client) {}
 
@@ -13,7 +13,7 @@ export class GroupEx {
         uia: boolean,
         xim: boolean,
         type: 'promote' | 'demote' | 'remove'
-    ): Promise<Reply> => {
+    ): Promise<IReply> => {
         if (!uia) return { body: responses['user-lacks-permission'] }
         if (!xim) return { body: responses['no-permission'] }
         if (contacts.length === 0) return { body: responses['wrong-format'] }
@@ -47,7 +47,7 @@ export class GroupEx {
         chat: IGroup,
         register: boolean,
         type: toggleableGroupActions
-    ): Promise<Reply> => {
+    ): Promise<IReply> => {
         if (!admin) return { body: responses['user-lacks-permission'] }
         if (!Object.values(toggleableGroupActions).includes(type))
             return { body: responses['invalid-group-action'].replace('{A}', type) }
@@ -56,7 +56,7 @@ export class GroupEx {
         return { body: responses['enable-sucessful'].replace('{T}', Utils.capitalize(type)) }
     }
 
-    join = async (text: string, mod: boolean, username = 'User'): Promise<Reply> => {
+    join = async (text: string, mod: boolean, username = 'User'): Promise<IReply> => {
         const regExec = Utils.urlMatch(text)
         if (!regExec) return { body: responses['no-url-provided'] }
         if (!mod) {
@@ -86,7 +86,7 @@ export class GroupEx {
         }
     }
 
-    simplifiedGroupInfo = async (info: Groupinfo): Promise<Reply> => {
+    simplifiedGroupInfo = async (info: IGroupinfo): Promise<IReply> => {
         const { metadata, data } = info
         const [events, NSFW, icon] = [data?.events || false, data?.nsfw || false, await this.client.getPfp(metadata.id)]
         const owner = this.client.contacts[metadata.owner]

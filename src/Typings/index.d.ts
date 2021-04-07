@@ -1,3 +1,4 @@
+import { WAGroupMetadata } from '@adiwajshing/baileys'
 import { Document } from 'mongoose'
 export interface IGroupinfo {
     metadata: WAGroupMetadata
@@ -7,7 +8,6 @@ export interface IGroupinfo {
 
 export interface IConfig {
     name: string
-    gender: 'male' | 'female'
     prefix: string
     admins: string[]
     adminGroupId: ''

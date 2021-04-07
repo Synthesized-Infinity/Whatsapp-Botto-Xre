@@ -1,6 +1,5 @@
 {
     "name": "Xre",
-    "gender": "Male",
     "prefix": "!",
     "cron": "0 */6 * * *",
     "admins": [],

@@ -158,18 +158,14 @@ export class Message {
         )
 
         if (!cmd)
-            return process.env.DELTA
+            return process.env.EIF
                 ? void this.client.reply(
                       from,
                       {
                           body: (
                               await Utils.fetch(
-                                  `${process.env.DELTA}/${encodeURI(
-                                      `chatbot?message=${body}&name=${this.client._config.name}&user=${from}&gender=${
-                                          ['male', 'female'].includes(this.client._config.gender.toLocaleLowerCase())
-                                              ? this.client._config.gender
-                                              : 'female'
-                                      }`
+                                  `${process.env.EIF}/${encodeURI(
+                                      `chatbot?message=${body}&bot=${this.client._config.name}&user=${from}`
                                   )}`,
                                   {}
                               )
