@@ -63,11 +63,9 @@ export interface IEmbed {
     footer?: string
 }
 
-
 export interface stickerOptions {
     animated?: boolean
     crop?: boolean
     author?: string
     pack?: string
 }
-

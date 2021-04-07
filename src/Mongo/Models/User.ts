@@ -19,5 +19,3 @@ const UserSchema = new Schema({
     }
 })
 export const user = model<IUserModel>('users', UserSchema)
-
-

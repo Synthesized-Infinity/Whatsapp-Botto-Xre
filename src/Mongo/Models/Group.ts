@@ -20,5 +20,3 @@ const GroupSchema = new Schema({
 })
 
 export const group = model<IGroupModel>('groups', GroupSchema)
-
-

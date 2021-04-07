@@ -105,7 +105,7 @@ export class Message {
             case 'anime':
             case 'manga':
             case 'character':
-                this.client.reply(from, await wSearch(slicedJoinedArgs, this.client._config.prefix,command), M)
+                this.client.reply(from, await wSearch(slicedJoinedArgs, this.client._config.prefix, command), M)
                 break
             case 'aid':
             case 'mid':
@@ -113,7 +113,7 @@ export class Message {
                 this.client.reply(
                     from,
                     await getWById(
-                        slicedJoinedArgs, 
+                        slicedJoinedArgs,
                         command === 'aid' ? 'anime' : command === 'mid' ? 'manga' : 'character'
                     ),
                     M
@@ -268,4 +268,3 @@ export class Message {
         }
     }
 }
-

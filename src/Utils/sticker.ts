@@ -11,4 +11,3 @@ export default async (data: Buffer, crop: boolean, author = 'Xre', pack = 'Whats
     await sticker.build()
     return { body: await sticker.get(), type: MessageType.sticker }
 }
-

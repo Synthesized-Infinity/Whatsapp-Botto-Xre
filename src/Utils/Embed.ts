@@ -1,4 +1,4 @@
-import { IEmbed } from "../Typings"
+import { IEmbed } from '../Typings'
 
 export default class Embed implements IEmbed {
     header = `ᴇᴍʙᴇᴅ ᴛᴇxᴛ`
@@ -31,4 +31,3 @@ export default class Embed implements IEmbed {
         return `┏〈 ${this.header} 〉\n ╽\n${this.body}\n╿\n╰╼≽`
     }
 }
-

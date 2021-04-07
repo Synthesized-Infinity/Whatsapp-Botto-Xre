@@ -27,4 +27,3 @@ export const help = (client: Client, command?: string): string => {
     }
     return `${base}📚 Use ${client._config.prefix}help <command_name> to view the full info. \n🔖 _Eg: ${client._config.prefix}help promote_`
 }
-
