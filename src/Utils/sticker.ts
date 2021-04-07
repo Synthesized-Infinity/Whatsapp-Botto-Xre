@@ -1,8 +1,8 @@
 import { MessageType } from '@adiwajshing/baileys'
 import { Sticker } from 'wa-sticker-formatter'
-import { Reply } from '../Client'
+import { IReply } from '../Typings'
 
-export default async (data: Buffer, crop: boolean, author = 'Xre', pack = 'WhatsApp Botto'): Promise<Reply> => {
+export default async (data: Buffer, crop: boolean, author = 'Xre', pack = 'WhatsApp Botto'): Promise<IReply> => {
     const sticker = new Sticker(data, {
         crop,
         author,
@@ -12,9 +12,3 @@ export default async (data: Buffer, crop: boolean, author = 'Xre', pack = 'Whats
     return { body: await sticker.get(), type: MessageType.sticker }
 }
 
-export interface stickerOptions {
-    animated?: boolean
-    crop?: boolean
-    author?: string
-    pack?: string
-}

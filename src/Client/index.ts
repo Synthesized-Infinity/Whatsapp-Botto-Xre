@@ -1,12 +1,12 @@
-import { MessageType, WAConnection, WAContact, WAGroupMetadata, WAMessage } from '@adiwajshing/baileys/'
+import { MessageType, WAConnection, WAContact, WAMessage } from '@adiwajshing/baileys/'
 import { Model } from 'mongoose'
-import { IGroup, IGroupModel, IUserModel } from '../Mongo/Models'
 import responses from '../lib/responses.json'
 import { schedule, validate } from 'node-cron'
 import chalk from 'chalk'
 import moment from 'moment-timezone'
+import { IReply, IConfig, IGroupinfo, IGroupModel, IUserModel } from '../Typings'
 export default class Client extends WAConnection {
-    private config: config
+    private config: IConfig
 
     constructor(public GroupModel: Model<IGroupModel>, public UserModel: Model<IUserModel>, configPath?: string) {
         super()
@@ -27,14 +27,14 @@ export default class Client extends WAConnection {
             )
         this.emit('config', this.config)
     }
-    async reply(jid: string, options: Reply, quote?: WAMessage): Promise<unknown> {
+    async reply(jid: string, options: IReply, quote?: WAMessage): Promise<unknown> {
         return await this.sendMessage(jid, options.body, options.type || MessageType.text, {
             quoted: quote,
             caption: options.caption
         })
     }
 
-    get _config(): config {
+    get _config(): IConfig {
         return this.config
     }
 
@@ -52,7 +52,7 @@ export default class Client extends WAConnection {
         return true
     }
 
-    async getGroupInfo(jid: string): Promise<Groupinfo> {
+    async getGroupInfo(jid: string): Promise<IGroupinfo> {
         const metadata = await this.groupMetadata(jid)
         const admins: string[] = []
         metadata.participants.forEach((user) => (user.isAdmin ? admins.push(user.jid) : ''))
@@ -126,24 +126,4 @@ export default class Client extends WAConnection {
             return { status: 500 }
         }
     }
-}
-export interface Groupinfo {
-    metadata: WAGroupMetadata
-    admins: string[]
-    data: IGroup
-}
-
-export interface config {
-    name: string
-    gender: 'male' | 'female'
-    prefix: string
-    admins: string[]
-    adminGroupId: ''
-    cron: string | null
-}
-
-export interface Reply {
-    body: string | Buffer
-    type?: MessageType
-    caption?: string
 }

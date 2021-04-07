@@ -1,3 +1,5 @@
+import { IEmbed } from "../Typings"
+
 export default class Embed implements IEmbed {
     header = `ᴇᴍʙᴇᴅ ᴛᴇxᴛ`
 
@@ -30,8 +32,3 @@ export default class Embed implements IEmbed {
     }
 }
 
-export interface IEmbed {
-    header?: string
-    body?: string
-    footer?: string
-}

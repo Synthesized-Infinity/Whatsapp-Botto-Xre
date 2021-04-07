@@ -5,6 +5,7 @@ import { help, GroupEx, toggleableGroupActions, getWById, wSearch } from '../lib
 import moment from 'moment-timezone'
 import responses from '../lib/responses.json'
 import Utils from '../Utils'
+import { IParsedArgs } from '../Typings'
 export class Message {
     validTypes = [MessageType.text, MessageType.image, MessageType.video, MessageType.extendedText]
     constructor(private client: Client, public group: GroupEx) {}
@@ -224,7 +225,7 @@ export class Message {
         return { body, media }
     }
 
-    parseArgs = (text: string): false | parsedArgs => {
+    parseArgs = (text: string): false | IParsedArgs => {
         const [args, flags]: string[][] = [[], []]
         if (!text) return false
         const baseArgs = text.split(' ')
@@ -268,7 +269,3 @@ export class Message {
     }
 }
 
-export interface parsedArgs {
-    args: string[]
-    flags: string[]
-}
