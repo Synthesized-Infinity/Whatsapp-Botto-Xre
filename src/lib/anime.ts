@@ -1,6 +1,6 @@
 import { MessageType } from '@adiwajshing/baileys'
-import responses from '../lib/responses.json'
-import Utils from '.'
+import responses from './responses.json'
+import Utils from '../Utils'
 import { Reply } from '../Client'
 
 export const getWById = async (id: string, type: 'anime' | 'manga' | 'character' = 'character'): Promise<Reply> => {
@@ -13,7 +13,7 @@ export const getWById = async (id: string, type: 'anime' | 'manga' | 'character'
                 ? r.score
                 : sim.animeography[0]
                 ? sim.animeography[0]['name']
-                : sim.mangaography[0].name
+                : sim.mangaography[0]['name']
         const dt = `📙 *${type === 'anime' || type === 'manga' ? 'Title' : 'Name'}:* ${
             sim[type === 'manga' || type === 'anime' ? 'title' : 'name']
         }\n\n🔖 *ID:* ${sim.mal_id}\n\n☄ *${type === 'anime' || type === 'manga' ? 'Rating' : 'Series'}: ${n}*\n\n❄️ ${
@@ -39,7 +39,7 @@ export const wSearch = async (
     if (!q) return { body: responses['empty-query'] }
     try {
         const res = await Utils.fetch(`https://api.jikan.moe/v3/search/${type}?q=${q}`, {})
-        let z = `🎋 *${type}* 🎋\n\n`
+        let z = `🎋 *${Utils.capitalize(type)} Search* 🎋\n\n`
         const sim = res.results
         let n = 10
         if (sim.length < 10) n = sim.length

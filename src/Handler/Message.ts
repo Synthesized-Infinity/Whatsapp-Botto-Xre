@@ -1,7 +1,7 @@
 import { MessageType, proto, WAMessage } from '@adiwajshing/baileys'
 import chalk from 'chalk'
 import Client from '../Client'
-import { help, GroupEx, toggleableGroupActions } from '../lib'
+import { help, GroupEx, toggleableGroupActions, getWById, wSearch } from '../lib'
 import moment from 'moment-timezone'
 import responses from '../lib/responses.json'
 import Utils from '../Utils'
@@ -104,15 +104,15 @@ export class Message {
             case 'anime':
             case 'manga':
             case 'character':
-                this.client.reply(from, await Utils.searchAMC(slicedJoinedArgs, command), M)
+                this.client.reply(from, await wSearch(slicedJoinedArgs, this.client._config.prefix,command), M)
                 break
             case 'aid':
             case 'mid':
             case 'chid':
                 this.client.reply(
                     from,
-                    await Utils.getAMCById(
-                        slicedJoinedArgs,
+                    await getWById(
+                        slicedJoinedArgs, 
                         command === 'aid' ? 'anime' : command === 'mid' ? 'manga' : 'character'
                     ),
                     M

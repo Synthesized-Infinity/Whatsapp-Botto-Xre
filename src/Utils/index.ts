@@ -1,5 +1,4 @@
 import axios, { AxiosRequestConfig } from 'axios'
-import { getWById, wSearch } from './anime'
 import CreateSticker from './sticker'
 import Embed from './Embed'
 import { readFileSync } from 'fs-extra'
@@ -16,10 +15,6 @@ export default class Utils {
     static capitalize = (text: string): string => `${text.charAt(0).toUpperCase()}${text.slice(1)}`
 
     static createSticker = CreateSticker
-
-    static getAMCById = getWById
-
-    static searchAMC = wSearch
 
     static Embed = Embed
 
