@@ -1,4 +1,5 @@
-import { Document, Schema, model } from 'mongoose'
+import { Schema, model } from 'mongoose'
+import { IUserModel } from '../../Typings'
 
 const UserSchema = new Schema({
     jid: {
@@ -17,11 +18,6 @@ const UserSchema = new Schema({
         default: 0
     }
 })
-
 export const user = model<IUserModel>('users', UserSchema)
-export interface IUserModel extends IUser, Document {}
-export interface IUser {
-    jid: string
-    ban: boolean
-    warnings: number
-}
+
+

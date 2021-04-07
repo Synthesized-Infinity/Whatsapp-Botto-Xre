@@ -1,12 +1,13 @@
-import { MessageType, WAParticipantAction } from '@adiwajshing/baileys'
+import { MessageType } from '@adiwajshing/baileys'
 import chalk from 'chalk'
-import Client, { Groupinfo } from '../Client'
+import Client from '../Client'
 import Utils from '../Utils'
 import moment from 'moment-timezone'
+import { IEvent, IGroupinfo } from '../Typings'
 export class EventHandler {
     constructor(public client: Client) {}
 
-    handle = async (event: event): Promise<void> => {
+    handle = async (event: IEvent): Promise<void> => {
         const group = await this.client.getGroupInfo(event.jid)
         if (!group.data.events) return
         console.log(
@@ -21,7 +22,7 @@ export class EventHandler {
         if (event.action === 'remove') return this.leave(event)
     }
 
-    add = async (event: event, group: Groupinfo): Promise<void> => {
+    add = async (event: IEvent, group: IGroupinfo): Promise<void> => {
         const participiants = event.participants.map(
             (user) =>
                 `${
@@ -41,7 +42,7 @@ export class EventHandler {
         return void this.client.sendMessage(event.jid, text, MessageType.text)
     }
 
-    leave = async (event: event): Promise<void> => {
+    leave = async (event: IEvent): Promise<void> => {
         const user = event.participants[0]
         return void this.client.sendMessage(
             event.jid,
@@ -56,9 +57,3 @@ export class EventHandler {
     }
 }
 
-export interface event {
-    jid: string
-    participants: string[]
-    actor?: string | undefined
-    action: WAParticipantAction
-}

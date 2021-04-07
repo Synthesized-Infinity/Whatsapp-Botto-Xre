@@ -1,4 +1,5 @@
-import { model, Schema, Document } from 'mongoose'
+import { model, Schema } from 'mongoose'
+import { IGroupModel } from '../../Typings'
 
 const GroupSchema = new Schema({
     jid: {
@@ -20,9 +21,4 @@ const GroupSchema = new Schema({
 
 export const group = model<IGroupModel>('groups', GroupSchema)
 
-export interface IGroupModel extends IGroup, Document {}
-export interface IGroup {
-    jid: string
-    events: boolean
-    nsfw: boolean
-}
+
