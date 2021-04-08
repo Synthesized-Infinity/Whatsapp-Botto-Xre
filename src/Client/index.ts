@@ -1,4 +1,4 @@
-import { MessageType, WAConnection, WAContact, WAMessage } from '@adiwajshing/baileys/'
+import { MessageType, WAConnection, WAContact, WAGroupMetadata, WAMessage } from '@adiwajshing/baileys/'
 import { Model } from 'mongoose'
 import responses from '../lib/responses.json'
 import { schedule, validate } from 'node-cron'
@@ -58,6 +58,19 @@ export default class Client extends WAConnection {
         let data = await this.GroupModel.findOne({ jid })
         if (!data) data = await new this.GroupModel({ jid }).save()
         return { metadata, admins, data }
+    }
+
+    async everyone(
+        jid: string,
+        metadata: WAGroupMetadata,
+        admin: boolean,
+        hidden: boolean,
+        M?: WAMessage
+    ): Promise<void> {
+        if (!admin) return void this.reply(jid, { body: responses['no-permission'] }, M)
+        const mentionedJid = metadata.participants.map((participiant) => participiant.jid)
+        const text = `🎀 *${metadata.subject}* 🎀\n${hidden ? `🗣 *[TAGS HIDDEN]* 🗣` : `💮 ${mentionedJid.map((participiant) => `@${participiant.split('@')[0]}`).join('\n💮')}`}`
+        this.sendMessage(jid, text, MessageType.extendedText, { quoted: M, contextInfo: { mentionedJid } })
     }
 
     async getPfp(jid: string): Promise<string | null> {

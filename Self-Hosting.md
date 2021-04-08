@@ -41,10 +41,10 @@ Then copy the connection url to your cluster
 Follow the instructions [here](https://docs.mongodb.com/manual/installation/) to install MongoDB in your system
 
 `EIF` is the main endpoind of the [Express-is-fun APIs](https://express-is-fun.herokuapp.com/api). \
-If you want the chatbot functionality add this url there: `https://express-is-fun.herokuapp.com`. Leave it empty if you don't want the chatbor functionality
+If you want the chatbot functionality add this url there: `https://express-is-fun.herokuapp.com`. Leave it empty if you don't want the chatbot functionality
 
 
-Now you can edit the `config.json` accoring to your needs
+Now you can edit the `config.json` according to your needs
 
 ```JSON
 {

@@ -62,6 +62,9 @@ export class Message {
             default:
                 this.client.reply(from, { body: responses['invalid-command'] }, M)
                 break
+            case 'everyone':
+            case 'everyone-h':
+                return void this.client.everyone(from, group.metadata, admin, command === 'everyone-h', M)
             case 'group':
                 return void this.client.reply(from, await this.group.simplifiedGroupInfo(group), M)
             case 'eval':
@@ -187,6 +190,7 @@ export class Message {
                 return void this.client.reply(from, await this.group.join(body, mod, username))
             case 'eval':
                 if (mod) return void eval(args.slice(1).join(' ').trim())
+                break
         }
     }
 
@@ -233,24 +237,32 @@ export class Message {
     }
 
     freeText = async (text: string, M: WAMessage): Promise<void> => {
-        const args = text.split(' ')
+        const args = text.split(/ +/g)
         const from = M.key.remoteJid
         if (!from) return
         const user = this.client.contacts[M.participant]
         const username = user?.notify || user?.vname || user?.name || ''
         const group = await this.client.getGroupInfo(from)
+        const admin = group.admins.includes(user.jid)
 
-        const txt = args[0].toLowerCase()
-        let body = ''
+        let txt = args[0].toLowerCase()
+        let [log, body] = [false, '']
+        if (args.includes('@everyone') && admin)  {
+            if (admin) void this.client.everyone(from, group.metadata, true, false, M)
+            log = true
+            txt = '@everyone'
+        }
         switch (txt) {
             case 'hey':
                 body = 'Hi there!'
+                log = true
                 break
             case 'test':
                 body = 'Well...'
+                log = true
                 break
         }
-        if (body) {
+        if (log) {
             console.log(
                 chalk.white('[TEXT]'),
                 chalk.blue(moment(Number(M.messageTimestamp) * 1000).format('DD/MM HH:mm:ss')),
@@ -260,7 +272,7 @@ export class Message {
                 chalk.yellow('in'),
                 chalk.white(group.metadata.subject)
             )
-            this.client.reply(from, { body }, M)
+            if (body) this.client.reply(from, { body }, M)
         }
     }
 }
