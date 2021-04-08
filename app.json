@@ -1,0 +1,40 @@
+{
+  "name": "WhatsApp-Botto-xRe",
+  "description": "Well....",
+  "keywords": [
+    "bot",
+    "whatsapp",
+    "stickers",
+    "whatsapp-stickers",
+    "anime",
+    "whatsapp-bot",
+    "whatsapp-anime-bot",
+    "whatsapp-botto"
+  ],
+  "website": "https://github.com/SomnathDas/Whatsapp-Botto-Xre#readme",
+  "repository": "https://github.com/SomnathDas/Whatsapp-Botto-Xre.git",
+  "logo": "https://i.ibb.co/F3sc7Nb/Purple-Music-Store-Etsy-Banner.png",
+  "success_url": "/qr",
+  "env": {
+    "MONGO_URI": {
+      "description": "A secret String for Mongodb Connection.(Required)"
+    },
+    "EIF":"https://express-is-fun.herokuapp.com/api",
+    "ADMINS": ""
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    },
+    {
+      "url": "https://github.com/DuckyTeam/heroku-buildpack-imagemagick"
+    },
+
+    {
+      "url": "https://github.com/clhuang/heroku-buildpack-webp-binaries.git"
+    },
+    {
+      "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"
+    }
+  ]
+}
