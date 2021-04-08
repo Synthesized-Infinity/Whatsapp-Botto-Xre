@@ -2,4 +2,3 @@ node_modules
 dist
 .env
 **/*_session.json
-config.json
