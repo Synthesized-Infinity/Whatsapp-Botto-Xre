@@ -26,9 +26,6 @@
   },
   "buildpacks": [
     {
-      "url": "https://github.com/fent/node-ytdl-core.git"
-    },
-    {
       "url": "heroku/nodejs"
     },
     {
