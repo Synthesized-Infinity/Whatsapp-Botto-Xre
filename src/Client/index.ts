@@ -16,12 +16,11 @@ export default class Client extends WAConnection {
                   name: 'XRE',
                   prefix: '!',
                   admins: [],
-                  adminGroupId: '',
                   corn: null
               }
         if (this.config.cron) this.clearCycle(this.config.cron)
-        if (this.config.adminGroupId)
-            this.getGroupInfo(this.config.adminGroupId).then((info) =>
+        if (process.env.ADMIN_GROUP_JID)
+            this.getGroupInfo(process.env.ADMIN_GROUP_JID).then((info) =>
                 info.admins.map((admin) => void this.config.admins.push(admin))
             )
         this.emit('config', this.config)
@@ -69,7 +68,7 @@ export default class Client extends WAConnection {
     ): Promise<void> {
         if (!admin) return void this.reply(jid, { body: responses['no-permission'] }, M)
         const mentionedJid = metadata.participants.map((participiant) => participiant.jid)
-        const text = `🎀 *${metadata.subject}* 🎀\n${hidden ? `🗣 *[TAGS HIDDEN]* 🗣` : `💮 ${mentionedJid.map((participiant) => `@${participiant.split('@')[0]}`).join('\n💮')}`}`
+        const text = `🎀 *${metadata.subject}* 🎀\n${hidden ? `🗣 *[TAGS HIDDEN]* 🗣` : `💮 ${mentionedJid.map((participiant) => `@${participiant.split('@')[0]}`).join('\n💮 ')}`}`
         this.sendMessage(jid, text, MessageType.extendedText, { quoted: M, contextInfo: { mentionedJid } })
     }
 

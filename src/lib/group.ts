@@ -60,8 +60,8 @@ export class GroupEx {
         const regExec = Utils.urlMatch(text)
         if (!regExec) return { body: responses['no-url-provided'] }
         if (!mod) {
-            if (this.client._config.adminGroupId || this.client._config.admins[0]) {
-                void (await this.client.reply(this.client._config.adminGroupId || this.client._config.admins[0], {
+            if (process.env.ADMIN_GROUP_JID || this.client._config.admins[0]) {
+                void (await this.client.reply(process.env.ADMIN_GROUP_JID || this.client._config.admins[0], {
                     body: responses['join-request'].replace('{A}', username).replace('{L}', regExec[0])
                 }))
                 return { body: responses['join-req-forwarded'] }

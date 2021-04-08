@@ -2,6 +2,5 @@
     "name": "Xre",
     "prefix": "!",
     "cron": "0 */6 * * *",
-    "admins": [],
-    "adminGroupId": ""
+    "admins": ["919744375687@s.whatsapp.net"]
 }

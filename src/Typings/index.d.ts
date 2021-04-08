@@ -10,7 +10,6 @@ export interface IConfig {
     name: string
     prefix: string
     admins: string[]
-    adminGroupId: ''
     cron: string | null
 }
 
