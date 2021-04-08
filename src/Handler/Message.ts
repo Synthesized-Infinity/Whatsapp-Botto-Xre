@@ -68,8 +68,7 @@ export class Message {
                 this.client.reply(from, { body: responses['invalid-command'] }, M)
                 break
             case 'id':
-                if (mod) return void this.client.reply(from, { body: `GID: ${from}` }, M)
-                break
+                return void this.client.reply(from, { body: `GID: ${from}` }, M)
             case 'everyone':
             case 'everyone-h':
                 return void this.client.everyone(from, group.metadata, admin, command === 'everyone-h', M)
