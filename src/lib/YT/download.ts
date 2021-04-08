@@ -1,18 +1,18 @@
-import { MessageType } from "@adiwajshing/baileys"
-import { createWriteStream, readFile } from "fs-extra"
-import { tmpdir } from "os"
-import ytdl, { getInfo, validateURL } from "ytdl-core"
-import { IReply } from "../../Typings"
+import { MessageType } from '@adiwajshing/baileys'
+import { createWriteStream, readFile } from 'fs-extra'
+import { tmpdir } from 'os'
+import ytdl, { getInfo, validateURL } from 'ytdl-core'
+import { IReply } from '../../Typings'
 import responses from '../responses.json'
 
 export const download = async (url: string, type: 'video' | 'audio'): Promise<IReply | string> => {
-    if (!validateURL(url)) return responses["invalid-url"].replace('{W}', 'YT').replace('{U}', url)
-    const video = (type === 'video')
-    const filename = `${tmpdir()}/${Math.random().toString(30)}.${(video) ? 'mp4' : 'mp3'}`
+    if (!validateURL(url)) return responses['invalid-url'].replace('{W}', 'YT').replace('{U}', url)
+    const video = type === 'video'
+    const filename = `${tmpdir()}/${Math.random().toString(30)}.${video ? 'mp4' : 'mp3'}`
     const { videoDetails: info } = await getInfo(url)
-    if (Number(info.lengthSeconds) > 600) return responses["video-duration-clause"]
+    if (Number(info.lengthSeconds) > 600) return responses['video-duration-clause']
     const stream = createWriteStream(filename)
-    ytdl(url, { quality: (video) ? 'highestaudio': 'highestvideo'}).pipe(stream)
+    ytdl(url, { quality: video ? 'highestaudio' : 'highestvideo' }).pipe(stream)
     await new Promise((resolve) => {
         stream.on('close', resolve)
         stream.on('end', resolve)
@@ -22,8 +22,8 @@ export const download = async (url: string, type: 'video' | 'audio'): Promise<IR
 }
 
 export const getYTMediaFromUrl = async (url: string, type: 'video' | 'audio'): Promise<IReply> => {
-    if (!url) return { body: responses["wrong-format"] }
+    if (!url) return { body: responses['wrong-format'] }
     const media = await download(url, type)
     if (typeof media === 'string') return { body: media }
-    return { ...media, type: (type === 'audio') ? MessageType.audio : MessageType.video }
+    return { ...media, type: type === 'audio' ? MessageType.audio : MessageType.video }
 }

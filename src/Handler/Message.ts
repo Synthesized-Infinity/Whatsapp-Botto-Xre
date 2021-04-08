@@ -25,7 +25,12 @@ export class Message {
         if (!args[0].startsWith(this.client._config.prefix)) return this.freeText(body, M)
         const command = args[0].slice(1).toLowerCase()
 
-        if (!command) return void this.client.reply(from, { body: responses["no-command-after-prefix"].replace('{P}', this.client._config.prefix)}, M)
+        if (!command)
+            return void this.client.reply(
+                from,
+                { body: responses['no-command-after-prefix'].replace('{P}', this.client._config.prefix) },
+                M
+            )
         const slicedJoinedArgs = args
             .join(' ')
             .slice(command.length + this.client._config.prefix.length)
@@ -63,7 +68,7 @@ export class Message {
                 this.client.reply(from, { body: responses['invalid-command'] }, M)
                 break
             case 'id':
-                if (mod) return void this.client.reply(from, { body: `GID: ${from}`}, M)
+                if (mod) return void this.client.reply(from, { body: `GID: ${from}` }, M)
                 break
             case 'everyone':
             case 'everyone-h':
@@ -139,9 +144,13 @@ export class Message {
                 )
             case 'yta':
             case 'ytv':
-                return void this.client.reply(from, await getYTMediaFromUrl(slicedJoinedArgs.trim(), (command === 'ytv') ? 'video' : 'audio'), M)
-            case 'yts': 
-                return void this.client.reply(from, { body: await ytSreach(slicedJoinedArgs.trim())}, M)
+                return void this.client.reply(
+                    from,
+                    await getYTMediaFromUrl(slicedJoinedArgs.trim(), command === 'ytv' ? 'video' : 'audio'),
+                    M
+                )
+            case 'yts':
+                return void this.client.reply(from, { body: await ytSreach(slicedJoinedArgs.trim()) }, M)
         }
     }
 
@@ -158,7 +167,7 @@ export class Message {
         const { args } = opt
 
         const { user, data } = await this.client.getUser(from)
-        if (data.ban) return 
+        if (data.ban) return
         const username = user?.notify || user?.vname || user?.name || ''
         const cmd = args[0].startsWith(this.client._config.prefix)
         console.log(
@@ -257,7 +266,7 @@ export class Message {
 
         let txt = args[0].toLowerCase()
         let [log, body] = [false, '']
-        if (args.includes('@everyone') && admin)  {
+        if (args.includes('@everyone') && admin) {
             if (admin) void this.client.everyone(from, group.metadata, true, false, M)
             log = true
             txt = '@everyone'

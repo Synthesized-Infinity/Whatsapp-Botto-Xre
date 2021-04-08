@@ -31,12 +31,10 @@ export const start = async (config: string, PORT: number, MONGO_URI: string): Pr
     })
 
     client.logger.level = 'fatal'
-    const auth = await client.getSession(process.env.SESSION_ID || "PROD")
+    const auth = await client.getSession(process.env.SESSION_ID || 'PROD')
     if (auth) client.loadAuthInfo(auth)
 
     const web = new Web(client, PORT)
-
-
 
     web.on('web-open', (PORT) =>
         console.log(
@@ -53,7 +51,6 @@ export const start = async (config: string, PORT: number, MONGO_URI: string): Pr
     const MessageHandler = new Message(client, GroupExtention)
     const EventHandler = new EvHandler(client)
     //Events
-
 
     client.on('config', (config) => {
         console.log(
@@ -82,7 +79,10 @@ export const start = async (config: string, PORT: number, MONGO_URI: string): Pr
             chalk.yellow('Up and Ready to Go!')
         )
         client.updateSession(process.env.SESSION_ID || 'PROD')
-        writeFileSync(`./${process.env.SESSION_ID || 'PROD'}_session.json`, JSON.stringify(client.base64EncodedAuthInfo(), null, '\t'))
+        writeFileSync(
+            `./${process.env.SESSION_ID || 'PROD'}_session.json`,
+            JSON.stringify(client.base64EncodedAuthInfo(), null, '\t')
+        )
     })
 
     client.on('chat-update', (update) => {
@@ -113,7 +113,6 @@ export const start = async (config: string, PORT: number, MONGO_URI: string): Pr
     })
 
     client.on('group-participants-update', (event) => EventHandler.handle(event))
-
 
     await client.connect()
 }

@@ -1,11 +1,11 @@
-import { Schema, model } from "mongoose"
-import { ISessionModel } from "../../Typings"
+import { Schema, model } from 'mongoose'
+import { ISessionModel } from '../../Typings'
 
 const SessionSchema = new Schema({
     ID: {
         type: String,
         required: true,
-        unique: true,
+        unique: true
     },
     session: {
         type: Object,

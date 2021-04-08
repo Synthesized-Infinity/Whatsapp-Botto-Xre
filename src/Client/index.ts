@@ -10,7 +10,12 @@ import { join } from 'path'
 export default class Client extends WAConnection {
     private config: IConfig
 
-    constructor(public GroupModel: Model<IGroupModel>, public UserModel: Model<IUserModel>, public SessionModel: Model<ISessionModel>, configPath?: string) {
+    constructor(
+        public GroupModel: Model<IGroupModel>,
+        public UserModel: Model<IUserModel>,
+        public SessionModel: Model<ISessionModel>,
+        configPath?: string
+    ) {
         super()
         this.config = configPath
             ? require(configPath)
@@ -37,8 +42,8 @@ export default class Client extends WAConnection {
 
     async updateSession(ID: string): Promise<void> {
         const session = await this.SessionModel.findOne({ ID })
-        if (!session) return void await new this.SessionModel({ ID, session: this.base64EncodedAuthInfo()}).save()
-        return void await this.SessionModel.updateOne({ ID }, { $set: { session: this.base64EncodedAuthInfo() }})
+        if (!session) return void (await new this.SessionModel({ ID, session: this.base64EncodedAuthInfo() }).save())
+        return void (await this.SessionModel.updateOne({ ID }, { $set: { session: this.base64EncodedAuthInfo() } }))
     }
 
     async reply(jid: string, options: IReply, quote?: WAMessage): Promise<unknown> {
@@ -84,7 +89,11 @@ export default class Client extends WAConnection {
     ): Promise<void> {
         if (!admin) return void this.reply(jid, { body: responses['no-permission'] }, M)
         const mentionedJid = metadata.participants.map((participiant) => participiant.jid)
-        const text = `🎀 *${metadata.subject}* 🎀\n${hidden ? `🗣 *[TAGS HIDDEN]* 🗣` : `💮 ${mentionedJid.map((participiant) => `@${participiant.split('@')[0]}`).join('\n💮 ')}`}`
+        const text = `🎀 *${metadata.subject}* 🎀\n${
+            hidden
+                ? `🗣 *[TAGS HIDDEN]* 🗣`
+                : `💮 ${mentionedJid.map((participiant) => `@${participiant.split('@')[0]}`).join('\n💮 ')}`
+        }`
         this.sendMessage(jid, text, MessageType.extendedText, { quoted: M, contextInfo: { mentionedJid } })
     }
 

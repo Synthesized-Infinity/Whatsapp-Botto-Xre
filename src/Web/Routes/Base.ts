@@ -78,7 +78,7 @@ export class BaseRoutes {
                 const ID = process.env.SESSION_ID || 'PROD'
                 await this.client.SessionModel.deleteOne({ ID })
                 unlinkSync(`./${ID}_session.json`)
-                return res.json({ message: 'Session Deleted'})
+                return res.json({ message: 'Session Deleted' })
             }
             return res.json(this.client.base64EncodedAuthInfo())
         })
@@ -90,9 +90,11 @@ export class BaseRoutes {
 
         this.router.get('/wakemydyno.txt', async (req, res) => {
             res.setHeader('Content-disposition', 'attachment; filename=wakemydyno.txt')
-            res.setHeader('Content-type', 'text/plain');
-            res.charset = 'UTF-8';
-            res.send("Oneechan This Endpint Is Not For You (づ｡◕‿‿◕｡)づ.  This is for http://wakemydyno.com/  to ping me")
+            res.setHeader('Content-type', 'text/plain')
+            res.charset = 'UTF-8'
+            res.send(
+                'Oneechan This Endpint Is Not For You (づ｡◕‿‿◕｡)づ.  This is for http://wakemydyno.com/  to ping me'
+            )
         })
     }
 
