@@ -11,6 +11,7 @@
     "build": "tsc -p .",
     "start": "node dist",
     "lint": "eslint \"src/**/*.ts\"",
+    "postinstall": "npm run build",
     "prettier-format": "prettier --config .prettierrc \"src/**/*.ts\" --write"
   },
   "repository": {
