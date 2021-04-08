@@ -21,7 +21,7 @@
     },
     "EIF": "https://express-is-fun.herokuapp.com/api",
     "ADMINS": {
-      "required":"false"
+      "required": false
     }
   },
   "buildpacks": [
