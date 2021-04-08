@@ -1,7 +1,7 @@
 import { MessageType, proto, WAMessage } from '@adiwajshing/baileys'
 import chalk from 'chalk'
 import Client from '../Client'
-import { help, GroupEx, toggleableGroupActions, getWById, wSearch } from '../lib'
+import { help, GroupEx, toggleableGroupActions, getWById, wSearch, ytSreach, getYTMediaFromUrl } from '../lib'
 import moment from 'moment-timezone'
 import responses from '../lib/responses.json'
 import Utils from '../Utils'
@@ -137,6 +137,11 @@ export class Message {
                     ),
                     M
                 )
+            case 'yta':
+            case 'ytv':
+                return void this.client.reply(from, await getYTMediaFromUrl(slicedJoinedArgs.trim(), (command === 'ytv') ? 'video' : 'audio'), M)
+            case 'yts': 
+                return void this.client.reply(from, { body: await ytSreach(slicedJoinedArgs.trim())}, M)
         }
     }
 
@@ -152,7 +157,8 @@ export class Message {
         if (!opt) return
         const { args } = opt
 
-        const { user } = await this.client.getUser(from)
+        const { user, data } = await this.client.getUser(from)
+        if (data.ban) return 
         const username = user?.notify || user?.vname || user?.name || ''
         const cmd = args[0].startsWith(this.client._config.prefix)
         console.log(
@@ -243,7 +249,8 @@ export class Message {
         const args = text.split(/ +/g)
         const from = M.key.remoteJid
         if (!from) return
-        const user = this.client.contacts[M.participant]
+        const { user, data: userData } = await this.client.getUser(M.participant)
+        if (userData.ban) return
         const username = user?.notify || user?.vname || user?.name || ''
         const group = await this.client.getGroupInfo(from)
         const admin = group.admins.includes(user.jid)
