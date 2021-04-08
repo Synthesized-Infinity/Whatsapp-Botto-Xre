@@ -81,11 +81,18 @@ export class BaseRoutes {
                 return res.json({ message: 'Session Deleted'})
             }
             return res.json(this.client.base64EncodedAuthInfo())
-        }) 
+        })
 
         this.router.get('/pfp', async (req, res) => {
             if (!req.query.id) return res.json({ message: 'Not Found' })
             return res.json({ pfp: await this.client.getPfp(req.query.id as string) })
+        })
+
+        this.router.get('/wakemydyno.txt', async (req, res) => {
+            res.setHeader('Content-disposition', 'attachment; filename=wakemydyno.txt')
+            res.setHeader('Content-type', 'text/plain');
+            res.charset = 'UTF-8';
+            res.send("Oneechan This Endpint Is Not For You (づ｡◕‿‿◕｡)づ.  This is for http://wakemydyno.com/  to ping me")
         })
     }
 
