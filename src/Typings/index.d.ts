@@ -56,6 +56,18 @@ export interface IUser {
     warnings: number
 }
 
+export interface ISessionModel extends Document {
+    ID: string,
+    session: ISession
+}
+export interface ISession {
+    clientID: string
+	serverToken: string
+	clientToken: string
+	encKey: string
+	macKey: string
+}
+
 export interface IEmbed {
     header?: string
     body?: string

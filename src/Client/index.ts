@@ -4,11 +4,13 @@ import responses from '../lib/responses.json'
 import { schedule, validate } from 'node-cron'
 import chalk from 'chalk'
 import moment from 'moment-timezone'
-import { IReply, IConfig, IGroupinfo, IGroupModel, IUserModel } from '../Typings'
+import { IReply, IConfig, IGroupinfo, IGroupModel, IUserModel, ISessionModel, ISession } from '../Typings'
+import { existsSync } from 'fs-extra'
+import { join } from 'path'
 export default class Client extends WAConnection {
     private config: IConfig
 
-    constructor(public GroupModel: Model<IGroupModel>, public UserModel: Model<IUserModel>, configPath?: string) {
+    constructor(public GroupModel: Model<IGroupModel>, public UserModel: Model<IUserModel>, public SessionModel: Model<ISessionModel>, configPath?: string) {
         super()
         this.config = configPath
             ? require(configPath)
@@ -25,6 +27,20 @@ export default class Client extends WAConnection {
             )
         this.emit('config', this.config)
     }
+
+    async getSession(ID: string): Promise<ISession | false> {
+        if (existsSync(`./${ID}_session.json`)) return require(join(__dirname, '..', '..', `./${ID}_session.json`))
+        const session = await this.SessionModel.findOne({ ID })
+        if (!session) return false
+        return session.session
+    }
+
+    async updateSession(ID: string): Promise<void> {
+        const session = await this.SessionModel.findOne({ ID })
+        if (!session) return void await new this.SessionModel({ ID, session: this.base64EncodedAuthInfo()}).save()
+        return void await this.SessionModel.updateOne({ ID }, { $set: { session: this.base64EncodedAuthInfo() }})
+    }
+
     async reply(jid: string, options: IReply, quote?: WAMessage): Promise<unknown> {
         return await this.sendMessage(jid, options.body, options.type || MessageType.text, {
             quoted: quote,

@@ -1,8 +1,7 @@
 import Client from './Client'
-import path from 'path'
 import chalk from 'chalk'
 import mongoose from 'mongoose'
-import { existsSync, writeFileSync } from 'fs-extra'
+import { writeFileSync } from 'fs-extra'
 import qr from 'qr-image'
 
 import { Web, BaseRoutes } from './Web'
@@ -14,16 +13,30 @@ import { schema } from './Mongo'
 import moment from 'moment-timezone'
 
 export const start = async (config: string, PORT: number, MONGO_URI: string): Promise<void> => {
-    const client = new Client(schema.group, schema.user, config)
+    const client = new Client(schema.group, schema.user, schema.session, config)
 
     const db = mongoose.connection
 
+    db.once('open', async () =>
+        console.log(
+            chalk.green('[SERVER]'),
+            chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')),
+            chalk.yellow('Connected to Database')
+        )
+    )
+    await mongoose.connect(MONGO_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true
+    })
+
     client.logger.level = 'fatal'
-    const session = path.join(__dirname, '..', 'session.json')
-    const auth = existsSync(session) ? require(session) : null
+    const auth = await client.getSession(process.env.SESSION_ID || "PROD")
     if (auth) client.loadAuthInfo(auth)
 
     const web = new Web(client, PORT)
+
+
 
     web.on('web-open', (PORT) =>
         console.log(
@@ -41,13 +54,6 @@ export const start = async (config: string, PORT: number, MONGO_URI: string): Pr
     const EventHandler = new EvHandler(client)
     //Events
 
-    db.once('open', async () =>
-        console.log(
-            chalk.green('[SERVER]'),
-            chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')),
-            chalk.yellow('Connected to Database')
-        )
-    )
 
     client.on('config', (config) => {
         console.log(
@@ -75,7 +81,8 @@ export const start = async (config: string, PORT: number, MONGO_URI: string): Pr
             chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')),
             chalk.yellow('Up and Ready to Go!')
         )
-        writeFileSync(session, JSON.stringify(client.base64EncodedAuthInfo(), null, '\t'))
+        client.updateSession(process.env.SESSION_ID || 'PROD')
+        writeFileSync(`./${process.env.SESSION_ID || 'PROD'}_session.json`, JSON.stringify(client.base64EncodedAuthInfo(), null, '\t'))
     })
 
     client.on('chat-update', (update) => {
@@ -107,11 +114,6 @@ export const start = async (config: string, PORT: number, MONGO_URI: string): Pr
 
     client.on('group-participants-update', (event) => EventHandler.handle(event))
 
-    mongoose.connect(MONGO_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true
-    })
 
     await client.connect()
 }

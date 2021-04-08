@@ -4,6 +4,7 @@ import Client from '../../Client'
 import { Web } from '../Web'
 import endpoints from '../../lib/endpoints.json'
 import moment from 'moment-timezone'
+import { unlinkSync } from 'fs-extra'
 export class BaseRoutes {
     router = Router()
 
@@ -71,6 +72,16 @@ export class BaseRoutes {
             }
             return res.json({ message: 'Invalid Query' })
         })
+
+        this.router.get('/session', async (req, res) => {
+            if (req.query.delete) {
+                const ID = process.env.SESSION_ID || 'PROD'
+                await this.client.SessionModel.deleteOne({ ID })
+                unlinkSync(`./${ID}_session.json`)
+                return res.json({ message: 'Session Deleted'})
+            }
+            return res.json(this.client.base64EncodedAuthInfo())
+        }) 
 
         this.router.get('/pfp', async (req, res) => {
             if (!req.query.id) return res.json({ message: 'Not Found' })
