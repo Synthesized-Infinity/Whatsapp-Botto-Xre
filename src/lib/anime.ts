@@ -46,7 +46,7 @@ export const wSearch = async (
         for (let i = 0; i < n; i++) {
             z += `📗 *${
                 type === 'anime' || type === 'manga' ? `Title:* ${sim[i].title}` : `Name:* ${sim[i].name}`
-            }:\n🌐 Url:* ${sim[i].url}\n🎀 *Full Info:* ${preifx}${
+            }:\n🌐 *URL:* ${sim[i].url}\n🎀 *Full Info:* ${preifx}${
                 type === 'anime' ? 'aid' : type === 'manga' ? 'mid' : 'chid'
             } ${sim[i].mal_id}\n\n`
         }

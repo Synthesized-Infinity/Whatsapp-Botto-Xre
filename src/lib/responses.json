@@ -24,5 +24,6 @@
     "failed-to-join": "Failed to join group. Check the invite url and try again",
     "cannot-execute": "Cannot execute this command in this chat",
     "invalid-group-action": "Invalid Group Action: {T}",
-    "direct-message-cmd": "*Commands cannot be used in Direct Messages.* Send a text without the prefix to have a chat"
+    "direct-message-cmd": "*Commands cannot be used in Direct Messages.* Send a text without the prefix to have a chat",
+    "no-command-after-prefix": "Provide a command from the help list after the prefix\nEg: {P}help"
 }

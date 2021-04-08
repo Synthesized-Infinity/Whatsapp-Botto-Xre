@@ -25,7 +25,7 @@ export class Message {
         if (!args[0].startsWith(this.client._config.prefix)) return this.freeText(body, M)
         const command = args[0].slice(1).toLowerCase()
 
-        if (!command) return
+        if (!command) return void this.client.reply(from, { body: responses["no-command-after-prefix"].replace('{}', this.client._config.prefix)})
         const slicedJoinedArgs = args
             .join(' ')
             .slice(command.length + this.client._config.prefix.length)
