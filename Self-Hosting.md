@@ -29,7 +29,7 @@ Create a file named `.env` then add the follwoing fields
 ```env
 MONGO_URI=YOUR_CLUSTER_URI
 EIF=https://express-is-fun.herokuapp.com/
-ADMINS=''
+ADMIN_GROUP_JID=''
 ```
 `MONGO_URI` is the Connection URL to your DB
 To get the connection URL there are two ways
