@@ -1,5 +1,5 @@
 import chalk from 'chalk'
-import { Router } from 'express'
+import { Router, Request } from 'express'
 import Client from '../../Client'
 import { Web } from '../Web'
 import endpoints from '../../lib/endpoints.json'
@@ -9,12 +9,18 @@ export class BaseRoutes {
     router = Router()
 
     constructor(public client: Client, public web: Web) {
+        this.web.app.use((req, res, next) => {
+            const auth = this.auth(req)
+            const t = typeof auth === 'boolean'
+            console.log(chalk[(!t) ? 'red' : 'green']('[WEB]'), chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')), req.url)
+            if (!t) return res.json(auth)
+            next()
+        })
         this.web.app.use('/', this.router)
     }
 
     async start(): Promise<void> {
         this.router.get('/', (req, res) => {
-            console.log(chalk.yellow('[WEB]'), chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')), req.url)
             res.json({ message: 'Hi there' })
         })
         this.router.get('/qr', (req, res) => {
@@ -37,18 +43,15 @@ export class BaseRoutes {
         })
 
         this.router.get('/config', (req, res) => {
-            console.log(chalk.yellow('[WEB]'), chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')), req.url)
             res.json(this.client._config)
         })
 
         this.router.get('/user', (req, res) => {
-            console.log(chalk.yellow('[WEB]'), chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')), req.url)
             const json = req.query.jid ? this.client.contacts[String(req.query.jid)] || {} : this.client.user
             res.json(json)
         })
 
         this.router.get('/client', async (req, res) => {
-            console.log(chalk.yellow('[WEB]'), chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')), req.url)
             const query = req.query
             if (query?.state === this.connectionOptions[1]) {
                 if (this.client.state === 'close')
@@ -84,6 +87,8 @@ export class BaseRoutes {
         })
 
         this.router.get('/pfp', async (req, res) => {
+            const auth = this.auth(req)
+            if (typeof auth === 'object') return res.json(auth)
             if (!req.query.id) return res.json({ message: 'Not Found' })
             return res.json({ pfp: await this.client.getPfp(req.query.id as string) })
         })
@@ -93,9 +98,16 @@ export class BaseRoutes {
             res.setHeader('Content-type', 'text/plain')
             res.charset = 'UTF-8'
             res.send(
-                'Oneechan This Endpint Is Not For You (づ｡◕‿‿◕｡)づ.  This is for http://wakemydyno.com/  to ping me'
+                'Oneechan This Endpoint Is Not For You (づ｡◕‿‿◕｡)づ.  This is for http://wakemydyno.com/ to ping me'
             )
         })
+    }
+    
+    auth = (req: Request): true | { error: string } => {
+        const { query } = req
+        if (!query.session) return { error: `Session ID not Provided`}
+        if (query.session as string !== (process.env.SESSION_ID || 'PROD')) return { error: `Session ID is invalid`}
+        return true
     }
 
     connectionOptions = ['on', 'off']

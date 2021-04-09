@@ -40,7 +40,7 @@ export const start = async (config: string, PORT: number, MONGO_URI: string): Pr
         console.log(
             chalk.green('[WEB]'),
             chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')),
-            chalk.yellow(`Web Server Started on`, `http://localhost:${PORT} | http://localhost:${PORT}/endpoints`)
+            chalk.yellow(`Web Server Started on`, `http://localhost:${PORT}?session=${process.env.SESSION_ID || 'PROD'} | http://localhost:${PORT}/endpoints?session=${process.env.SESSION_ID || 'PROD'}`)
         )
     )
 
@@ -67,7 +67,7 @@ export const start = async (config: string, PORT: number, MONGO_URI: string): Pr
             chalk.green('[SERVER]'),
             chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')),
             chalk.yellow('Scan the QR Code to Proceed You can also Authenticate at'),
-            chalk.blueBright(`http://localhost:${web.PORT}/qr`)
+            chalk.blueBright(`http://localhost:${web.PORT}/qr?session=${process.env.SESSION_ID || 'PROD'}`)
         )
     })
 

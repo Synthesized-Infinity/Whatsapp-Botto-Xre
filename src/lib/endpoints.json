@@ -1,31 +1,62 @@
-[
-    {
-        "endpoint": "/",
-        "query": null,
-        "description": "Main endpoint"
-    },
-    {
-        "endpoint": "user",
-        "query": [
-            "jid"
-        ],
-        "description": "retrives the given user's info"
-    },
-    {
-        "endpoint": "/qr",
-        "query": null,
-        "description": "Displays the Auth QR"
-    },
-    {
-        "endpoint": "/config",
-        "query": null,
-        "description": "Main endpoint"
-    },
-    {
-        "endpoint": "/client",
-        "query": [
+
+{ 
+    "Note": "Never Share this URL and the SESSION_ID with anyone! Make sure to include the \"session\" query with every request",
+    "endpoints": [
+        {
+            "endpoint": "/",
+            "method": "GET",
+            "query": null,
+            "description": "Main endpoint"
+        },
+        {
+            "endpoint": "/qr",
+            "method": "GET",
+            "query": [
+                "session"
+            ],
+            "description": "Displays the Auth QR"
+        },
+        {
+            "endpoint": "/config",
+            "method": "GET",
+            "query": [
+                "session"
+            ],
+            "description": "Main endpoint"
+        },
+        {
+            "endpoint": "/client",
+            "method": "GET",
+            "query": [
             "state"
-        ],
-        "description": "turn on or off the client"
-    }
-]
+            ],
+            "description": "turn on or off the client"
+        },
+        {
+            "endpoint": "user",
+            "method": "GET",
+            "query": [
+                "session",
+                "jid"
+            ],
+            "description": "retrives the given user's info"
+        },
+        {
+            "endpoint": "/pfp",
+            "method": "GET",
+            "query": [
+                "session",
+                "jid"
+            ],
+            "description": "Retrives the pfp of the given JID"
+        },
+        {
+            "endpoint": "/client",
+            "method": "GET",
+            "query": [
+            "state"
+            ],
+            "description": "turn on or off the client"
+        }
+    ]
+}
