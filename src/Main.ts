@@ -40,7 +40,12 @@ export const start = async (config: string, PORT: number, MONGO_URI: string): Pr
         console.log(
             chalk.green('[WEB]'),
             chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')),
-            chalk.yellow(`Web Server Started on`, `http://localhost:${PORT}?session=${process.env.SESSION_ID || 'PROD'} | http://localhost:${PORT}/endpoints?session=${process.env.SESSION_ID || 'PROD'}`)
+            chalk.yellow(
+                `Web Server Started on`,
+                `http://localhost:${PORT}?session=${
+                    process.env.SESSION_ID || 'PROD'
+                } | http://localhost:${PORT}/endpoints?session=${process.env.SESSION_ID || 'PROD'}`
+            )
         )
     )
 

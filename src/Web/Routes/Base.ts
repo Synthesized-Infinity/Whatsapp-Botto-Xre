@@ -12,7 +12,11 @@ export class BaseRoutes {
         this.web.app.use((req, res, next) => {
             const auth = this.auth(req)
             const t = typeof auth === 'boolean'
-            console.log(chalk[(!t) ? 'red' : 'green']('[WEB]'), chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')), req.url)
+            console.log(
+                chalk[!t ? 'red' : 'green']('[WEB]'),
+                chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')),
+                req.url
+            )
             if (!t) return res.json(auth)
             next()
         })
@@ -102,11 +106,11 @@ export class BaseRoutes {
             )
         })
     }
-    
+
     auth = (req: Request): true | { error: string } => {
         const { query } = req
-        if (!query.session) return { error: `Session ID not Provided`}
-        if (query.session as string !== (process.env.SESSION_ID || 'PROD')) return { error: `Session ID is invalid`}
+        if (!query.session) return { error: `Session ID not Provided` }
+        if ((query.session as string) !== (process.env.SESSION_ID || 'PROD')) return { error: `Session ID is invalid` }
         return true
     }
 

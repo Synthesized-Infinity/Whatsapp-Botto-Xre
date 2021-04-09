@@ -2,7 +2,12 @@ import { MessageType } from '@adiwajshing/baileys'
 import { Sticker } from 'wa-sticker-formatter'
 import { IReply } from '../Typings'
 
-export const createSticker = async (data: Buffer, crop: boolean, author = 'Xre', pack = 'WhatsApp Botto'): Promise<IReply> => {
+export const createSticker = async (
+    data: Buffer,
+    crop: boolean,
+    author = 'Xre',
+    pack = 'WhatsApp Botto'
+): Promise<IReply> => {
     const sticker = new Sticker(data, {
         crop,
         author,
