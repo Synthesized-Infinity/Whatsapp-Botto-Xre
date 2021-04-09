@@ -10,6 +10,7 @@ export class BaseRoutes {
 
     constructor(public client: Client, public web: Web) {
         this.web.app.use((req, res, next) => {
+            if (req.url.includes('wakemydyno')) return next()
             const auth = this.auth(req)
             const t = typeof auth === 'boolean'
             console.log(
