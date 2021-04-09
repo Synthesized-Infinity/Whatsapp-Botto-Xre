@@ -23,7 +23,7 @@
       "description": "Prefix of your bot"
     },
     "SESSION_ID": {
-      "description": "A string for the session to be classified"
+      "description": "A string for the session to be classified and to get acesss to the server endpoints"
     },
     "ADMINS": {
       "description": "Array of jids of users who you want to be admins for the bot",
