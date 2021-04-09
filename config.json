@@ -1,6 +1,0 @@
-{
-    "name": "Xre",
-    "prefix": "!",
-    "cron": "0 */6 * * *",
-    "admins": []
-}

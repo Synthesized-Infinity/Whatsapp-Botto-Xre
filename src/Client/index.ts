@@ -8,23 +8,19 @@ import { IReply, IConfig, IGroupinfo, IGroupModel, IUserModel, ISessionModel, IS
 import { existsSync } from 'fs-extra'
 import { join } from 'path'
 export default class Client extends WAConnection {
-    private config: IConfig
+    private config: IConfig = {
+        name: process.env.BOT_NAME || 'Xre',
+        prefix: process.env.PREFIX || '!',
+        admins: JSON.parse(process.env.ADMINS || '[]'),
+        cron: process.env.CRON || null
+    }
 
     constructor(
         public GroupModel: Model<IGroupModel>,
         public UserModel: Model<IUserModel>,
         public SessionModel: Model<ISessionModel>,
-        configPath?: string
     ) {
         super()
-        this.config = configPath
-            ? require(configPath)
-            : {
-                  name: 'XRE',
-                  prefix: '!',
-                  admins: [],
-                  corn: null
-              }
         if (this.config.cron) this.clearCycle(this.config.cron)
         if (process.env.ADMIN_GROUP_JID)
             this.getGroupInfo(process.env.ADMIN_GROUP_JID).then((info) =>

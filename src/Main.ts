@@ -1,8 +1,10 @@
 import Client from './Client'
 import chalk from 'chalk'
 import mongoose from 'mongoose'
-import { writeFileSync } from 'fs-extra'
 import qr from 'qr-image'
+import moment from 'moment-timezone'
+import { writeFileSync } from 'fs-extra'
+
 
 import { Web, BaseRoutes } from './Web'
 import { Message } from './Handler'
@@ -10,10 +12,8 @@ import { GroupEx } from './lib'
 import { EventHandler as EvHandler } from './Handler'
 import { schema } from './Mongo'
 
-import moment from 'moment-timezone'
-
-export const start = async (config: string, PORT: number, MONGO_URI: string): Promise<void> => {
-    const client = new Client(schema.group, schema.user, schema.session, config)
+export const start = async (PORT: number, MONGO_URI: string): Promise<void> => {
+    const client = new Client(schema.group, schema.user, schema.session)
 
     const db = mongoose.connection
 
@@ -24,6 +24,7 @@ export const start = async (config: string, PORT: number, MONGO_URI: string): Pr
             chalk.yellow('Connected to Database')
         )
     )
+
     await mongoose.connect(MONGO_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,

@@ -16,6 +16,19 @@
   "logo": "https://i.ibb.co/F3sc7Nb/Purple-Music-Store-Etsy-Banner.png",
   "success_url": "/qr",
   "env": {
+    "BOT_NAME": {
+      "description": "Name of your bot"
+    },
+    "PREFIX": {
+      "description": "Prefix of your bot"
+    },
+    "SESSION_ID": {
+      "description": "A string for the session to be classified"
+    },
+    "ADMINS": {
+      "description": "Array of jids of users who you want to be admins for the bot",
+      "required": false
+    },
     "MONGO_URI": {
       "description": "A secret String for Mongodb Connection.(Required)"
     },
