@@ -20,7 +20,7 @@
       "description": "A secret String for Mongodb Connection.(Required)"
     },
     "EIF": "https://express-is-fun.herokuapp.com/api",
-    "ADMINS": {
+    "ADMIN_GROUP_JID": {
       "required": false
     }
   },
