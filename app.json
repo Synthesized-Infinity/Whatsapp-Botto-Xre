@@ -22,6 +22,10 @@
     "PREFIX": {
       "description": "Prefix of your bot"
     },
+    "CRON": {
+      "description": "\"Cron\" string to clear all chats of the bot at specifed time",
+      "required": false
+    },
     "SESSION_ID": {
       "description": "A string for the session to be classified and to get acesss to the server endpoints"
     },
