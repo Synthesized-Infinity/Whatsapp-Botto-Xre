@@ -27,10 +27,20 @@ Run this to install the depencencies
 Create a file named `.env` then add the follwoing fields
 
 ```env
+BOTNAME=Xre
+PREFIX=!
+CRON=0 /6* * * *
+SESSION_ID=PROD
+ADMINS=[]
 MONGO_URI=YOUR_CLUSTER_URI
 EIF=https://express-is-fun.herokuapp.com/
-ADMIN_GROUP_JID=''
+ADMIN_GROUP_JID=
 ```
+`BOT_NAME` The name of the Bot <br>
+`PREFIX` The Prefix of the Bot <br>
+`CRON` Cron schedule for clearing all chats (Default: `"0 */6 * * *"`. Every 6 Hours). change this field to `null` if you don't want to schedule. [Learn More](https://www.npmjs.com/package/node-cron) <br>
+`SESSION_ID` A string to keep track of your session.
+`ADMINS` An Array of [JIDs](https://adiwajshing.github.io/Baileys/interfaces/wauser.html#jid) of the users who you want to the Admins/Mods for the bot <br>
 `MONGO_URI` is the Connection URL to your DB
 To get the connection URL there are two ways
 
@@ -45,19 +55,6 @@ Follow the instructions [here](https://docs.mongodb.com/manual/installation/) to
 If you want the chatbot functionality add this url there: `https://express-is-fun.herokuapp.com`. Leave it empty if you don't want the chatbot functionality
 
 `ADMIN_GROUP_JID` If this field is provied, the members of this group will automatically become admins (use the command `id` to get the jid)
-
-```JSON
-{
-    "name": "Xre",
-    "prefix": "!",
-    "cron": "0 */6 * * *",
-    "admins": []
-}
-```
-`name` The name of the Bot <br>
-`prefix` The Prefix of the Bot <br>
-`cron` Cron schedule for clearing all chats (Default: `"0 */6 * * *"`. Every 6 Hours). change this field to `null` if you don't want to schedule. [Learn More](https://www.npmjs.com/package/node-cron) <br>
-`admins (optional but recomended)` The [JIDs](https://adiwajshing.github.io/Baileys/interfaces/wauser.html#jid) of the users who you want to the Admins/Mods for the bot <br>
 
 ## ⌨ Building
 
