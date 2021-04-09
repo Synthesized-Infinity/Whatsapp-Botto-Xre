@@ -1,5 +1,4 @@
 import axios, { AxiosRequestConfig } from 'axios'
-import CreateSticker from './sticker'
 import Embed from './Embed'
 import { readFileSync } from 'fs-extra'
 import { join } from 'path'
@@ -13,8 +12,6 @@ export default class Utils {
     static randomNumber = (min: number, max: number): number => Math.floor(Math.random() * max) + min
 
     static capitalize = (text: string): string => `${text.charAt(0).toUpperCase()}${text.slice(1)}`
-
-    static createSticker = CreateSticker
 
     static Embed = Embed
 
