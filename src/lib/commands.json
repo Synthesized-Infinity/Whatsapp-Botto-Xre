@@ -48,6 +48,21 @@
             "command": "sticker",
             "description": "Converts images/videos into sticker",
             "usage": "sticker as caption of an image/video"
+        },
+        {
+            "command": "yts",
+            "description": "Searches for videos on https://youtube.com",
+            "usage": "yts searc_term"
+        },
+        {
+            "command": "ytv",
+            "description": "Downloads and sends the given YouTube Video URL",
+            "usage": "ytv url"
+        },
+        {
+            "command": "yta",
+            "description": "Downloads and sends the given YouTube Video URL as audio",
+            "usage": "yta url"
         }
     ],
     "weeb": [
