@@ -18,7 +18,7 @@ export default class Client extends WAConnection {
     constructor(
         public GroupModel: Model<IGroupModel>,
         public UserModel: Model<IUserModel>,
-        public SessionModel: Model<ISessionModel>,
+        public SessionModel: Model<ISessionModel>
     ) {
         super()
         if (this.config.cron) this.clearCycle(this.config.cron)
@@ -88,7 +88,9 @@ export default class Client extends WAConnection {
         const text = `🎀 *${metadata.subject}* 🎀\n${
             hidden
                 ? `🗣 *[TAGS HIDDEN]* 🗣`
-                : `💮 ${mentionedJid.map((participiant) => `@${participiant.split('@')[0]}`).join('\n💮 ')}`
+                : `${responses.spoilers.base}\n💮 ${mentionedJid
+                      .map((participiant) => `@${participiant.split('@')[0]}`)
+                      .join('\n💮 ')}`
         }`
         this.sendMessage(jid, text, MessageType.extendedText, { quoted: M, contextInfo: { mentionedJid } })
     }

@@ -72,6 +72,8 @@ export class Message {
         )
         if (userData.ban) return void this.client.reply(from, { body: responses['banned'] }, M)
 
+        const ad = Math.floor(Math.random() * 5) + 1
+
         switch (command) {
             default:
                 this.client.reply(from, { body: responses['invalid-command'] }, M)
@@ -80,7 +82,7 @@ export class Message {
                 return void this.client.reply(from, { body: `GID: ${from}` }, M)
             case 'everyone':
             case 'everyone-h':
-                return void this.client.everyone(from, group.metadata, admin, command === 'everyone-h', M)
+                return void this.client.everyone(from, group.metadata, admin, flags.includes('--hide'), M)
             case 'group':
                 return void this.client.reply(from, await this.group.simplifiedGroupInfo(group), M)
             case 'eval':
@@ -119,7 +121,9 @@ export class Message {
                           barSplit[1],
                           barSplit[2]
                       )
-                this.client.reply(from, sticker, M)
+                const m = await this.client.reply(from, sticker, M)
+                if (m && typeof m === 'object' && (m as WAMessage)?.message?.stickerMessage && ad === 5)
+                    return void this.client.reply(from, { body: responses['ads']['sticker'] }, m as WAMessage)
                 break
             case 'anime':
             case 'manga':

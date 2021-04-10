@@ -5,7 +5,6 @@ import qr from 'qr-image'
 import moment from 'moment-timezone'
 import { writeFileSync } from 'fs-extra'
 
-
 import { Web, BaseRoutes } from './Web'
 import { Message } from './Handler'
 import { GroupEx } from './lib'
@@ -13,6 +12,12 @@ import { EventHandler as EvHandler } from './Handler'
 import { schema } from './Mongo'
 
 export const start = async (PORT: number, MONGO_URI: string): Promise<void> => {
+    if (!process.env.SESSION_ID) {
+        console.log(
+            chalk.redBright('Specify the SESSION_ID in your config vars to start', process.env.BOT_NAME || 'Xre')
+        )
+        process.exit()
+    }
     const client = new Client(schema.group, schema.user, schema.session)
 
     const db = mongoose.connection
