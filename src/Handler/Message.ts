@@ -81,7 +81,6 @@ export class Message {
             case 'id':
                 return void this.client.reply(from, { body: `GID: ${from}` }, M)
             case 'everyone':
-            case 'everyone-h':
                 return void this.client.everyone(from, group.metadata, admin, flags.includes('--hide'), M)
             case 'group':
                 return void this.client.reply(from, await this.group.simplifiedGroupInfo(group), M)
