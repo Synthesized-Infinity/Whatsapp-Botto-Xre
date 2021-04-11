@@ -55,8 +55,7 @@ export const start = async (PORT: number, MONGO_URI: string): Promise<void> => {
         )
     )
 
-    const Router = new BaseRoutes(client, web)
-    Router.start()
+    new BaseRoutes(client, web)
 
     const GroupExtention = new GroupEx(client)
     const MessageHandler = new Message(client, GroupExtention)
@@ -78,7 +77,7 @@ export const start = async (PORT: number, MONGO_URI: string): Promise<void> => {
             chalk.green('[SERVER]'),
             chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')),
             chalk.yellow('Scan the QR Code to Proceed You can also Authenticate at'),
-            chalk.blueBright(`http://localhost:${web.PORT}/qr?session=${process.env.SESSION_ID || 'PROD'}`)
+            chalk.blueBright(`http://localhost:${web.PORT}/client/qr?session=${process.env.SESSION_ID || 'PROD'}`)
         )
     })
 
