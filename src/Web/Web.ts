@@ -1,6 +1,6 @@
 import express from 'express'
 import { EventEmitter } from 'events'
-import Client from '../Client'
+import { Client } from '../Client'
 
 export class Web extends EventEmitter {
     app: express.Express

@@ -1,10 +1,9 @@
-import { MessageType, proto, WAMessage } from '@adiwajshing/baileys'
+import { MessageType, proto, WAGroupMetadata, WAMessage } from '@adiwajshing/baileys'
 import chalk from 'chalk'
-import Client from '../Client'
+import { Client } from '../Client'
 import {
     createSticker,
     help,
-    GroupEx,
     toggleableGroupActions,
     getWById,
     wSearch,
@@ -17,7 +16,7 @@ import Utils from '../Utils'
 import { IParsedArgs } from '../Typings'
 export class Message {
     validTypes = [MessageType.text, MessageType.image, MessageType.video, MessageType.extendedText]
-    constructor(private client: Client, public group: GroupEx) {}
+    constructor(private client: Client) {}
 
     handleGroupMessage = async (M: WAMessage): Promise<void> => {
         const from = M.key.remoteJid
@@ -25,6 +24,15 @@ export class Message {
 
         const { message } = M
         if (!message) return
+
+        const sender = M.participant
+
+        const group = await this.client.getGroupInfo(from)
+
+        const { user, data: userData } = await this.client.getUser(sender)
+        const [admin, iAdmin] = [group.admins.includes(sender), group.admins.includes(this.client.user.jid)]
+        const username = user?.notify || user?.vname || user?.name || ''
+        if (group.data.safe && !admin && iAdmin && (await this.checkMessageForNSFWandAct(M, username, group.metadata))) return void null 
         const { body, media } = this.getBase(M, message)
         if (!body) return
         const opt = this.parseArgs(body)
@@ -33,7 +41,6 @@ export class Message {
 
         if (!args[0].startsWith(this.client._config.prefix)) return this.freeText(body, M)
         const command = args[0].slice(1).toLowerCase()
-
         if (!command)
             return void this.client.reply(
                 from,
@@ -47,19 +54,13 @@ export class Message {
 
         const barSplit = slicedJoinedArgs.includes('|') ? slicedJoinedArgs.split('|') : []
 
-        const sender = M.participant
         const mentioned = message?.extendedTextMessage?.contextInfo?.mentionedJid
             ? message.extendedTextMessage.contextInfo?.mentionedJid
             : message?.extendedTextMessage?.contextInfo?.participant
             ? [message.extendedTextMessage.contextInfo.participant]
             : []
 
-        const group = await this.client.getGroupInfo(from)
 
-        const { user, data: userData } = await this.client.getUser(sender)
-
-        const username = user?.notify || user?.vname || user?.name || ''
-        const [admin, iAdmin] = [group.admins.includes(sender), group.admins.includes(this.client.user.jid)]
         const mod = this.client._config.admins.includes(sender)
         console.log(
             chalk.green('[EXEC]'),
@@ -83,7 +84,7 @@ export class Message {
             case 'everyone':
                 return void this.client.everyone(from, group.metadata, admin, flags.includes('--hide'), M)
             case 'group':
-                return void this.client.reply(from, await this.group.simplifiedGroupInfo(group), M)
+                return void this.client.reply(from, await this.client.group.simplifiedGroupInfo(group), M)
             case 'eval':
                 if (mod) return void eval(slicedJoinedArgs)
                 break
@@ -91,7 +92,7 @@ export class Message {
                 return void this.client.reply(
                     from,
                     from === process.env.ADMIN_GROUP_JID
-                        ? await this.group.join(slicedJoinedArgs, mod, username)
+                        ? await this.client.group.join(slicedJoinedArgs, mod, username)
                         : { body: responses['cannot-execute'] },
                     M
                 )
@@ -106,7 +107,7 @@ export class Message {
             case 'promote':
             case 'demote':
             case 'remove':
-                this.client.reply(from, await this.group.toggleEvent(from, mentioned || [], admin, iAdmin, command), M)
+                this.client.reply(from, await this.client.group.toggleEvent(from, mentioned || [], admin, iAdmin, command), M)
                 break
             case 'help':
                 this.client.reply(from, { body: help(this.client, slicedJoinedArgs.toLowerCase().trim()) }, M)
@@ -145,7 +146,7 @@ export class Message {
             case 'unregister':
                 return void this.client.reply(
                     from,
-                    await this.group.register(
+                    await this.client.group.register(
                         admin,
                         group.data,
                         command === 'register',
@@ -216,7 +217,7 @@ export class Message {
             default:
                 return void this.client.reply(from, { body: responses['direct-message-cmd'] }, M)
             case 'join':
-                return void this.client.reply(from, await this.group.join(body, mod, username))
+                return void this.client.reply(from, await this.client.group.join(body, mod, username))
             case 'eval':
                 if (mod) return void eval(args.slice(1).join(' ').trim())
                 break
@@ -304,5 +305,16 @@ export class Message {
             )
             if (body) this.client.reply(from, { body }, M)
         }
+    }
+
+    checkMessageForNSFWandAct = async (M: WAMessage, username: string, metadata: WAGroupMetadata): Promise<boolean> => {
+        if (!M.message?.imageMessage) return false
+        if (await this.client.ML.nsfw.check(await this.client.downloadMediaMessage(M))) {
+            await this.client.reply(metadata.id, { body: responses['nsfw-detected']}, M)
+            await this.client.group.toggleEvent(metadata.id, [M.participant], true, true, 'remove')
+            console.log(chalk.redBright('[NSFW]'), chalk.yellow(moment((M.messageTimestamp as number * 1000)).format('DD/MM HH:mm:ss')), 'By', chalk.red(username), 'in', chalk.red(metadata.subject))
+            return true
+        }
+        return false
     }
 }

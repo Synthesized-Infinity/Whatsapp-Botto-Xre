@@ -1,4 +1,4 @@
-import Client from '../Client'
+import { Client } from '../Client'
 import commands from './commands.json'
 import Utils from '../Utils'
 import responses from './responses.json'

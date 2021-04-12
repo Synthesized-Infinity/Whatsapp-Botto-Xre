@@ -1,6 +1,6 @@
 import chalk from 'chalk'
 import { Router, Request } from 'express'
-import Client from '../../Client'
+import { Client } from '../../Client'
 import { Web } from '../Web'
 import endpoints from '../../lib/endpoints.json'
 import moment from 'moment-timezone'

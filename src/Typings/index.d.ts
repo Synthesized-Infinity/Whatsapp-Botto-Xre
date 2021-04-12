@@ -47,6 +47,7 @@ export interface IGroup {
     jid: string
     events: boolean
     nsfw: boolean
+    safe: boolean
 }
 
 export interface IUserModel extends IUser, Document {}

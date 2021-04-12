@@ -29,6 +29,7 @@
     "no-search-results": "❌ Couldn't find any results on the trem *{T}*",
     "invalid-url": "Invalid {W} 📘 *URL: {U}*",
     "video-duration-clause": "🕐 Cannot fetch videos longer than *10 Minutes*",
+    "nsfw-detected": "*NSFW Detected*❗",
     "ads": {
         "sticker": "*Sticker Creation Powered By https://npmjs.com/package/wa-sticker-formatter*"
     },

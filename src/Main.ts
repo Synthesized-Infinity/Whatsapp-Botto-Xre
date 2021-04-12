@@ -1,4 +1,4 @@
-import Client from './Client'
+import { Client } from './Client'
 import chalk from 'chalk'
 import mongoose from 'mongoose'
 import qr from 'qr-image'
@@ -7,7 +7,6 @@ import { writeFileSync } from 'fs-extra'
 
 import { Web, BaseRoutes } from './Web'
 import { Message } from './Handler'
-import { GroupEx } from './lib'
 import { EventHandler as EvHandler } from './Handler'
 import { schema } from './Mongo'
 
@@ -56,9 +55,7 @@ export const start = async (PORT: number, MONGO_URI: string): Promise<void> => {
     )
 
     new BaseRoutes(client, web)
-
-    const GroupExtention = new GroupEx(client)
-    const MessageHandler = new Message(client, GroupExtention)
+    const MessageHandler = new Message(client)
     const EventHandler = new EvHandler(client)
     //Events
 

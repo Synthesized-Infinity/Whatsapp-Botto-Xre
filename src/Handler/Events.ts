@@ -1,6 +1,6 @@
 import { MessageType } from '@adiwajshing/baileys'
 import chalk from 'chalk'
-import Client from '../Client'
+import { Client } from '../Client'
 import Utils from '../Utils'
 import moment from 'moment-timezone'
 import { IEvent, IGroupinfo } from '../Typings'
