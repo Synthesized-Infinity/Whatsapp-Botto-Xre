@@ -29,7 +29,7 @@ export const start = async (PORT: number, MONGO_URI: string): Promise<void> => {
         )
     )
 
-    await mongoose.connect(MONGO_URI, {
+    await mongoose.connect(encodeURI(MONGO_URI), {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useCreateIndex: true
