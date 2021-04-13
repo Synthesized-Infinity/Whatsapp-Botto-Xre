@@ -9,7 +9,6 @@
 ## [WhatsApp Group](https://chat.whatsapp.com/JykPXBsyo6Z0TqEJcABZ2b)
 
 > A WhatsApp Bot Built on Top of [Baileys](https://github.com/adiwajshing/baileys) <br>
-> Work in progress. More features and commands will be added soon
 
 </div><br/>
 <br/>
