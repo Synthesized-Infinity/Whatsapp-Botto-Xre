@@ -8,8 +8,7 @@
 
 ## [WhatsApp Group](https://chat.whatsapp.com/JykPXBsyo6Z0TqEJcABZ2b)
 
-> A WhatsApp Bot Built on Top of [Baileys](https://github.com/adiwajshing/baileys) <br>
-> Work in progress. More features and commands will be added soon
+> A Lightweight & Efficient Whatsapp Bot Packed With Features <br>
 
 </div><br/>
 <br/>
@@ -18,9 +17,10 @@
 - 💖 Object Oriented 
 - 💙 Written in [TypeScript](https://www.typescriptlang.org/)
 - 💛 Event-Based 
-- 💚 [Express](https://expressjs.com/) Contorl Panel
+- 💚 [Express](https://expressjs.com/) Control Panel
 - 💜 Self-Resoting Auth
 - 💝 Built with [Baileys](https://github.com/adiwajshing/baileys) (The Best WhatsApp Library Out There) 
+- 🖤 Integrated NSFW(Not Safe For Work) detection based on Tensorflow ML
 
 ## 💮 Self-Hosting
  
