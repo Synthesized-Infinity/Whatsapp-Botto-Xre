@@ -11,8 +11,15 @@ export class BaseRoutes {
     constructor(public client: Client, public web: Web) {
         this.web.app.use('/client', this.clientRouter)
         this.web.app.get('/', (req, res) => res.json({ message: 'Hi there'}))
+        this.web.app.get('/wakemydyno.txt', async (req, res) => {
+            res.setHeader('Content-disposition', 'attachment; filename=wakemydyno.txt')
+            res.setHeader('Content-type', 'text/plain')
+            res.charset = 'UTF-8'
+            res.send(
+                'Oneechan This Endpoint Is Not For You (づ｡◕‿‿◕｡)づ.  This is for http://wakemydyno.com/ to ping me'
+            )
+        })
         this.clientRouter.use((req, res, next) => {
-            if (req.url.includes('wakemydyno')) return next()
             const auth = this.auth(req)
             const t = typeof auth === 'boolean'
             console.log(
@@ -93,15 +100,6 @@ export class BaseRoutes {
                 if (typeof auth === 'object') return res.json(auth)
                 if (!req.query.id) return res.json({ message: 'Not Found' })
                 return res.json({ pfp: await this.client.getPfp(req.query.id as string) })
-            })
-    
-            this.clientRouter.get('/wakemydyno.txt', async (req, res) => {
-                res.setHeader('Content-disposition', 'attachment; filename=wakemydyno.txt')
-                res.setHeader('Content-type', 'text/plain')
-                res.charset = 'UTF-8'
-                res.send(
-                    'Oneechan This Endpoint Is Not For You (づ｡◕‿‿◕｡)づ.  This is for http://wakemydyno.com/ to ping me'
-                )
             })
         })
     }
