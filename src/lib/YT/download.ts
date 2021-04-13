@@ -13,9 +13,11 @@ export const download = async (url: string, type: 'video' | 'audio'): Promise<IR
     if (Number(info.lengthSeconds) > 600) return responses['video-duration-clause']
     const stream = createWriteStream(filename)
     ytdl(url, { quality: video ? 'highestaudio' : 'highestvideo' }).pipe(stream)
-    await new Promise((resolve) => {
+    await new Promise((resolve, reject) => {
         stream.on('close', resolve)
         stream.on('end', resolve)
+        stream.on('finish', resolve)
+        stream.on('error', reject)
     })
     const caption = `📗 *Title:* ${info.title}\n📙 *Description:* ${info.description}\n📘 *Author:* ${info.author}`
     return { body: await readFile(filename), caption }
