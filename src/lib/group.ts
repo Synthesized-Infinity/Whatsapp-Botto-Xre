@@ -88,7 +88,12 @@ export class GroupEx {
 
     simplifiedGroupInfo = async (info: IGroupinfo): Promise<IReply> => {
         const { metadata, data } = info
-        const [safe, events, NSFW, icon] = [data?.safe || false, data?.events || false, data?.nsfw || false, await this.client.getPfp(metadata.id)]
+        const [safe, events, NSFW, icon] = [
+            data?.safe || false,
+            data?.events || false,
+            data?.nsfw || false,
+            await this.client.getPfp(metadata.id)
+        ]
         const owner = this.client.contacts[metadata.owner]
         return {
             body: icon ? await Utils.download(icon) : Utils.yui404,
@@ -100,7 +105,9 @@ export class GroupEx {
                 metadata.participants.length
             }\n\n🏅 *Admins:* ${
                 metadata.participants.filter((participiant) => participiant.isAdmin).length
-            }\n\n🔮 *Events:* ${events}\n\n🌟 *Safe:* ${safe}\n\n🔞 *NSFW:* ${NSFW}\n\n〽 *Description:* ${metadata.desc}`,
+            }\n\n🔮 *Events:* ${events}\n\n🌟 *Safe:* ${safe}\n\n🔞 *NSFW:* ${NSFW}\n\n〽 *Description:* ${
+                metadata.desc
+            }`,
             type: MessageType.image
         }
     }

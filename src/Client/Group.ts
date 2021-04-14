@@ -3,7 +3,6 @@ import { IGroupinfo } from '../Typings'
 import { Client as Base } from './ML'
 
 export class Client extends Base {
-    
     group = new GroupEx(this)
 
     async getGroupInfo(jid: string): Promise<IGroupinfo> {

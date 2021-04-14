@@ -1,15 +1,7 @@
 import { MessageType, proto, WAGroupMetadata, WAMessage } from '@adiwajshing/baileys'
 import chalk from 'chalk'
 import { Client } from '../Client'
-import {
-    createSticker,
-    help,
-    toggleableGroupActions,
-    getWById,
-    wSearch,
-    ytSreach,
-    getYTMediaFromUrl
-} from '../lib'
+import { createSticker, help, toggleableGroupActions, getWById, wSearch, ytSreach, getYTMediaFromUrl } from '../lib'
 import moment from 'moment-timezone'
 import responses from '../lib/responses.json'
 import Utils from '../Utils'
@@ -21,24 +13,22 @@ export class Message {
     handleGroupMessage = async (M: WAMessage): Promise<void> => {
         const from = M.key.remoteJid
         if (!from) return
-
         const { message } = M
         if (!message) return
-
         const sender = M.participant
 
+        const mod = this.client._config.admins.includes(sender)
         const group = await this.client.getGroupInfo(from)
-
         const { user, data: userData } = await this.client.getUser(sender)
         const [admin, iAdmin] = [group.admins.includes(sender), group.admins.includes(this.client.user.jid)]
         const username = user?.notify || user?.vname || user?.name || ''
-        if (group.data.safe && !admin && iAdmin && (await this.checkMessageForNSFWandAct(M, username, group.metadata))) return void null 
+        if (group.data.safe && !admin && iAdmin && (await this.checkMessageForNSFWandAct(M, username, group.metadata)))
+            return void null
         const { body, media } = this.getBase(M, message)
         if (!body) return
         const opt = this.parseArgs(body)
         if (!opt) return
         const { args, flags } = opt
-
         if (!args[0].startsWith(this.client._config.prefix)) return this.freeText(body, M)
         const command = args[0].slice(1).toLowerCase()
         if (!command)
@@ -60,8 +50,6 @@ export class Message {
             ? [message.extendedTextMessage.contextInfo.participant]
             : []
 
-
-        const mod = this.client._config.admins.includes(sender)
         console.log(
             chalk.green('[EXEC]'),
             chalk.blue(moment(Number(M.messageTimestamp) * 1000).format('DD/MM HH:mm:ss')),
@@ -107,7 +95,11 @@ export class Message {
             case 'promote':
             case 'demote':
             case 'remove':
-                this.client.reply(from, await this.client.group.toggleEvent(from, mentioned || [], admin, iAdmin, command), M)
+                this.client.reply(
+                    from,
+                    await this.client.group.toggleEvent(from, mentioned || [], admin, iAdmin, command),
+                    M
+                )
                 break
             case 'help':
                 this.client.reply(from, { body: help(this.client, slicedJoinedArgs.toLowerCase().trim()) }, M)
@@ -310,9 +302,16 @@ export class Message {
     checkMessageForNSFWandAct = async (M: WAMessage, username: string, metadata: WAGroupMetadata): Promise<boolean> => {
         if (!M.message?.imageMessage) return false
         if (await this.client.ML.nsfw.check(await this.client.downloadMediaMessage(M))) {
-            await this.client.reply(metadata.id, { body: responses['nsfw-detected']}, M)
+            await this.client.reply(metadata.id, { body: responses['nsfw-detected'] }, M)
             await this.client.group.toggleEvent(metadata.id, [M.participant], true, true, 'remove')
-            console.log(chalk.redBright('[NSFW]'), chalk.yellow(moment((M.messageTimestamp as number * 1000)).format('DD/MM HH:mm:ss')), 'By', chalk.red(username), 'in', chalk.red(metadata.subject))
+            console.log(
+                chalk.redBright('[NSFW]'),
+                chalk.yellow(moment((M.messageTimestamp as number) * 1000).format('DD/MM HH:mm:ss')),
+                'By',
+                chalk.red(username),
+                'in',
+                chalk.red(metadata.subject)
+            )
             return true
         }
         return false

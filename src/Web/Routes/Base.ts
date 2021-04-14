@@ -10,7 +10,7 @@ export class BaseRoutes {
 
     constructor(public client: Client, public web: Web) {
         this.web.app.use('/client', this.clientRouter)
-        this.web.app.get('/', (req, res) => res.json({ message: 'Hi there'}))
+        this.web.app.get('/', (req, res) => res.json({ message: 'Hi there' }))
         this.web.app.get('/wakemydyno.txt', async (req, res) => {
             res.setHeader('Content-disposition', 'attachment; filename=wakemydyno.txt')
             res.setHeader('Content-type', 'text/plain')
@@ -43,23 +43,23 @@ export class BaseRoutes {
                 })
                 res.end(this.web.QR)
             })
-    
+
             this.clientRouter.get('/state', (req, res) => {
                 res.json({ state: this.client.state })
             })
             this.web.app.get('/endpoints', (req, res) => {
                 res.json(endpoints)
             })
-    
+
             this.clientRouter.get('/config', (req, res) => {
                 res.json(this.client._config)
             })
-    
+
             this.clientRouter.get('/user', (req, res) => {
                 const json = req.query.jid ? this.client.contacts[String(req.query.jid)] || {} : this.client.user
                 res.json(json)
             })
-    
+
             this.clientRouter.get('/wa', async (req, res) => {
                 const query = req.query
                 if (query?.state === this.connectionOptions[1]) {
@@ -84,7 +84,7 @@ export class BaseRoutes {
                 }
                 return res.json({ message: 'Invalid Query' })
             })
-    
+
             this.clientRouter.get('/session', async (req, res) => {
                 if (req.query.delete) {
                     const ID = process.env.SESSION_ID || 'PROD'
@@ -94,7 +94,7 @@ export class BaseRoutes {
                 }
                 return res.json(this.client.base64EncodedAuthInfo())
             })
-    
+
             this.clientRouter.get('/pfp', async (req, res) => {
                 const auth = this.auth(req)
                 if (typeof auth === 'object') return res.json(auth)

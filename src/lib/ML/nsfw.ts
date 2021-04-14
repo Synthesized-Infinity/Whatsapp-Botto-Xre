@@ -2,9 +2,8 @@ import * as tf from '@tensorflow/tfjs-node'
 import * as nsfw from 'nsfwjs'
 
 export class MlNsfw {
-
     nsfwModel!: nsfw.NSFWJS
-    
+
     constructor() {
         nsfw.load().then((m) => {
             this.nsfwModel = m

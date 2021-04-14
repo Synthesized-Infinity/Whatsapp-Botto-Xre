@@ -18,7 +18,7 @@ export class Client extends WAConnection {
     constructor(
         public GroupModel: Model<IGroupModel>,
         public UserModel: Model<IUserModel>,
-        public SessionModel: Model<ISessionModel>,
+        public SessionModel: Model<ISessionModel>
     ) {
         super()
         if (this.config.cron) this.clearCycle(this.config.cron)
