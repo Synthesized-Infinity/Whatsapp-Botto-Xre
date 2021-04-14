@@ -4,6 +4,21 @@
             "command": "help",
             "description": "Well....",
             "usage": "help"
+        },
+        {
+            "command": "group",
+            "description": "Displays the group info",
+            "usage": "group"
+        },
+        {
+            "command": "info",
+            "description": "Displays my info",
+            "usage": "info"
+        },
+        {
+            "command": "commits",
+            "description": "Displays all the latest code commits on me",
+            "usage": "commits"
         }
     ],
     "admin": [
