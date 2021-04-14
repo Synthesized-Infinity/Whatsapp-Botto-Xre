@@ -1,7 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import Embed from './Embed'
-import { readFileSync } from 'fs-extra'
-import { join } from 'path'
+
 export default class Utils {
     /* eslint-disable @typescript-eslint/no-explicit-any*/
     static fetch = async (url: string, options: AxiosRequestConfig): Promise<Buffer | any> =>
@@ -20,6 +19,4 @@ export default class Utils {
     static urlRegExp = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/
 
     static urlMatch = (text: string): RegExpMatchArray | null => text.match(Utils.urlRegExp)
-
-    static yui404 = readFileSync(join(__dirname, '..', '..', 'assets', 'images', 'yui.jpg'))
 }

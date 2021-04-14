@@ -1,4 +1,4 @@
-import { MessageType, proto, WAGroupMetadata, WAMessage } from '@adiwajshing/baileys'
+import { MessageType, Mimetype, proto, WAGroupMetadata, WAMessage } from '@adiwajshing/baileys'
 import chalk from 'chalk'
 import { Client } from '../Client'
 import { createSticker, help, toggleableGroupActions, getWById, wSearch, ytSreach, getYTMediaFromUrl } from '../lib'
@@ -6,6 +6,8 @@ import moment from 'moment-timezone'
 import responses from '../lib/responses.json'
 import Utils from '../Utils'
 import { IParsedArgs } from '../Typings'
+import { readFile } from 'fs-extra'
+import { join } from 'path'
 export class Message {
     validTypes = [MessageType.text, MessageType.image, MessageType.video, MessageType.extendedText]
     constructor(private client: Client) {}
@@ -62,99 +64,112 @@ export class Message {
         if (userData.ban) return void this.client.reply(from, { body: responses['banned'] }, M)
 
         const ad = Math.floor(Math.random() * 5) + 1
-
-        switch (command) {
-            default:
-                this.client.reply(from, { body: responses['invalid-command'] }, M)
-                break
-            case 'id':
-                return void this.client.reply(from, { body: `GID: ${from}` }, M)
-            case 'everyone':
-                return void this.client.everyone(from, group.metadata, admin, flags.includes('--hide'), M)
-            case 'group':
-                return void this.client.reply(from, await this.client.group.simplifiedGroupInfo(group), M)
-            case 'eval':
-                if (mod) return void eval(slicedJoinedArgs)
-                break
-            case 'join':
-                return void this.client.reply(
-                    from,
-                    from === process.env.ADMIN_GROUP_JID
-                        ? await this.client.group.join(slicedJoinedArgs, mod, username)
-                        : { body: responses['cannot-execute'] },
-                    M
-                )
-            case 'ban':
-            case 'unban':
-                if (!mod || mentioned.length === 0) return
-                return this.client.banAction(from, mentioned, command === 'ban', M)
-                break
-            case 'hi':
-                this.client.reply(from, { body: `Hi! ${username}` }, M)
-                break
-            case 'promote':
-            case 'demote':
-            case 'remove':
-                this.client.reply(
-                    from,
-                    await this.client.group.toggleEvent(from, mentioned || [], admin, iAdmin, command),
-                    M
-                )
-                break
-            case 'help':
-                this.client.reply(from, { body: help(this.client, slicedJoinedArgs.toLowerCase().trim()) }, M)
-                break
-            case 'sticker':
-                const sticker = !media
-                    ? { body: responses['wrong-format-media'] }
-                    : await createSticker(
-                          await this.client.downloadMediaMessage(media),
-                          flags.includes('--strech'),
-                          barSplit[1],
-                          barSplit[2]
-                      )
-                const m = await this.client.reply(from, sticker, M)
-                if (m && typeof m === 'object' && (m as WAMessage)?.message?.stickerMessage && ad === 5)
-                    return void this.client.reply(from, { body: responses['ads']['sticker'] }, m as WAMessage)
-                break
-            case 'anime':
-            case 'manga':
-            case 'character':
-                this.client.reply(from, await wSearch(slicedJoinedArgs, this.client._config.prefix, command), M)
-                break
-            case 'aid':
-            case 'mid':
-            case 'chid':
-                this.client.reply(
-                    from,
-                    await getWById(
-                        slicedJoinedArgs,
-                        command === 'aid' ? 'anime' : command === 'mid' ? 'manga' : 'character'
-                    ),
-                    M
-                )
-                break
-            case 'register':
-            case 'unregister':
-                return void this.client.reply(
-                    from,
-                    await this.client.group.register(
-                        admin,
-                        group.data,
-                        command === 'register',
-                        slicedJoinedArgs.toLowerCase().trim() as toggleableGroupActions
-                    ),
-                    M
-                )
-            case 'yta':
-            case 'ytv':
-                return void this.client.reply(
-                    from,
-                    await getYTMediaFromUrl(slicedJoinedArgs.trim(), command === 'ytv' ? 'video' : 'audio'),
-                    M
-                )
-            case 'yts':
-                return void this.client.reply(from, { body: await ytSreach(slicedJoinedArgs.trim()) }, M)
+        try {
+            switch (command) {
+                default:
+                    this.client.reply(from, { body: responses['invalid-command'] }, M)
+                    break
+                case 'id':
+                    return void this.client.reply(from, { body: `GID: ${from}` }, M)
+                case 'everyone':
+                    return void this.client.everyone(from, group.metadata, admin, flags.includes('--hide'), M)
+                case 'group':
+                    return void this.client.reply(from, await this.client.group.simplifiedGroupInfo(group), M)
+                case 'eval':
+                    if (mod) return void eval(slicedJoinedArgs)
+                    break
+                case 'join':
+                    return void this.client.reply(
+                        from,
+                        from === process.env.ADMIN_GROUP_JID
+                            ? await this.client.group.join(slicedJoinedArgs, mod, username)
+                            : { body: responses['cannot-execute'] },
+                        M
+                    )
+                case 'ban':
+                case 'unban':
+                    if (!mod || mentioned.length === 0) return
+                    return this.client.banAction(from, mentioned, command === 'ban', M)
+                    break
+                case 'hi':
+                    this.client.reply(from, { body: `Hi! ${username}` }, M)
+                    break
+                case 'promote':
+                case 'demote':
+                case 'remove':
+                    this.client.reply(
+                        from,
+                        await this.client.group.toggleEvent(from, mentioned || [], admin, iAdmin, command),
+                        M
+                    )
+                    break
+                case 'help':
+                    this.client.reply(from, { body: help(this.client, slicedJoinedArgs.toLowerCase().trim()) }, M)
+                    break
+                case 'sticker':
+                    const sticker = !media
+                        ? { body: responses['wrong-format-media'] }
+                        : await createSticker(
+                              await this.client.downloadMediaMessage(media),
+                              flags.includes('--strech'),
+                              barSplit[1],
+                              barSplit[2]
+                          )
+                    const m = await this.client.reply(from, sticker, M)
+                    if (m && typeof m === 'object' && (m as WAMessage)?.message?.stickerMessage && ad === 5)
+                        return void this.client.reply(from, { body: responses['ads']['sticker'] }, m as WAMessage)
+                    break
+                case 'anime':
+                case 'manga':
+                case 'character':
+                    this.client.reply(from, await wSearch(slicedJoinedArgs, this.client._config.prefix, command), M)
+                    break
+                case 'aid':
+                case 'mid':
+                case 'chid':
+                    this.client.reply(
+                        from,
+                        await getWById(
+                            slicedJoinedArgs,
+                            command === 'aid' ? 'anime' : command === 'mid' ? 'manga' : 'character'
+                        ),
+                        M
+                    )
+                    break
+                case 'register':
+                case 'unregister':
+                    return void this.client.reply(
+                        from,
+                        await this.client.group.register(
+                            admin,
+                            group.data,
+                            command === 'register',
+                            slicedJoinedArgs.toLowerCase().trim() as toggleableGroupActions
+                        ),
+                        M
+                    )
+                case 'yta':
+                case 'ytv':
+                    return void this.client.reply(
+                        from,
+                        await getYTMediaFromUrl(slicedJoinedArgs.trim(), command === 'ytv' ? 'video' : 'audio'),
+                        M
+                    )
+                case 'yts':
+                    return void this.client.reply(from, { body: await ytSreach(slicedJoinedArgs.trim()) }, M)
+            }
+        } catch (err) {
+            console.log(err)
+            return void this.client.reply(
+                from,
+                {
+                    body: await readFile(join(this.client.assets, 'images', 'Error-500.gif')),
+                    caption: !mod ? responses.error[500].regular : responses.error[500].mod.replace('{M}', err.message),
+                    type: MessageType.video,
+                    mime: Mimetype.gif
+                },
+                M
+            )
         }
     }
 

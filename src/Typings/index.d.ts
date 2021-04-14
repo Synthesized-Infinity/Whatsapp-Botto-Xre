@@ -1,4 +1,4 @@
-import { WAGroupMetadata } from '@adiwajshing/baileys'
+import { Mimetype, WAGroupMetadata } from '@adiwajshing/baileys'
 import { Document } from 'mongoose'
 export interface IGroupinfo {
     metadata: WAGroupMetadata
@@ -17,6 +17,7 @@ export interface IReply {
     body: string | Buffer
     type?: MessageType
     caption?: string
+    mime?: Mimetype
 }
 
 export interface IEvent {

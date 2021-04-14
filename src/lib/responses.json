@@ -30,6 +30,12 @@
     "invalid-url": "Invalid {W} 📘 *URL: {U}*",
     "video-duration-clause": "🕐 Cannot fetch videos longer than *10 Minutes*",
     "nsfw-detected": "*NSFW Detected*❗",
+    "error": {
+        "500": {
+            "mod": "{M} | Report this at https://github.com/SomnathDas/Whatsapp-Botto-Xre/issues if you are using the latest commit",
+            "regular": "An Error Occured [Code: 500]"
+        }
+    },
     "ads": {
         "sticker": "*Sticker Creation Powered By https://npmjs.com/package/wa-sticker-formatter*"
     },

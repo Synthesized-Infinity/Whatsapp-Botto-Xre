@@ -4,6 +4,8 @@ import Utils from '../Utils'
 import responses from './responses.json'
 import moment from 'moment-timezone'
 import { IGroup, IGroupinfo, IReply } from '../Typings'
+import { join } from 'path'
+import { readFile } from 'fs-extra'
 export class GroupEx {
     constructor(public client: Client) {}
 
@@ -96,7 +98,7 @@ export class GroupEx {
         ]
         const owner = this.client.contacts[metadata.owner]
         return {
-            body: icon ? await Utils.download(icon) : Utils.yui404,
+            body: icon ? await Utils.download(icon) : await readFile(join(this.client.assets, 'images', 'yui.jpg')),
             caption: `💮 *Title:* ${metadata.subject}\n\n👑 *Created By:* ${
                 owner?.notify || owner?.vname || owner?.name || metadata.owner.split('@')[0]
             }\n\n📅 *Created On:* ${moment(metadata.creation * 1000).format('DD/MM HH:mm:ss')}\n\n🔊 *Announce:* ${
