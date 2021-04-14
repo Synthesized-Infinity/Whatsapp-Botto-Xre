@@ -8,6 +8,7 @@ import Utils from '../Utils'
 import { IParsedArgs } from '../Typings'
 import { readFile } from 'fs-extra'
 import { join } from 'path'
+import { info } from '../lib/info'
 export class Message {
     validTypes = [MessageType.text, MessageType.image, MessageType.video, MessageType.extendedText]
     constructor(private client: Client) {}
@@ -157,6 +158,8 @@ export class Message {
                     )
                 case 'yts':
                     return void this.client.reply(from, { body: await ytSreach(slicedJoinedArgs.trim()) }, M)
+                case 'info':
+                    return void this.client.reply(from, info(), M)
             }
         } catch (err) {
             console.log(err)
