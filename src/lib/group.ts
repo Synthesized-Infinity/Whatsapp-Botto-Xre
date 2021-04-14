@@ -41,7 +41,7 @@ export class GroupEx {
                     })
                     .join('\n')}`
             }
-        else return { body: responses['invalid-context'] }
+        return { body: responses['invalid-context'] }
     }
 
     register = async (
