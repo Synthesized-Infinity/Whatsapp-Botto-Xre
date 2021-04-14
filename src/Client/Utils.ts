@@ -1,4 +1,4 @@
-import { Browsers, MessageType, WAConnection, WAContact, WAGroupMetadata, WAMessage } from '@adiwajshing/baileys/'
+import { MessageType, WAConnection, WAContact, WAGroupMetadata, WAMessage } from '@adiwajshing/baileys/'
 import { Model } from 'mongoose'
 import responses from '../lib/responses.json'
 import { schedule, validate } from 'node-cron'
@@ -7,10 +7,11 @@ import moment from 'moment-timezone'
 import { IReply, IConfig, IGroupModel, IUserModel, ISessionModel, ISession } from '../Typings'
 import { existsSync } from 'fs-extra'
 import { join } from 'path'
+const browser: [string, string, string] = ['WhatsApp-Botto-Xre', 'Well', 'Indeed']
 export class Client extends WAConnection {
     assets = join(__dirname, '..', '..', 'assets')
 
-    browserDescription = Browsers.ubuntu('WhatsApp-Botto-Xre')
+    browserDescription = browser
     private config: IConfig = {
         name: process.env.BOT_NAME || 'Xre',
         prefix: process.env.PREFIX || '!',
