@@ -8,7 +8,7 @@ import Utils from '../Utils'
 import { IParsedArgs } from '../Typings'
 import { readFile } from 'fs-extra'
 import { join } from 'path'
-import { getCommits, info } from '../lib/info'
+import { getRepoInfo, info } from '../lib/info'
 export class Message {
     validTypes = [MessageType.text, MessageType.image, MessageType.video, MessageType.extendedText]
     constructor(private client: Client) {}
@@ -161,7 +161,8 @@ export class Message {
                 case 'info':
                     return void this.client.reply(from, info(), M)
                 case 'commits':
-                    return void this.client.reply(from, await getCommits(), M)
+                case 'issues':
+                    return void this.client.reply(from, await getRepoInfo(command), M)
             }
         } catch (err) {
             console.log(err)

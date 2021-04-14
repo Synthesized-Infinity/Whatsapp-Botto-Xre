@@ -19,6 +19,11 @@
             "command": "commits",
             "description": "Displays all the latest code commits on me",
             "usage": "commits"
+        },
+        {
+            "command": "issues",
+            "description": "Displays the issues with the Xre Repository",
+            "usage": "issues"
         }
     ],
     "admin": [
