@@ -1,4 +1,4 @@
-import { Client, validate } from './Client'
+import { Client } from './Client'
 import chalk from 'chalk'
 import mongoose from 'mongoose'
 import qr from 'qr-image'
@@ -11,8 +11,6 @@ import { EventHandler as EvHandler } from './Handler'
 import { schema } from './Mongo'
 
 export const start = async (PORT: number, MONGO_URI: string): Promise<void> => {
-    validate()
-
     const client = new Client(schema.group, schema.user, schema.session)
 
     const db = mongoose.connection
