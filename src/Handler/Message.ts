@@ -16,7 +16,7 @@ export class Message {
     handleGroupMessage = async (M: WAMessage): Promise<void> => {
         const from = M.key.remoteJid
         if (!from) return
-        const { message } = M
+        const { message } = M.message?.ephemeralMessage || M
         if (!message) return
         const sender = M.participant
 
