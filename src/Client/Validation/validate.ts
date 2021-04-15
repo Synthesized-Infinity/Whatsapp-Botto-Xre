@@ -2,7 +2,6 @@ import chalk from 'chalk'
 
 export const validate = (): void => {
     const missing: string[] = []
-    if (!process.env.BOT_NAME) missing.push('BOT_NAME')
     if (!process.env.SESSION_ID) missing.push('SESSION_ID')
     if (!process.env.MONGO_URI) missing.push('MONGO_URI')
     if (missing.length > 0) {
