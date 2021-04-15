@@ -16,19 +16,21 @@ export const info = (): IReply => {
 
 export const getRepoInfo = async (type: 'commits' | 'issues'): Promise<IReply> => {
     const data = await Utils.fetch(`https://api.github.com/repos/SomnathDas/Whatsapp-Botto-Xre/${type}`, {})
-    if (!data[0]) return { body: '💮 *No Issues open* 💮'}
+    if (!data[0]) return { body: '💮 *No Issues open* 💮' }
     let body = `🌟 *WhatsApp Botto Xre-Recent ${Utils.capitalize(type)}* 🌟\n\n`
     const len = data.length < 5 ? data.length : 5
     if (type === 'commits') {
         for (let c = 0; c < len; c++) {
-        body += `*#${c + 1}.*\n✉️ *Commit Message:* ${data[c].commit.message}\n📅 *Date:* ${
-            data[c].commit.author.date
-        }\n🔱 *Author:* ${data[c].commit.author.name}\n🍀 *URL*: ${data[c]['html_url']}\n\n`
+            body += `*#${c + 1}.*\n✉️ *Commit Message:* ${data[c].commit.message}\n📅 *Date:* ${
+                data[c].commit.author.date
+            }\n🔱 *Author:* ${data[c].commit.author.name}\n🍀 *URL*: ${data[c]['html_url']}\n\n`
         }
         return { body }
     }
     for (let i = 0; i < data.length; i++) {
-        body += `*#${i + 1}.*\n\n🔴 *Title: ${data[0].title}*\n🔱 *User:* ${data[i].user.login}\n〽️ URL: ${data[i].url}\n\n`
+        body += `*#${i + 1}.*\n\n🔴 *Title: ${data[0].title}*\n🔱 *User:* ${data[i].user.login}\n〽️ URL: ${
+            data[i].url
+        }\n\n`
     }
     return { body }
 }

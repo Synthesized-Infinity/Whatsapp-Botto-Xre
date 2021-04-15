@@ -1,4 +1,4 @@
-import { Client } from './Client'
+import { Client, validate } from './Client'
 import chalk from 'chalk'
 import mongoose from 'mongoose'
 import qr from 'qr-image'
@@ -11,12 +11,8 @@ import { EventHandler as EvHandler } from './Handler'
 import { schema } from './Mongo'
 
 export const start = async (PORT: number, MONGO_URI: string): Promise<void> => {
-    if (!process.env.SESSION_ID) {
-        console.log(
-            chalk.redBright('Specify the SESSION_ID in your config vars to start', process.env.BOT_NAME || 'Xre')
-        )
-        process.exit()
-    }
+    validate()
+
     const client = new Client(schema.group, schema.user, schema.session)
 
     const db = mongoose.connection
