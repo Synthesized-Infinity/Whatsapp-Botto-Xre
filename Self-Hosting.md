@@ -29,7 +29,7 @@ Create a file named `.env` then add the follwoing fields
 ```env
 BOTNAME=Xre
 PREFIX=!
-CRON=0 /6* * * *
+CRON=null
 SESSION_ID=PROD
 ADMINS=[]
 MONGO_URI=YOUR_CLUSTER_URI
