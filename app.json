@@ -30,7 +30,7 @@
       "description": "A string for the session to be classified and to get acesss to the server endpoints"
     },
     "ADMINS": {
-      "description": "The phone numbers of the users who you want to be admin ofr the bot (seperated by a comma \",\")",
+      "description": "The phone numbers of the users who you want to be admin for the bot (seperated by a comma \",\")",
       "required": false
     },
     "MONGO_URI": {
