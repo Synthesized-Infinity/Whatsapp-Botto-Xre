@@ -237,13 +237,14 @@ export class Message {
         }
     }
 
-    validate = (M: WAMessage): { type: MessageType; chat: 'group' | 'dm' } | false => {
+    validate = (Msg: WAMessage): { type: MessageType; chat: 'group' | 'dm' } | false => {
+        const M = Msg.message?.ephemeralMessage || Msg
         if (!M.message) return false
-        if (!!M.key.fromMe) return false
-        if (M.key.remoteJid?.endsWith('broadcast')) return false
+        if (!!Msg.key.fromMe) return false
+        if (Msg.key.remoteJid?.endsWith('broadcast')) return false
         const type = Object.keys(M.message)[0]
         if (!this.validTypes.includes(type as MessageType)) return false
-        return { type: type as MessageType, chat: M.key.remoteJid?.endsWith('g.us') ? 'group' : 'dm' }
+        return { type: type as MessageType, chat: Msg.key.remoteJid?.endsWith('g.us') ? 'group' : 'dm' }
     }
 
     getBase = (M: WAMessage, message: proto.IMessage): { body: string | null | undefined; media: WAMessage | null } => {
