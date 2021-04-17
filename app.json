@@ -14,7 +14,7 @@
   "website": "https://github.com/Synthesized-Infinity/Whatsapp-Botto-Xre#readme",
   "repository": "https://github.com/Synthesized-Infinity/Whatsapp-Botto-Xre.git",
   "logo": "https://i.ibb.co/F3sc7Nb/Purple-Music-Store-Etsy-Banner.png",
-  "success_url": "/qr",
+  "success_url": "/client/qr",
   "env": {
     "BOT_NAME": {
       "description": "Name of your bot"
