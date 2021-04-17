@@ -15,7 +15,7 @@ export class Client extends WAConnection {
     private config: IConfig = {
         name: process.env.BOT_NAME || 'Xre',
         prefix: process.env.PREFIX || '!',
-        admins: JSON.parse(process.env.ADMINS || '[]'),
+        admins: this.getMods(),
         cron: process.env.CRON || null
     }
 
@@ -31,6 +31,12 @@ export class Client extends WAConnection {
                 info.participants.filter((u) => u.isAdmin).map((admin) => void this.config.admins.push(admin.jid))
             )
         this.emit('config', this.config)
+    }
+
+    getMods(): string[] {
+        if (!process.env.ADMINS) return []
+        if (process.env.ADMINS.includes(',')) return process.env.ADMINS.replace(/\+/g, '').split(',').map((num) => `${num}@s.whatsapp.net`)
+        return [`${process.env.ADMINS}@s.whatsapp.net`]
     }
 
     async getSession(ID: string): Promise<ISession | false> {

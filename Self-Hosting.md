@@ -31,7 +31,7 @@ BOTNAME=Xre
 PREFIX=!
 CRON=null
 SESSION_ID=PROD
-ADMINS=[]
+ADMINS=
 MONGO_URI=YOUR_CLUSTER_URI
 EIF=https://express-is-fun.herokuapp.com/
 ADMIN_GROUP_JID=
@@ -40,7 +40,7 @@ ADMIN_GROUP_JID=
 `PREFIX` The Prefix of the Bot <br>
 `CRON` Cron schedule for clearing all chats (Default: `"0 */6 * * *"`. Every 6 Hours). change this field to `null` if you don't want to schedule. [Learn More](https://www.npmjs.com/package/node-cron) <br>
 `SESSION_ID` A string to keep track of your session.
-`ADMINS` An Array of [JIDs](https://adiwajshing.github.io/Baileys/interfaces/wauser.html#jid) of the users who you want to the Admins/Mods for the bot <br>
+`ADMINS` The phone numebers of users wo you want to be the bot's Admins seperated by a comma and must the numbers must be in the follwing format: `[cc][number]`. eg: `919744******`
 `MONGO_URI` is the Connection URL to your DB
 To get the connection URL there are two ways
 
