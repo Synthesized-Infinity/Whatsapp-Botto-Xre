@@ -47,9 +47,9 @@ export class Message {
 
         const barSplit = slicedJoinedArgs.includes('|') ? slicedJoinedArgs.split('|') : []
 
-        const mentioned = message?.extendedTextMessage?.contextInfo?.mentionedJid
+        const mentioned = (message?.extendedTextMessage?.contextInfo?.mentionedJid && (message.extendedTextMessage.contextInfo.mentionedJid.length > 0))
             ? message.extendedTextMessage.contextInfo?.mentionedJid
-            : message?.extendedTextMessage?.contextInfo?.participant
+            : message.extendedTextMessage?.contextInfo?.quotedMessage && message.extendedTextMessage.contextInfo.participant
             ? [message.extendedTextMessage.contextInfo.participant]
             : []
 
@@ -100,7 +100,7 @@ export class Message {
                 case 'remove':
                     this.client.reply(
                         from,
-                        await this.client.group.toggleEvent(from, mentioned || [], admin, iAdmin, command),
+                        await this.client.group.toggleEvent(from, mentioned, admin, iAdmin, command),
                         M
                     )
                     break
