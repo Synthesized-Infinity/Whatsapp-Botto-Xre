@@ -30,9 +30,8 @@ export class GroupEx {
             case 'remove':
                 contacts.forEach((user) => this.client.groupRemove(chat, [user]))
         }
-        if (mod.status >= 200 && mod.participants)
-            return {
-                body: `Execution Successful\n\n${Utils.capitalize(type)}:\n${mod.participants
+        return {
+                body: `Execution Successful\n\n${Utils.capitalize(type)}:\n${mod?.participants || []
                     .map((user: { [k: string]: { code: number } }) => {
                         const key = Object.keys(user)?.[0]
                         if (!key || user[key].code < 200) return ''
@@ -40,8 +39,7 @@ export class GroupEx {
                         return conatct?.notify || conatct?.vname || conatct?.name || key.split('@')[0]
                     })
                     .join('\n')}`
-            }
-        return { body: responses['invalid-context'] }
+        }
     }
 
     register = async (
