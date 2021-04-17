@@ -10,7 +10,7 @@ export const validate = (): void => {
             chalk.yellow(`\nSpecfiy the following config vars in your ".env" file or add them to your env variables`),
             chalk.blue(`\n${missing.join('\n')}`),
             chalk.green(
-                `\nNeed help? Read the self-hosting guide. https://github.com/SomnathDas/Whatsapp-Botto-Xre/blob/master/Self-Hosting.md`
+                `\nNeed help? Read the self-hosting guide. https://github.com/Synthesized-Infinity/Whatsapp-Botto-Xre/blob/master/Self-Hosting.md`
             )
         )
         process.exit()

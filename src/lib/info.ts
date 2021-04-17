@@ -15,7 +15,7 @@ export const info = (): IReply => {
 }
 
 export const getRepoInfo = async (type: 'commits' | 'issues'): Promise<IReply> => {
-    const data = await Utils.fetch(`https://api.github.com/repos/SomnathDas/Whatsapp-Botto-Xre/${type}`, {})
+    const data = await Utils.fetch(`https://api.github.com/repos/Synthesized-Infinity/Whatsapp-Botto-Xre/${type}`, {})
     if (!data[0]) return { body: '💮 *No Issues open* 💮' }
     let body = `🌟 *WhatsApp Botto Xre-Recent ${Utils.capitalize(type)}* 🌟\n\n`
     const len = data.length < 5 ? data.length : 5

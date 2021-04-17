@@ -24,7 +24,7 @@
 
 ## 💮 Self-Hosting
  
-- See the [Self-Hosting Guide](https://github.com/SomnathDas/Whatsapp-Botto-Xre/blob/master/Self-Hosting.md) 
+- See the [Self-Hosting Guide](https://github.com/Synthesized-Infinity/Whatsapp-Botto-Xre/blob/master/Self-Hosting.md) 
 
 ## 💪 Contribution
 

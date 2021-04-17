@@ -13,7 +13,7 @@
 
 Run the following code to clone the repo
 ```SH
-> git clone https://github.com/SomnathDas/Whatsapp-Botto-Xre
+> git clone https://github.com/Synthesized-Infinity/Whatsapp-Botto-Xre
 > cd Whatsapp-Botto-Xre
 ```
 Run this to install the depencencies
