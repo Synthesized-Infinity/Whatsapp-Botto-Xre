@@ -1,7 +1,7 @@
 # WhatsApp-Botto-Xre Self-hosting Guide
 
 
-## ⛵ Perquisites
+## ⛵ Prerequisites
 
 - [Git](https://git-scm.com/)
 - [Node.JS](https://nodejs.org/en/)
