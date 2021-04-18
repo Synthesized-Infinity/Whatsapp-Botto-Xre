@@ -31,14 +31,17 @@ export class GroupEx {
                 contacts.forEach((user) => this.client.groupRemove(chat, [user]))
         }
         return {
-                body: `Execution Successful\n\n${Utils.capitalize(type)}:\n${mod?.participants || []
+            body: `Execution Successful\n\n${Utils.capitalize(type)}:\n${
+                mod?.participants ||
+                []
                     .map((user: { [k: string]: { code: number } }) => {
                         const key = Object.keys(user)?.[0]
                         if (!key || user[key].code < 200) return ''
                         const conatct = this.client.contacts[key]
                         return conatct?.notify || conatct?.vname || conatct?.name || key.split('@')[0]
                     })
-                    .join('\n')}`
+                    .join('\n')
+            }`
         }
     }
 
@@ -113,13 +116,12 @@ export class GroupEx {
     }
 
     announce = async (metadata: WAGroupMetadata, admin: boolean, me: boolean, announce: boolean): Promise<IReply> => {
-        if (!admin) return { body: responses['user-lacks-permission']}
-        if (!me) return { body: responses['no-permission']}
-        if (!announce && !metadata.announce) return { body: `The group is already open`}
-        if (announce && metadata.announce) return { body: `The group is already closed`}
+        if (!admin) return { body: responses['user-lacks-permission'] }
+        if (!me) return { body: responses['no-permission'] }
+        if (!announce && !metadata.announce) return { body: `The group is already open` }
+        if (announce && metadata.announce) return { body: `The group is already closed` }
         await this.client.groupSettingChange(metadata.id, GroupSettingChange.messageSend, announce)
-        return { body: `The group is now ${announce ? 'Closed' : 'Opened'}`}
-
+        return { body: `The group is now ${announce ? 'Closed' : 'Opened'}` }
     }
 }
 

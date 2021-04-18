@@ -35,7 +35,10 @@ export class Client extends WAConnection {
 
     getMods(): string[] {
         if (!process.env.ADMINS) return []
-        if (process.env.ADMINS.includes(',')) return process.env.ADMINS.replace(/\+/g, '').split(',').map((num) => `${num}@s.whatsapp.net`)
+        if (process.env.ADMINS.includes(','))
+            return process.env.ADMINS.replace(/\+/g, '')
+                .split(',')
+                .map((num) => `${num}@s.whatsapp.net`)
         return [`${process.env.ADMINS}@s.whatsapp.net`]
     }
 

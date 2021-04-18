@@ -9,8 +9,6 @@ export interface ICommandList {
     [catogary: string]: command[]
 }
 
-
-
 export interface IEmbed {
     header?: string
     body?: string

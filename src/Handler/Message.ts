@@ -47,11 +47,14 @@ export class Message {
 
         const barSplit = slicedJoinedArgs.includes('|') ? slicedJoinedArgs.split('|') : []
 
-        const mentioned = (message?.extendedTextMessage?.contextInfo?.mentionedJid && (message.extendedTextMessage.contextInfo.mentionedJid.length > 0))
-            ? message.extendedTextMessage.contextInfo?.mentionedJid
-            : message.extendedTextMessage?.contextInfo?.quotedMessage && message.extendedTextMessage.contextInfo.participant
-            ? [message.extendedTextMessage.contextInfo.participant]
-            : []
+        const mentioned =
+            message?.extendedTextMessage?.contextInfo?.mentionedJid &&
+            message.extendedTextMessage.contextInfo.mentionedJid.length > 0
+                ? message.extendedTextMessage.contextInfo?.mentionedJid
+                : message.extendedTextMessage?.contextInfo?.quotedMessage &&
+                  message.extendedTextMessage.contextInfo.participant
+                ? [message.extendedTextMessage.contextInfo.participant]
+                : []
 
         console.log(
             chalk.green('[EXEC]'),
@@ -165,7 +168,10 @@ export class Message {
                     return void this.client.reply(from, await getRepoInfo(command), M)
                 case 'open':
                 case 'close':
-                    return void this.client.reply(from, await this.client.group.announce(group.metadata, admin, iAdmin, command === 'close'))
+                    return void this.client.reply(
+                        from,
+                        await this.client.group.announce(group.metadata, admin, iAdmin, command === 'close')
+                    )
             }
         } catch (err) {
             console.log(err)
