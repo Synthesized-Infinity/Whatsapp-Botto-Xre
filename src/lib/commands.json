@@ -43,6 +43,16 @@
             "usage": "removes @tag"
         },
         {
+            "command": "open",
+            "description": "opens the group",
+            "usage": "open"
+        },
+        {
+            "command": "close",
+            "description": "closes the group",
+            "usage": "close"
+        },
+        {
             "command": "register",
             "description": "registers certain featues on the group chat",
             "usage": "register feature"
@@ -56,11 +66,6 @@
             "command": "everyone",
             "description": "Tags everyone in the chat",
             "usage": "everyone"
-        },
-        {
-            "command": "opts",
-            "description": "displays all options which can be used with register and unregister",
-            "usgae": "opts"
         }
     ],
     "media": [

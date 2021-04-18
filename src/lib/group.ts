@@ -1,4 +1,4 @@
-import { MessageType, WAGroupModification } from '@adiwajshing/baileys'
+import { GroupSettingChange, MessageType, WAGroupMetadata, WAGroupModification } from '@adiwajshing/baileys'
 import { Client } from '../Client'
 import Utils from '../Utils'
 import responses from './responses.json'
@@ -110,6 +110,16 @@ export class GroupEx {
             }`,
             type: MessageType.image
         }
+    }
+
+    announce = async (metadata: WAGroupMetadata, admin: boolean, me: boolean, announce: boolean): Promise<IReply> => {
+        if (!admin) return { body: responses['user-lacks-permission']}
+        if (!me) return { body: responses['no-permission']}
+        if (!announce && !metadata.announce) return { body: `The group is already open`}
+        if (announce && metadata.announce) return { body: `The group is already closed`}
+        await this.client.groupSettingChange(metadata.id, GroupSettingChange.messageSend, announce)
+        return { body: `The group is now ${announce ? 'Closed' : 'Opened'}`}
+
     }
 }
 

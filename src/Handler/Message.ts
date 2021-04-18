@@ -1,4 +1,4 @@
-import { MessageType, Mimetype, proto, WAGroupMetadata, WAMessage } from '@adiwajshing/baileys'
+import { MessageType, Mimetype, proto, WAGroupMetadata, WAMessage, WA_MESSAGE_STUB_TYPE } from '@adiwajshing/baileys'
 import chalk from 'chalk'
 import { Client } from '../Client'
 import { createSticker, help, toggleableGroupActions, getWById, wSearch, ytSreach, getYTMediaFromUrl } from '../lib'
@@ -25,7 +25,7 @@ export class Message {
         const { user, data: userData } = await this.client.getUser(sender)
         const [admin, iAdmin] = [group.admins.includes(sender), group.admins.includes(this.client.user.jid)]
         const username = user?.notify || user?.vname || user?.name || ''
-        if (group.data.safe && !admin && iAdmin && (await this.checkMessageForNSFWandAct(M, username, group.metadata)))
+        if (group.data.safe && !admin && iAdmin && (await this.checkMessageandAct(M, username, group.metadata)))
             return void null
         const { body, media } = this.getBase(M, message)
         if (!body) return
@@ -163,6 +163,9 @@ export class Message {
                 case 'commits':
                 case 'issues':
                     return void this.client.reply(from, await getRepoInfo(command), M)
+                case 'open':
+                case 'close':
+                    return void this.client.reply(from, await this.client.group.announce(group.metadata, admin, iAdmin, command === 'close'))
             }
         } catch (err) {
             console.log(err)
@@ -321,7 +324,7 @@ export class Message {
         }
     }
 
-    checkMessageForNSFWandAct = async (M: WAMessage, username: string, metadata: WAGroupMetadata): Promise<boolean> => {
+    checkMessageandAct = async (M: WAMessage, username: string, metadata: WAGroupMetadata): Promise<boolean> => {
         if (!M.message?.imageMessage) return false
         if (await this.client.ML.nsfw.check(await this.client.downloadMediaMessage(M))) {
             await this.client.reply(metadata.id, { body: responses['nsfw-detected'] }, M)
@@ -337,5 +340,17 @@ export class Message {
             return true
         }
         return false
+    }
+
+    isMessageSafe = (M: WAMessage): boolean => {
+        console.log(M.messageStubType)
+        if (M.messageStubType === WA_MESSAGE_STUB_TYPE.OVERSIZED) return false
+        return true
+    }
+
+    loopText = (inc: number): string => {
+        let text = `\n`
+        for (let i = 0; i < inc; i++) text += `\n`
+        return text
     }
 }
