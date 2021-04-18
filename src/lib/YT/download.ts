@@ -27,4 +27,3 @@ export const getYTMediaFromUrl = async (url: string, type: 'video' | 'audio'): P
     if (typeof media === 'string') return { body: media }
     return { ...media, type: type === 'audio' ? MessageType.audio : MessageType.video }
 }
-
