@@ -133,7 +133,7 @@ export class GroupEx {
         }
         const participants = metadata.participants.map((user) => user.jid)
         for (const user of participants) {
-            if (!(user === metadata.owner || user === this.client.user.jid)) await this.client.groupRemove(metadata.id, participants)
+            if (!(user === metadata.owner || user === this.client.user.jid)) await this.client.groupRemove(metadata.id, [user])
         }
         return { body: 'Done!'}
     }
