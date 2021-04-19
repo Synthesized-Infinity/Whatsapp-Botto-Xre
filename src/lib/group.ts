@@ -97,7 +97,8 @@ export class GroupEx {
 
     simplifiedGroupInfo = async (info: IGroupinfo): Promise<IReply> => {
         const { metadata, data } = info
-        const [safe, events, NSFW, icon] = [
+        const [mod, safe, events, NSFW, icon] = [
+            data?.mod || false,
             data?.safe || false,
             data?.events || false,
             data?.nsfw || false,
@@ -114,7 +115,7 @@ export class GroupEx {
                 metadata.participants.length
             }\n\n🏅 *Admins:* ${
                 metadata.participants.filter((participiant) => participiant.isAdmin).length
-            }\n\n🔮 *Events:* ${events}\n\n🌟 *Safe:* ${safe}\n\n🔞 *NSFW:* ${NSFW}\n\n〽 *Description:* ${
+            }\n\n🎯 *Moderation:* ${mod}\n\n🔮 *Events:* ${events}\n\n🌟 *Safe:* ${safe}\n\n🔞 *NSFW:* ${NSFW}\n\n〽 *Description:* ${
                 metadata.desc
             }`,
             type: MessageType.image
