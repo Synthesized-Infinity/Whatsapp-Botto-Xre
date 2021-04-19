@@ -157,5 +157,6 @@ export class GroupEx {
 export enum toggleableGroupActions {
     events = 'events',
     NSFW = 'nsfw',
-    safe = 'safe'
+    safe = 'safe',
+    mod = 'mod'
 }

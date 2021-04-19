@@ -26,6 +26,7 @@ export interface IGroup {
     events: boolean
     nsfw: boolean
     safe: boolean
+    mod: boolean
 }
 
 export interface IUser {

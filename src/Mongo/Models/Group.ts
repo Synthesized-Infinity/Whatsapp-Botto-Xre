@@ -21,6 +21,11 @@ const GroupSchema = new Schema({
         type: Boolean,
         required: false,
         default: false
+    },
+    mod: {
+        type: Boolean,
+        required: false,
+        default: false
     }
 })
 

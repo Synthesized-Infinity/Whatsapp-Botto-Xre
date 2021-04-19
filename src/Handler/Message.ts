@@ -25,9 +25,11 @@ export class Message {
         const { user, data: userData } = await this.client.getUser(sender)
         const [admin, iAdmin] = [group.admins.includes(sender), group.admins.includes(this.client.user.jid)]
         const username = user?.notify || user?.vname || user?.name || ''
+        const { body, media } = this.getBase(M, message)
+
+        if (group.data.mod && !admin && iAdmin && (this.moderate(M, body || ''))) 
         if (group.data.safe && !admin && iAdmin && (await this.checkMessageandAct(M, username, group.metadata)))
             return void null
-        const { body, media } = this.getBase(M, message)
         if (!body) return
         const opt = this.parseArgs(body)
         if (!opt) return
@@ -356,8 +358,18 @@ export class Message {
         return false
     }
 
+    moderate = (M: WAMessage, text: string): boolean => {
+        if (this.checkForGroupLink(text)) {
+            this.client.reply(M.key.remoteJid as string, { body: responses['group-invite'] }, M)
+            this.client.groupRemove(M.key.remoteJid as string, [M.participant])
+            return false
+        }
+        return true
+    }
+
+    checkForGroupLink = (text: string): boolean => text.includes('chat.whatsapp.com')
+
     isMessageSafe = (M: WAMessage): boolean => {
-        console.log(M.messageStubType)
         if (M.messageStubType === WA_MESSAGE_STUB_TYPE.OVERSIZED) return false
         return true
     }
