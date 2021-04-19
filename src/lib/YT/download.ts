@@ -1,4 +1,4 @@
-import { MessageType } from '@adiwajshing/baileys'
+import { MessageType, Mimetype } from '@adiwajshing/baileys'
 import { createWriteStream, readFile } from 'fs-extra'
 import { tmpdir } from 'os'
 import ytdl, { getInfo, validateURL } from 'ytdl-core'
@@ -18,7 +18,7 @@ export const download = async (url: string, type: 'video' | 'audio'): Promise<IR
         stream.on('error', (err) => reject(err && console.log(err)))
     })
     const caption = `📗 *Title:* ${info.title}\n📙 *Description:* ${info.description}\n📘 *Author:* ${info.author}`
-    return { body: await readFile(filename), caption }
+    return { body: await readFile(filename), caption, mime: video ? Mimetype.mp4 : Mimetype.mp4Audio }
 }
 
 export const getYTMediaFromUrl = async (url: string, type: 'video' | 'audio'): Promise<IReply> => {
