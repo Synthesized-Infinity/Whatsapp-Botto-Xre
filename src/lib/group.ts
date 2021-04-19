@@ -28,12 +28,14 @@ export class GroupEx {
                 mod = await this.client.groupMakeAdmin(chat, contacts)
                 break
             case 'remove':
-                contacts.forEach((user) => this.client.groupRemove(chat, [user]))
+                contacts.map(async (user) => await this.client.groupRemove(chat, [user]))
         }
         return {
-            body: `Execution Successful\n\n${Utils.capitalize(type)}:\n${
-                mod?.participants ||
-                []
+            body: `Execution Successful\n\n${Utils.capitalize(type)}:\n${ (!mod.participants) ? contacts.map(user => {
+                const conatct = this.client.contacts[user]
+                return conatct?.notify || conatct?.vname || conatct?.name || user.split('@')[0]
+            }).join('\n'):
+                mod?.participants
                     .map((user: { [k: string]: { code: number } }) => {
                         const key = Object.keys(user)?.[0]
                         if (!key || user[key].code < 200) return ''
