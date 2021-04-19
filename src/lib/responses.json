@@ -31,8 +31,10 @@
     "video-duration-clause": "🕐 Cannot fetch videos longer than *10 Minutes*",
     "nsfw-detected": "*NSFW Detected*❗",
     "not-owner": "The user of this command must be the owner of thr group",
+    "lyrics": "🔍 *Search Term:* {T}\n\n🎋 *Fetched Lyrics:* {L}",
     "warinings":{
-        "purge": "Are you sure? This command will kick everyone from thr group. Use this command again if this is what you want."
+        "purge": "Are you sure? This command will kick everyone from thr group. Use this command again if this is what you want.",
+        "EIF": "This featue is disabled. If your're the host, Please provide the EIF Main endpoint in yoru config vars"
     },
     "error": {
         "500": {

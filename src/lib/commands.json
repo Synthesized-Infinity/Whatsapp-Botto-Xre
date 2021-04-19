@@ -82,7 +82,7 @@
         {
             "command": "yts",
             "description": "Searches for videos on https://youtube.com",
-            "usage": "yts searc_term"
+            "usage": "yts search_term"
         },
         {
             "command": "ytv",
@@ -93,6 +93,11 @@
             "command": "yta",
             "description": "Downloads and sends the given YouTube Video URL as audio",
             "usage": "yta url"
+        },
+        {
+            "command": "lyrics",
+            "description": "Fetches lyrics from the given song title",
+            "usage": "lyrics term"
         }
     ],
     "weeb": [
@@ -114,17 +119,17 @@
         {
             "command": "aid",
             "description": "Displays the info of the given Anime ID",
-            "usage": "aid 29202"
+            "usage": "aid anime_id"
         },
         {
             "command": "mid",
             "description": "Displays the info of the given Manga ID",
-            "usage": "mid 29202"
+            "usage": "mid manga_id"
         },
         {
             "command": "chid",
             "description": "Displays the info of the given Character ID",
-            "usage": "chid 29202"
+            "usage": "chid character_id"
         }
     ]
 }
