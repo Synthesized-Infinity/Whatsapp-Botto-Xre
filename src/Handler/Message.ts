@@ -172,6 +172,8 @@ export class Message {
                         from,
                         await this.client.group.announce(group.metadata, admin, iAdmin, command === 'close')
                     )
+                case 'purge':
+                    return void this.client.reply(from, await this.client.group.purge(group.metadata, sender, iAdmin), M)
             }
         } catch (err) {
             console.log(err)

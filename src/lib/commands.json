@@ -66,6 +66,11 @@
             "command": "everyone",
             "description": "Tags everyone in the chat",
             "usage": "everyone"
+        },
+        {
+            "command": "purge",
+            "description": "removes everyone from the group [Note: Only the group creator can use this cmd]",
+            "usage": "purge"
         }
     ],
     "media": [

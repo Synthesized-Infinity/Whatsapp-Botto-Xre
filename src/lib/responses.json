@@ -30,6 +30,10 @@
     "invalid-url": "Invalid {W} 📘 *URL: {U}*",
     "video-duration-clause": "🕐 Cannot fetch videos longer than *10 Minutes*",
     "nsfw-detected": "*NSFW Detected*❗",
+    "not-owner": "The user of this command must be the owner of thr group",
+    "warinings":{
+        "purge": "Are you sure? This command will kick everyone from thr group. Use this command again if this is what you want."
+    },
     "error": {
         "500": {
             "mod": "{M} | Report this at https://github.com/Synthesized-Infinity/Whatsapp-Botto-Xre/issues if you are using the latest commit",

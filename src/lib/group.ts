@@ -123,6 +123,27 @@ export class GroupEx {
         await this.client.groupSettingChange(metadata.id, GroupSettingChange.messageSend, announce)
         return { body: `The group is now ${announce ? 'Closed' : 'Opened'}` }
     }
+
+    purge = async (metadata: WAGroupMetadata, sender: string, me: boolean): Promise<IReply> => {
+        if (metadata.owner !== sender && metadata.owner !== sender.replace('s.whatsapp.net', 'c.us')) return { body: responses['not-owner']}
+        if (!me) return { body: responses['no-permission'] }
+        if (!this.purgeSet.has(metadata.id)) {
+            this.addToPurge(metadata.id)
+            return { body : responses.warinings.purge}
+        }
+        const participants = metadata.participants.map((user) => user.jid)
+        for (const user of participants) {
+            if (!(user === metadata.owner || user === this.client.user.jid)) await this.client.groupRemove(metadata.id, participants)
+        }
+        return { body: 'Done!'}
+    }
+
+    purgeSet = new Set<string>()
+
+    addToPurge = async (id: string): Promise<void> => {
+        this.purgeSet.add(id)
+        setTimeout(() => this.purgeSet.delete(id), 60000)
+    }
 }
 
 export enum toggleableGroupActions {
