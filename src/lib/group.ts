@@ -31,18 +31,22 @@ export class GroupEx {
                 contacts.map(async (user) => await this.client.groupRemove(chat, [user]))
         }
         return {
-            body: `Execution Successful\n\n${Utils.capitalize(type)}:\n${ (!mod.participants) ? contacts.map(user => {
-                const conatct = this.client.contacts[user]
-                return conatct?.notify || conatct?.vname || conatct?.name || user.split('@')[0]
-            }).join('\n'):
-                mod?.participants
-                    .map((user: { [k: string]: { code: number } }) => {
-                        const key = Object.keys(user)?.[0]
-                        if (!key || user[key].code < 200) return ''
-                        const conatct = this.client.contacts[key]
-                        return conatct?.notify || conatct?.vname || conatct?.name || key.split('@')[0]
-                    })
-                    .join('\n')
+            body: `Execution Successful\n\n${Utils.capitalize(type)}:\n${
+                !mod.participants
+                    ? contacts
+                          .map((user) => {
+                              const conatct = this.client.contacts[user]
+                              return conatct?.notify || conatct?.vname || conatct?.name || user.split('@')[0]
+                          })
+                          .join('\n')
+                    : mod?.participants
+                          .map((user: { [k: string]: { code: number } }) => {
+                              const key = Object.keys(user)?.[0]
+                              if (!key || user[key].code < 200) return ''
+                              const conatct = this.client.contacts[key]
+                              return conatct?.notify || conatct?.vname || conatct?.name || key.split('@')[0]
+                          })
+                          .join('\n')
             }`
         }
     }
@@ -127,17 +131,19 @@ export class GroupEx {
     }
 
     purge = async (metadata: WAGroupMetadata, sender: string, me: boolean): Promise<IReply> => {
-        if (metadata.owner !== sender && metadata.owner !== sender.replace('s.whatsapp.net', 'c.us')) return { body: responses['not-owner']}
+        if (metadata.owner !== sender && metadata.owner !== sender.replace('s.whatsapp.net', 'c.us'))
+            return { body: responses['not-owner'] }
         if (!me) return { body: responses['no-permission'] }
         if (!this.purgeSet.has(metadata.id)) {
             this.addToPurge(metadata.id)
-            return { body : responses.warinings.purge}
+            return { body: responses.warinings.purge }
         }
         const participants = metadata.participants.map((user) => user.jid)
         for (const user of participants) {
-            if (!(user === metadata.owner || user === this.client.user.jid)) await this.client.groupRemove(metadata.id, [user])
+            if (!(user === metadata.owner || user === this.client.user.jid))
+                await this.client.groupRemove(metadata.id, [user])
         }
-        return { body: 'Done!'}
+        return { body: 'Done!' }
     }
 
     purgeSet = new Set<string>()
