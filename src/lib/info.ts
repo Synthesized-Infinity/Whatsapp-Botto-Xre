@@ -28,7 +28,7 @@ export const getRepoInfo = async (type: 'commits' | 'issues'): Promise<IReply> =
         return { body }
     }
     for (let i = 0; i < data.length; i++) {
-        body += `*#${i + 1}.*\n\n🔴 *Title: ${data[0].title}*\n🔱 *User:* ${data[i].user.login}\n〽️ URL: ${
+        body += `*#${i + 1}.*\n\n🔴 *Title: ${data[i].title}*\n🔱 *User:* ${data[i].user.login}\n〽️ URL: ${
             data[i].url
         }\n\n`
     }
