@@ -27,7 +27,7 @@ export class Message {
         const username = user?.notify || user?.vname || user?.name || ''
         const { body, media } = this.getBase(M, message)
 
-        if (group.data.mod && !admin && iAdmin && (this.moderate(M, body || ''))) 
+        if (group.data.mod && !admin && iAdmin && !(this.moderate(M, body || ''))) return void null
         if (group.data.safe && !admin && iAdmin && (await this.checkMessageandAct(M, username, group.metadata)))
             return void null
         if (!body) return
@@ -360,7 +360,7 @@ export class Message {
 
     moderate = (M: WAMessage, text: string): boolean => {
         if (this.checkForGroupLink(text)) {
-            this.client.reply(M.key.remoteJid as string, { body: responses['group-invite'] }, M)
+            this.client.reply(M.key.remoteJid as string, { body: responses['mod']['group-invite'] }, M)
             this.client.groupRemove(M.key.remoteJid as string, [M.participant])
             return false
         }
