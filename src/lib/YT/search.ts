@@ -8,7 +8,7 @@ export const ytSreach = async (term: string): Promise<string> => {
     const length = videos.length < 10 ? videos.length : 10
     let base = `Search Term: *${term}*\n\n🔎 *Results*\n\n`
     for (let i = 0; i < length; i++) {
-        base += `#${i + 1}\n📗 *Title:* ${videos[1].title}\n📙 *Description:* ${videos[i].description.slice(
+        base += `#${i + 1}\n📗 *Title:* ${videos[i].title}\n📙 *Description:* ${videos[i].description.slice(
             50
         )}\n📘 *URL:* ${videos[i].url}\n\n`
     }
