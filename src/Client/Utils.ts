@@ -165,4 +165,6 @@ export class Client extends WAConnection {
             return { status: 500 }
         }
     }
+
+    getLinkPreview = async (link: string): Promise<Uint8Array> => (await this.generateLinkPreview(link)).jpegThumbnail
 }
