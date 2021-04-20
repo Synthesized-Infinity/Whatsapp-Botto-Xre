@@ -50,6 +50,7 @@
   "dependencies": {
     "@adiwajshing/baileys": "github:adiwajshing/baileys",
     "@tensorflow/tfjs-node": "^3.3.0",
+    "anime-wallpaper": "^1.0.0",
     "axios": "^0.21.1",
     "chalk": "^4.1.0",
     "dotenv": "^8.2.0",

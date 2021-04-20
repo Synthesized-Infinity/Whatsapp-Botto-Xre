@@ -102,6 +102,11 @@
     ],
     "weeb": [
         {
+            "command": "wallpaper",
+            "description": "Fetches an anime-styled-wallpaper on the given term",
+            "usage": "wallpaper term"
+        },
+        {
             "command": "anime",
             "description": "Searches for anime based on the given query",
             "usage": "anime title"

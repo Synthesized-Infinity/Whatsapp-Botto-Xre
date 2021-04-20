@@ -9,6 +9,7 @@ import { IParsedArgs } from '../Typings'
 import { readFile } from 'fs-extra'
 import { join } from 'path'
 import { getRepoInfo, info } from '../lib/info'
+import { wallpaper } from '../lib/wallpaper'
 export class Message {
     validTypes = [MessageType.text, MessageType.image, MessageType.video, MessageType.extendedText]
     constructor(private client: Client) {}
@@ -125,6 +126,8 @@ export class Message {
                     if (m && typeof m === 'object' && (m as WAMessage)?.message?.stickerMessage && ad === 5)
                         return void this.client.reply(from, { body: responses['ads']['sticker'] }, m as WAMessage)
                     break
+                case 'wallpaper':
+                    return void this.client.reply(from, await wallpaper(slicedJoinedArgs), M)
                 case 'anime':
                 case 'manga':
                 case 'character':
