@@ -6,7 +6,7 @@
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
-## [WhatsApp Group](https://chat.whatsapp.com/JykPXBsyo6Z0TqEJcABZ2b)
+## ![[WhatsApp Group](https://chat.whatsapp.com/JykPXBsyo6Z0TqEJcABZ2b)](https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white) ![[TypeScript](https://www.typescriptlang.org/)](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white) ![[NodeJs](https://nodejs.org/en/)](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
 
 > A Lightweight & Efficient Whatsapp Bot Packed With Features <br>
 
