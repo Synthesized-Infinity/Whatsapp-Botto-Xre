@@ -166,5 +166,6 @@ export class Client extends WAConnection {
         }
     }
 
-    getLinkPreview = async (link: string): Promise<Buffer> => Buffer.from((await this.generateLinkPreview(link)).jpegThumbnail)
+    getLinkPreview = async (link: string): Promise<Buffer> =>
+        Buffer.from((await this.generateLinkPreview(link)).jpegThumbnail)
 }

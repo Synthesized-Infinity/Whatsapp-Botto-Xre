@@ -1,7 +1,16 @@
 import { MessageType, Mimetype, proto, WAGroupMetadata, WAMessage, WA_MESSAGE_STUB_TYPE } from '@adiwajshing/baileys'
 import chalk from 'chalk'
 import { Client } from '../Client'
-import { createSticker, help, toggleableGroupActions, getWById, wSearch, ytSreach, getYTMediaFromUrl, lyrics } from '../lib'
+import {
+    createSticker,
+    help,
+    toggleableGroupActions,
+    getWById,
+    wSearch,
+    ytSreach,
+    getYTMediaFromUrl,
+    lyrics
+} from '../lib'
 import moment from 'moment-timezone'
 import responses from '../lib/responses.json'
 import Utils from '../Utils'
@@ -28,7 +37,7 @@ export class Message {
         const username = user?.notify || user?.vname || user?.name || ''
         const { body, media } = this.getBase(M, message)
 
-        if (group.data.mod && !admin && iAdmin && !(this.moderate(M, body || ''))) return void null
+        if (group.data.mod && !admin && iAdmin && !this.moderate(M, body || '')) return void null
         if (group.data.safe && !admin && iAdmin && (await this.checkMessageandAct(M, username, group.metadata)))
             return void null
         if (!body) return
@@ -167,7 +176,7 @@ export class Message {
                 case 'yts':
                     return void this.client.reply(from, { body: await ytSreach(slicedJoinedArgs.trim()) }, M)
                 case 'lyrics':
-                    return void this.client.reply(from, { body: await lyrics(slicedJoinedArgs)}, M)
+                    return void this.client.reply(from, { body: await lyrics(slicedJoinedArgs) }, M)
                 case 'info':
                     return void this.client.reply(from, await info(), M)
                 case 'commits':
