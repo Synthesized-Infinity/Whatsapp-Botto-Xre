@@ -1,6 +1,7 @@
 import { join } from 'path'
-import { IReply } from '../Typings'
+import { infoType, repoInfo, IReply } from '../Typings'
 import Utils from '../Utils'
+
 export const info = (): IReply => {
     //eslint-disable-next-line @typescript-eslint/no-var-requires
     const pkg = require(join(__dirname, '..', '..', 'package.json'))
@@ -14,7 +15,7 @@ export const info = (): IReply => {
     }
 }
 
-export const getRepoInfo = async <T extends info>(type: T): Promise<repoInfo<T>> => {
+export const getRepoInfo = async <T extends infoType>(type: T): Promise<repoInfo<T>> => {
     const data = await Utils.fetch(`https://api.github.com/repos/Synthesized-Infinity/Whatsapp-Botto-Xre/${type}`, {})
     if (!data[0]) return { body: '💮 *No Issues open* 💮' } as repoInfo<T>
     let body = `🌟 *WhatsApp Botto Xre-Recent ${Utils.capitalize(type)}* 🌟\n\n`
@@ -33,13 +34,4 @@ export const getRepoInfo = async <T extends info>(type: T): Promise<repoInfo<T>>
         }\n\n`
     }
     return { body } as repoInfo<T>
-}
-
-type info = 'commits' | 'issues'
-
-type repoInfo<T> = T extends 'commits' ? commits : IReply
-
-export interface commits {
-    firstLink: string,
-    info: string
 }
