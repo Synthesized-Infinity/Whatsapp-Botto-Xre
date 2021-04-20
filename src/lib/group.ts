@@ -115,7 +115,7 @@ export class GroupEx {
                 metadata.participants.length
             }\n\n🏅 *Admins:* ${
                 metadata.participants.filter((participiant) => participiant.isAdmin).length
-            }\n\n🎯 *Moderation:* ${mod}\n\n🔮 *Events:* ${events}\n\n🌟 *Safe:* ${safe}\n\n🔞 *NSFW:* ${NSFW}\n\n〽 *Description:* ${
+            }\n\n🎯 *Moderation:* ${mod}\n\n🔮 *Events:* ${events}\n\n🌟 *Safe:* ${safe}\n\n🔞 *NSFW:* ${NSFW}\n\n〽 *Description:* \n${
                 metadata.desc
             }`,
             type: MessageType.image

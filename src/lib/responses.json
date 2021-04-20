@@ -31,7 +31,7 @@
     "video-duration-clause": "🕐 Cannot fetch videos longer than *10 Minutes*",
     "nsfw-detected": "*NSFW Detected*❗",
     "not-owner": "The user of this command must be the owner of thr group",
-    "lyrics": "🔍 *Search Term:* {T}\n\n🎋 *Fetched Lyrics:* {L}",
+    "lyrics": "🔍 *Search Term:* {T}\n\n🎋 *Fetched Lyrics:* \n{L}",
     "mod": {
         "group-invite": "❌ *[Mod]* Group Link Detected! Removing..."
     },
