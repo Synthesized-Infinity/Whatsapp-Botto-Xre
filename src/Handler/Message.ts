@@ -171,8 +171,10 @@ export class Message {
                 case 'info':
                     return void this.client.reply(from, info(), M)
                 case 'commits':
+                    const commits = await getRepoInfo('commits')
+                    return void this.client.reply(from, { body: await this.client.getLinkPreview(commits.firstLink), caption: commits.info, type: MessageType.image}, M)
                 case 'issues':
-                    return void this.client.reply(from, await getRepoInfo(command), M)
+                    return void this.client.reply(from, await getRepoInfo('issues'), M)
                 case 'open':
                 case 'close':
                     return void this.client.reply(

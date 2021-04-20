@@ -14,9 +14,9 @@ export const info = (): IReply => {
     }
 }
 
-export const getRepoInfo = async (type: 'commits' | 'issues'): Promise<IReply> => {
+export const getRepoInfo = async <T extends info>(type: T): Promise<repoInfo<T>> => {
     const data = await Utils.fetch(`https://api.github.com/repos/Synthesized-Infinity/Whatsapp-Botto-Xre/${type}`, {})
-    if (!data[0]) return { body: '💮 *No Issues open* 💮' }
+    if (!data[0]) return { body: '💮 *No Issues open* 💮' } as repoInfo<T>
     let body = `🌟 *WhatsApp Botto Xre-Recent ${Utils.capitalize(type)}* 🌟\n\n`
     const len = data.length < 5 ? data.length : 5
     if (type === 'commits') {
@@ -25,12 +25,21 @@ export const getRepoInfo = async (type: 'commits' | 'issues'): Promise<IReply> =
                 data[c].commit.author.date
             }\n🔱 *Author:* ${data[c].commit.author.name}\n🍀 *URL*: ${data[c]['html_url']}\n\n`
         }
-        return { body }
+        return { info: body, firstLink: data[0].commit['html_url']} as repoInfo<T>
     }
     for (let i = 0; i < data.length; i++) {
         body += `*#${i + 1}.*\n\n🔴 *Title: ${data[i].title}*\n🔱 *User:* ${data[i].user.login}\n〽️ URL: ${
             data[i].url
         }\n\n`
     }
-    return { body }
+    return { body } as repoInfo<T>
+}
+
+type info = 'commits' | 'issues'
+
+type repoInfo<T> = T extends 'commits' ? commits : IReply
+
+export interface commits {
+    firstLink: string,
+    info: string
 }
