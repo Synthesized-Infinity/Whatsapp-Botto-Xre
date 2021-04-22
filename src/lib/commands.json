@@ -85,6 +85,11 @@
             "usage": "sticker as caption of an image/video"
         },
         {
+            "command": "subred",
+            "description": "Fetches a random post from the given subreddit",
+            "usage": "subred subreddit"
+        },
+        {
             "command": "yts",
             "description": "Searches for videos on https://youtube.com",
             "usage": "yts search_term"

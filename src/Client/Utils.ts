@@ -5,7 +5,7 @@ import { schedule, validate } from 'node-cron'
 import chalk from 'chalk'
 import moment from 'moment-timezone'
 import { IReply, IConfig, IGroupModel, IUserModel, ISessionModel, ISession } from '../Typings'
-import { existsSync } from 'fs-extra'
+import { existsSync, readFileSync } from 'fs-extra'
 import { join } from 'path'
 const browser: [string, string, string] = ['WhatsApp-Botto-Xre', 'Well', 'Indeed']
 export class Client extends WAConnection {
@@ -173,5 +173,9 @@ export class Client extends WAConnection {
         if (!M?.message?.extendedTextMessage?.contextInfo || !M.key.remoteJid) return responses['wrong-format']
         await this.deleteMessage(M.key.remoteJid, { id: M.message.extendedTextMessage.contextInfo.stanzaId, remoteJid: M.key.remoteJid, fromMe: true })
         return `Sucessfully Deleted Message`
+    }
+
+    sendSafeImage = async (image: Buffer, caption: string, chat: string, quoted?: WAMessage): Promise<void> => {
+        this.sendMessage(chat, image, MessageType.image, { quoted, thumbnail: readFileSync(join(__dirname, '..', '..', 'assets', 'images', '18+.jpg')).toString('base64')})
     }
 }

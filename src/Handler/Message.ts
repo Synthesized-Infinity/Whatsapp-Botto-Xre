@@ -19,6 +19,7 @@ import { readFile } from 'fs-extra'
 import { join } from 'path'
 import { getRepoInfo, info } from '../lib/info'
 import { wallpaper } from '../lib/wallpaper'
+import { reddit } from '../lib/reddit'
 export class Message {
     validTypes = [MessageType.text, MessageType.image, MessageType.video, MessageType.extendedText]
     constructor(private client: Client) {}
@@ -196,6 +197,11 @@ export class Message {
                     )
                 case 'delete':
                     return void this.client.reply(from, { body: admin ? await this.client.deleteQuotedMessage(M) : responses['user-lacks-permission']}, M)
+                case 'subred':
+                    const red = await reddit(slicedJoinedArgs)
+                    if (!red.caption) return void await this.client.reply(from, red, M)
+                    if (!group.data.nsfw && red.nsfw) return void await this.client.sendSafeImage(red.body as Buffer, red.caption, from, M)
+                    return void await this.client.reply(from, { body: red.body as Buffer, caption: red.caption, type: MessageType.image }, M)
             }
         } catch (err) {
             console.log(err)
