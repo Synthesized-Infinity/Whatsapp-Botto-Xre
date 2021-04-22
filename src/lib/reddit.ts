@@ -17,6 +17,7 @@ export const reddit = async (subreddit: string, safe: boolean): Promise<IReply> 
             type: MessageType.image
         }
     } catch (err) {
+        console.log(err)
         return { body: `🎯 *The given subreddit possibly is Invalid or this subreddit does not have any posts containing images*` }
     }
 }
