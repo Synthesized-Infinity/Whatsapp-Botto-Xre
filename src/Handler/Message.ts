@@ -37,7 +37,7 @@ export class Message {
         const username = user?.notify || user?.vname || user?.name || ''
         const { body, media } = this.getBase(M, message)
 
-        if (group.data.mod && !admin && iAdmin && !this.moderate(M, body || '')) return void null
+        if (group.data.mod && !admin && iAdmin && !await this.moderate(M, body || '', group.metadata, username)) return void null
         if (group.data.safe && !admin && iAdmin && (await this.checkMessageandAct(M, username, group.metadata)))
             return void null
         if (!body) return
@@ -372,10 +372,18 @@ export class Message {
         return false
     }
 
-    moderate = (M: WAMessage, text: string): boolean => {
+    moderate = async (M: WAMessage, text: string, metadata: WAGroupMetadata, username: string): Promise<boolean> => {
         if (this.checkForGroupLink(text)) {
-            this.client.reply(M.key.remoteJid as string, { body: responses['mod']['group-invite'] }, M)
-            this.client.groupRemove(M.key.remoteJid as string, [M.participant])
+            await this.client.reply(M.key.remoteJid as string, { body: responses['mod']['group-invite'] }, M)
+            await this.client.groupRemove(M.key.remoteJid as string, [M.participant])
+            console.log(
+                chalk.redBright('[MOD] GROUP LINK'),
+                chalk.yellow(moment((M.messageTimestamp as number) * 1000).format('DD/MM HH:mm:ss')),
+                'By',
+                chalk.red(username),
+                'in',
+                chalk.red(metadata.subject)
+            )
             return false
         }
         return true

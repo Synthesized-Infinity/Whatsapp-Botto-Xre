@@ -33,7 +33,7 @@
     "not-owner": "The user of this command must be the owner of thr group",
     "lyrics": "🔍 *Search Term:* {T}\n\n🎋 *Fetched Lyrics:* \n{L}",
     "mod": {
-        "group-invite": "❌ *[Mod]* Group Link Detected! Removing..."
+        "group-invite": "❌ *[MOD]* Group Invite Link Detected! Removing..."
     },
     "warinings":{
         "purge": "Are you sure? This command will kick everyone from thr group. Use this command again if this is what you want.",
