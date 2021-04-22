@@ -33,6 +33,7 @@
     "not-owner": "The user of this command must be the owner of thr group",
     "lyrics": "🔍 *Search Term:* {T}\n\n🎋 *Fetched Lyrics:* \n{L}",
     "mod": {
+        "no-nsfw": "❌ Cannot Display NSFW Content. Register *NSFW* to allow sending *_Exclipt content_*",
         "group-invite": "❌ *[MOD]* Group Invite Link Detected! Removing..."
     },
     "warinings":{

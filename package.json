@@ -61,7 +61,6 @@
     "node-cron": "^3.0.0",
     "nsfwjs": "^2.4.0",
     "qr-image": "^3.2.0",
-    "redditit": "^1.0.0",
     "wa-sticker-formatter": "^3.6.0",
     "yt-search": "^2.7.6",
     "ytdl-core": "^4.5.0"
