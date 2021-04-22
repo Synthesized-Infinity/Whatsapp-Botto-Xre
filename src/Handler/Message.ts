@@ -203,7 +203,7 @@ export class Message {
                         M
                     )
                 case 'subred':
-                    return void this.client.reply(from, await reddit(slicedJoinedArgs, !group.data.any), M)
+                    return void this.client.reply(from, await reddit(slicedJoinedArgs, !group.data.nsfw), M)
             }
         } catch (err) {
             console.log(err)

@@ -13,7 +13,7 @@ export const reddit = async (subreddit: string, safe: boolean): Promise<IReply> 
             return { body: await readFile(join(__dirname, '..', '..', 'assets', 'images','18+.jpg')), caption: responses.mod['no-nsfw'], type: MessageType.image }
         return {
             body: await Utils.download(post.url),
-            caption: `📗*Title:* ${post.title}\n📘*Author:* ${post.author}\n📙*Post:* ${post.postLink}`,
+            caption: `📗 *Title:* ${post.title}\n📘 *Author:* ${post.author}\n📙 *Post:* ${post.postLink}`,
             type: MessageType.image
         }
     } catch (err) {
