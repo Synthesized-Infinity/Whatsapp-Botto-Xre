@@ -171,11 +171,18 @@ export class Client extends WAConnection {
 
     deleteQuotedMessage = async (M: WAMessage): Promise<string> => {
         if (!M?.message?.extendedTextMessage?.contextInfo || !M.key.remoteJid) return responses['wrong-format']
-        await this.deleteMessage(M.key.remoteJid, { id: M.message.extendedTextMessage.contextInfo.stanzaId, remoteJid: M.key.remoteJid, fromMe: true })
+        await this.deleteMessage(M.key.remoteJid, {
+            id: M.message.extendedTextMessage.contextInfo.stanzaId,
+            remoteJid: M.key.remoteJid,
+            fromMe: true
+        })
         return `Sucessfully Deleted Message`
     }
 
     sendSafeImage = async (image: Buffer, caption: string, chat: string, quoted?: WAMessage): Promise<void> => {
-        this.sendMessage(chat, image, MessageType.image, { quoted, thumbnail: readFileSync(join(__dirname, '..', '..', 'assets', 'images', '18+.jpg')).toString('base64')})
+        this.sendMessage(chat, image, MessageType.image, {
+            quoted,
+            thumbnail: readFileSync(join(__dirname, '..', '..', 'assets', 'images', '18+.jpg')).toString('base64')
+        })
     }
 }

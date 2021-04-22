@@ -38,7 +38,8 @@ export class Message {
         const username = user?.notify || user?.vname || user?.name || ''
         const { body, media } = this.getBase(M, message)
 
-        if (group.data.mod && !admin && iAdmin && !await this.moderate(M, body || '', group.metadata, username)) return void null
+        if (group.data.mod && !admin && iAdmin && !(await this.moderate(M, body || '', group.metadata, username)))
+            return void null
         if (group.data.safe && !admin && iAdmin && (await this.checkMessageandAct(M, username, group.metadata)))
             return void null
         if (!body) return
@@ -196,7 +197,11 @@ export class Message {
                         M
                     )
                 case 'delete':
-                    return void this.client.reply(from, { body: admin ? await this.client.deleteQuotedMessage(M) : responses['user-lacks-permission']}, M)
+                    return void this.client.reply(
+                        from,
+                        { body: admin ? await this.client.deleteQuotedMessage(M) : responses['user-lacks-permission'] },
+                        M
+                    )
                 case 'subred':
                     return void this.client.reply(from, await reddit(slicedJoinedArgs, !group.data.any), M)
             }
