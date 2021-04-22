@@ -194,6 +194,8 @@ export class Message {
                         await this.client.group.purge(group.metadata, sender, iAdmin),
                         M
                     )
+                case 'delete':
+                    return void this.client.reply(from, { body: admin ? await this.client.deleteQuotedMessage(M) : responses['user-lacks-permission']}, M)
             }
         } catch (err) {
             console.log(err)

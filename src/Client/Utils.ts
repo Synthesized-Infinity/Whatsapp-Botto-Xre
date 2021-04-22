@@ -168,4 +168,10 @@ export class Client extends WAConnection {
 
     getLinkPreview = async (link: string): Promise<Buffer> =>
         Buffer.from((await this.generateLinkPreview(link)).jpegThumbnail)
+
+    deleteQuotedMessage = async (M: WAMessage): Promise<string> => {
+        if (!M?.message?.extendedTextMessage?.contextInfo || !M.key.remoteJid) return responses['wrong-format']
+        await this.deleteMessage(M.key.remoteJid, { id: M.message.extendedTextMessage.contextInfo.stanzaId, remoteJid: M.key.remoteJid, fromMe: true })
+        return `Sucessfully Deleted Message`
+    }
 }

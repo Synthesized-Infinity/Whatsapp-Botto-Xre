@@ -53,6 +53,11 @@
             "usage": "close"
         },
         {
+            "command": "delete",
+            "description": "Deletes the quoted message",
+            "usage": "delete [quoted]"
+        },
+        {
             "command": "register",
             "description": "registers certain featues on the group chat",
             "usage": "register feature"
