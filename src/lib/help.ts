@@ -9,13 +9,13 @@ export const help = (client: Client, command?: string): string => {
         for (const catogary in commands) {
             for (const index of (commands as ICommandList)[catogary]) {
                 if (index.command === command) {
-                    return `📚 *_Note: Add the Prefix infront of the command while using (${client._config.prefix})_*\n\n*📗 Command:* ${index.command}\n📙 *Description:* ${index.description}\n📘 *Usage:* ${client._config.prefix}${index.usage}`
+                    return `*📗 Command:* ${index.command}\n📙 *Description:* ${index.description}\n📘 *Usage:* ${client._config.prefix}${index.usage}`
                 }
             }
         }
         return responses['invalid-command-short'].replace('{C}', command)
     }
-    let base = `🤖 ${client._config.name} Command List 🤖\n\n💡 *Prefix ${client._config.prefix}*\n\n`
+    let base = `🤖 ${client._config.name} Command List 🤖\n\n💡 *Prefix:* ${client._config.prefix}\n\n`
     const cmds = commands as ICommandList
     const cats = Object.keys(cmds)
     for (const cat in cmds) {
