@@ -1,5 +1,5 @@
 import { readFile } from 'fs-extra'
-import { join } from 'node:path'
+import { join } from 'path'
 import { IReply } from '../Typings'
 import Utils from '../Utils'
 import responses from './responses.json'
