@@ -1,0 +1,9 @@
+<h1> Xre - <%= (typeof name !== 'undefined') ? name : '' %></h1>
+<%= (typeof error !== 'undefined') ? error : ''%>
+<form action="/auth" method="POST">
+    <div>
+        <label for="auth">Session ID</label>
+        <input type="text" id="auth" name="auth" required>
+    </div>
+    <button type="submit">Authenticate!</button>
+</form>

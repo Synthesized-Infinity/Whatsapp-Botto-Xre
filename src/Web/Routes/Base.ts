@@ -1,5 +1,5 @@
 import chalk from 'chalk'
-import { Router, Request } from 'express'
+import { Router, Request, urlencoded } from 'express'
 import { Client } from '../../Client'
 import { Web } from '../Web'
 import endpoints from '../../lib/endpoints.json'
@@ -10,7 +10,16 @@ export class BaseRoutes {
 
     constructor(public client: Client, public web: Web) {
         this.web.app.use('/client', this.clientRouter)
-        this.web.app.get('/', (req, res) => res.json({ message: 'Hi there' }))
+        this.web.app.use('/', urlencoded({ extended: false }))
+        this.web.app.set('view-engine', 'ejs')
+
+        this.web.app.post('/auth', (req, res) => {
+            if (req.body.auth !== process.env.SESSION_ID) return res.render('index.ejs', { error: 'Incorrect Session ID', name: this.client._config.name })
+            res.redirect(`/client/qr?session=${process.env.SESSION_ID}`)
+        })
+
+        this.web.app.get('/', (req, res) => res.render('index.ejs', { name: this.client._config.name }))
+        
         this.web.app.get('/wakemydyno.txt', async (req, res) => {
             res.setHeader('Content-disposition', 'attachment; filename=wakemydyno.txt')
             res.setHeader('Content-type', 'text/plain')
@@ -32,16 +41,13 @@ export class BaseRoutes {
             this.clientRouter.get('/', (req, res) => {
                 res.json({ message: 'Hi there' })
             })
-            this.clientRouter.get('/qr', (req, res) => {
+            this.clientRouter.get('/qr', async (req, res) => {
                 if (!this.web.QR) {
                     if (this.client.state === 'open') return res.json({ message: `You're already authenticated` })
                     return res.json({ message: `QR code is not generated Yet` })
                 }
-                res.writeHead(200, {
-                    'Content-Type': 'image/png',
-                    'Content-Length': this.web.QR.length
-                })
-                res.end(this.web.QR)
+                res.contentType('image/png')
+                return res.send(this.web.QR)
             })
 
             this.clientRouter.get('/state', (req, res) => {
@@ -101,6 +107,8 @@ export class BaseRoutes {
                 if (!req.query.id) return res.json({ message: 'Not Found' })
                 return res.json({ pfp: await this.client.getPfp(req.query.id as string) })
             })
+
+
         })
     }
 
