@@ -14,12 +14,13 @@ export class BaseRoutes {
         this.web.app.set('view-engine', 'ejs')
 
         this.web.app.post('/auth', (req, res) => {
-            if (req.body.auth !== process.env.SESSION_ID) return res.render('index.ejs', { error: 'Incorrect Session ID', name: this.client._config.name })
+            if (req.body.auth !== process.env.SESSION_ID)
+                return res.render('index.ejs', { error: 'Incorrect Session ID', name: this.client._config.name })
             res.redirect(`/client/qr?session=${process.env.SESSION_ID}`)
         })
 
         this.web.app.get('/', (req, res) => res.render('index.ejs', { name: this.client._config.name }))
-        
+
         this.web.app.get('/wakemydyno.txt', async (req, res) => {
             res.setHeader('Content-disposition', 'attachment; filename=wakemydyno.txt')
             res.setHeader('Content-type', 'text/plain')
@@ -107,8 +108,6 @@ export class BaseRoutes {
                 if (!req.query.id) return res.json({ message: 'Not Found' })
                 return res.json({ pfp: await this.client.getPfp(req.query.id as string) })
             })
-
-
         })
     }
 

@@ -60,9 +60,14 @@ export class GroupEx {
         if (!admin) return { body: responses['user-lacks-permission'] }
         if (!Object.values(toggleableGroupActions).includes(type))
             return { body: responses['invalid-group-action'].replace('{A}', type) }
-        if (register && chat[type]) return { body: responses[(register) ? 'already-enabled' : 'not-enabled'].replace('{T}', Utils.capitalize(type)) }
+        if (register && chat[type])
+            return {
+                body: responses[register ? 'already-enabled' : 'not-enabled'].replace('{T}', Utils.capitalize(type))
+            }
         await this.client.GroupModel.updateOne({ jid: chat.jid }, { $set: { [type]: register } })
-        return { body: responses[(register) ? 'enable-sucessful': 'disable-successful'].replace('{T}', Utils.capitalize(type)) }
+        return {
+            body: responses[register ? 'enable-sucessful' : 'disable-successful'].replace('{T}', Utils.capitalize(type))
+        }
     }
 
     join = async (text: string, mod: boolean, username = 'User'): Promise<IReply> => {
