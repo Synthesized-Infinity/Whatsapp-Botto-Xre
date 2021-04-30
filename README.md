@@ -23,8 +23,9 @@
 - 🖤 Integrated NSFW(Not Safe For Work) detection based on Tensorflow ML
 
 ## 💮 Self-Hosting
- 
+
 - See the [Self-Hosting Guide](https://github.com/Synthesized-Infinity/Whatsapp-Botto-Xre/blob/master/Self-Hosting.md) 
+- See the [Heroku Deploy Guide](https://github.com/Synthesized-Infinity/Whatsapp-Botto-Xre/blob/master/Self-Hosting.md)
 
 ## 💪 Contribution
 
