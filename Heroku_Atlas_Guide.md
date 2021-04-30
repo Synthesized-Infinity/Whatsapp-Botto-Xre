@@ -28,9 +28,7 @@ PS: If you don't want to use your email, go to https://temp-mail.org/en/ and gen
 1. [Whatsapp-Botto-Xre](https://github.com/Synthesized-Infinity/Whatsapp-Botto-Xre) - Go there
 2. Scroll down a bit and you will see the "Deploy To Heroku" button in purple color (sorry if you are color blind)
 3. Click on it and login or sign up for Heroku
-4. Wait for the building to finish, you should always keep an eye on log messages, you can find log messages in the Dashboard -> More -> View logs
-5. After finishing the build, go to Settings -> Reveal Config Vars in Heroku and add the following
-
+4. Enter the following fields
     | KEY | VALUE |
     | --- | ----------- |
     | BOTNAME | Xre |
@@ -41,13 +39,18 @@ PS: If you don't want to use your email, go to https://temp-mail.org/en/ and gen
     | MONGO_URI | YOUR CLUSTER URI |
     | EIF | https://express-is-fun.herokuapp.com/api |
     | ADMIN_GROUP_JID |  |
-# ⭕️ Important
+ 
 `BOT_NAME` The name of the Bot <br>
 `PREFIX` The Prefix of the Bot <br>
 `CRON` Cron schedule for clearing all chats (Default: `"0 */6 * * *"`. Every 6 Hours). change this field to `null` if you don't want to schedule. [Learn More](https://www.npmjs.com/package/node-cron) <br>
 `SESSION_ID` A string to keep track of your session.
 `ADMINS` The phone numbers of users who you want to be the bot's Admins separated by a comma and must the numbers must be in the following format: `[cc][number]`. eg: `919744******`
 `MONGO_URI` is the Connection URL to your DB
+5. Wait for the building to finish, you should always keep an eye on log messages, you can find log messages in the Dashboard -> More -> View logs
+6. After it builds, click on the "View" or "Open App"
+7. Authenticate By Providing Your SESSION_ID and a QR Code Will Show Up
+8. Open WhatsApp on your phone -> Click on the 3 Dots on te top Right -> Click on WhatsApp Web -> Click on "Link a Device" and scan the QR from the previos step
+9. Profit!
 
 ### 😼️ Enjoy and make sure to study!
 ## 💜️ Support us on:
