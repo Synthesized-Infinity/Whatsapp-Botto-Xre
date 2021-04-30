@@ -39,7 +39,7 @@ PS: If you don't want to use your email, go to https://temp-mail.org/en/ and gen
     | SESSION_ID | Any text you want but make sure to remember and don't share it |
     | ADMINS |  |
     | MONGO_URI | YOUR CLUSTER URI |
-    | EIF | https://express-is-fun.herokuapp.com/ |
+    | EIF | https://express-is-fun.herokuapp.com/api |
     | ADMIN_GROUP_JID |  |
 # ⭕️ Important
 `BOT_NAME` The name of the Bot <br>
