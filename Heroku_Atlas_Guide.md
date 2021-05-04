@@ -6,6 +6,10 @@
 - 🧠️ Brain 🧠️
 - 🎵️ Music 🎵️
 
+### Notice!
+- I'd recommend using 🦊️ Firefox browser
+- I'd recommend you to disable extreme ad blocking extention or settings as it may cause some sites to break
+
 ## 💚️ Let's set up Mongo Atlas first 💚️ 
 1. Go to [MongoDB cloud atlas](https://www.mongodb.com/cloud/atlas)
 
