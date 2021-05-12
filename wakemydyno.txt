@@ -1,0 +1,3 @@
+Register your bot url at http://wakemydyno.com/
+
+This will prevent your bot from sleeping by consistently pinging it, which will help you keep it active 24*7
