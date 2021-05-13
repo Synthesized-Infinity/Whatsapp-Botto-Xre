@@ -9,7 +9,8 @@ import {
     wSearch,
     ytSreach,
     getYTMediaFromUrl,
-    lyrics
+    lyrics,
+    convertStickerToImage
 } from '../lib'
 import moment from 'moment-timezone'
 import responses from '../lib/responses.json'
@@ -20,6 +21,7 @@ import { join } from 'path'
 import { getRepoInfo, info } from '../lib/info'
 import { wallpaper } from '../lib/wallpaper'
 import { reddit } from '../lib/reddit'
+import { tmpdir } from 'os'
 export class Message {
     validTypes = [MessageType.text, MessageType.image, MessageType.video, MessageType.extendedText]
     constructor(private client: Client) {}
@@ -134,8 +136,14 @@ export class Message {
                 case 'help':
                     this.client.reply(from, { body: help(this.client, slicedJoinedArgs.toLowerCase().trim()) }, M)
                     break
+                case 'img':
+                    return void await this.client.reply(from, 
+                        (!media || !M.message?.extendedTextMessage?.contextInfo?.quotedMessage?.stickerMessage) ? { body: `Tag the sticker you want to convert`} : 
+                        (M.message?.extendedTextMessage?.contextInfo?.quotedMessage?.stickerMessage.isAnimated) ? { body: `Cannot convert animated stickers yet`} : 
+                        await convertStickerToImage(await this.client.downloadAndSaveMediaMessage(media, `${tmpdir()}/${Math.random().toString(36)}`))
+                        ,M)
                 case 'sticker':
-                    const sticker = !media
+                    const sticker = !media || (M.message?.extendedTextMessage?.contextInfo?.quotedMessage?.stickerMessage) 
                         ? { body: responses['wrong-format-media'] }
                         : await createSticker(
                               await this.client.downloadMediaMessage(media),
@@ -313,7 +321,8 @@ export class Message {
             message?.imageMessage || message?.videoMessage
                 ? M
                 : message?.extendedTextMessage?.contextInfo?.quotedMessage?.imageMessage ||
-                  message?.extendedTextMessage?.contextInfo?.quotedMessage?.videoMessage
+                  message?.extendedTextMessage?.contextInfo?.quotedMessage?.videoMessage ||
+                  message?.extendedTextMessage?.contextInfo?.quotedMessage?.stickerMessage
                 ? JSON.parse(JSON.stringify(M).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo
                 : null
 

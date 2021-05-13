@@ -5,7 +5,7 @@ import { schedule, validate } from 'node-cron'
 import chalk from 'chalk'
 import moment from 'moment-timezone'
 import { IReply, IConfig, IGroupModel, IUserModel, ISessionModel, ISession, IUserInfo } from '../Typings'
-import { existsSync, promises } from 'fs-extra'
+import { existsSync } from 'fs-extra'
 import { join } from 'path'
 import Utils from '../Utils'
 const browser: [string, string, string] = ['WhatsApp-Botto-Xre', 'Well', 'Indeed']
@@ -181,16 +181,13 @@ export class Client extends WAConnection {
     }
 
     getUserProfile = async (jid: string, userinfo: IUserInfo, admin = false): Promise<IReply> => {
-        const pfp = await this.getPfp(jid)
         const caption = `🍁 *Username: ${
             userinfo.user.notify || userinfo.user.vname || userinfo.user.name || 'None'
         }*\n\n🍥 *About: ${(await this.getStatus(jid)).status || 'None'}*\n\n🎖️ *Admin: ${admin}*\n\n🎯 *Ban: ${
             userinfo.data.ban || false
         }*`
         return {
-            body: pfp
-                ? await Utils.download(pfp)
-                : await promises.readFile(join(__dirname, '..', '..', 'assets', 'images', 'Error-404.jpg')),
+            body: await Utils.download(await this.getPfp(jid) || 'https://img.wallpapersafari.com/tablet/1536/2048/19/44/evOxST.jpg'),
             caption,
             type: MessageType.image
         }
