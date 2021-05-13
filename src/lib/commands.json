@@ -92,7 +92,7 @@
         {
             "command": "img",
             "description": "Converts static sticker into an image",
-            "usage": "image while tagging sticker"
+            "usage": "img while tagging sticker"
         },
         {
             "command": "subred",
