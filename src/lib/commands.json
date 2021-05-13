@@ -6,6 +6,11 @@
             "usage": "help"
         },
         {
+            "command": "profile",
+            "description": "Displays the profile of the tagged uset",
+            "usage": "profile (tag) | (@mention)"
+        },
+        {
             "command": "group",
             "description": "Displays the group info",
             "usage": "group"
@@ -83,6 +88,11 @@
             "command": "sticker",
             "description": "Converts images/videos into sticker",
             "usage": "sticker as caption of an image/video"
+        },
+        {
+            "command": "img",
+            "description": "Converts static sticker into an image",
+            "usage": "image while tagging sticker"
         },
         {
             "command": "subred",
