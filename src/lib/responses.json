@@ -6,11 +6,11 @@
     "user-lacks-permission": "❌ This is an Admin only Command",
     "no-permission": "❌ Cannot execute without being admin",
     "already-enabled": "🎋 *{T}* is already enabled",
-    "enable-sucessful": "💮 Successfully Enabled *{T}*",
+    "enable-successful": "💮 Successfully Enabled *{T}*",
     "not-enabled": "🌟 *{T}* is not Enabled",
-    "disable-successful": "🧩 Sucessully Disabled *{T}*",
+    "disable-successful": "🧩 Successfully Disabled *{T}*",
     "invalid-command-short": "Invalid Command: *{C}*",
-    "banned-user": "Sucessfully Banned {U} from Using Commands",
+    "banned-user": "Successfully Banned {U} from Using Commands",
     "unbanned-user": "{U} is now allowed to use Commands again",
     "already-banned": "{U} is already Banned from Using Commands",
     "already-unbanned": "{U} is not banned",
@@ -26,24 +26,24 @@
     "invalid-group-action": "Invalid Group Action: {T}",
     "direct-message-cmd": "*Commands cannot be used in Direct Messages.* Send a text without the prefix to have a chat",
     "no-command-after-prefix": "❗Provide a command from the help list after the prefix\n*Eg: {P}help*",
-    "no-search-results": "❌ Couldn't find any results on the trem *{T}*",
+    "no-search-results": "❌ Couldn't find any results on the term *{T}*",
     "invalid-url": "Invalid {W} 📘 *URL: {U}*",
     "video-duration-clause": "🕐 Cannot fetch videos longer than *10 Minutes*",
     "nsfw-detected": "*NSFW Detected*❗",
     "not-owner": "The user of this command must be the owner of thr group",
     "lyrics": "🔍 *Search Term:* {T}\n\n🎋 *Fetched Lyrics:* \n{L}",
     "mod": {
-        "no-nsfw": "❌ Cannot Display NSFW Content. Register *NSFW* to allow sending *_Exclipt content_*",
+        "no-nsfw": "❌ Cannot Display NSFW Content. Register *NSFW* to allow sending *_Explicit content_*",
         "group-invite": "❌ *[MOD]* Group Invite Link Detected! Removing..."
     },
-    "warinings":{
+    "warnings":{
         "purge": "Are you sure? This command will kick everyone from thr group. Use this command again if this is what you want.",
-        "EIF": "This featue is disabled. If your're the host, Please provide the EIF Main endpoint in yoru config vars"
+        "EIF": "This feature is disabled. If you're the host, Please provide the EIF Main endpoint in your config vars"
     },
     "error": {
         "500": {
             "mod": "{M} | Report this at https://github.com/Synthesized-Infinity/Whatsapp-Botto-Xre/issues if you are using the latest commit",
-            "regular": "An Error Occured [Code: 500]"
+            "regular": "An Error Occurred [Code: 500]"
         }
     },
     "ads": {

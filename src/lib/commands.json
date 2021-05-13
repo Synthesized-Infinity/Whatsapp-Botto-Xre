@@ -64,12 +64,12 @@
         },
         {
             "command": "register",
-            "description": "registers certain featues on the group chat",
+            "description": "registers certain features on the group chat",
             "usage": "register feature"
         },
         {
             "command": "unregister",
-            "description": "unregisters certain featues on the group chat",
+            "description": "unregister certain features on the group chat",
             "usage": "unregister feature"
         },
         {

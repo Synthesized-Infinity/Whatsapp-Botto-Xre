@@ -33,7 +33,7 @@ export const getWById = async (id: string, type: 'anime' | 'manga' | 'character'
 
 export const wSearch = async (
     q: string,
-    preifx: string,
+    prefix: string,
     type: 'anime' | 'manga' | 'character' = 'character'
 ): Promise<IReply> => {
     if (!q) return { body: responses['empty-query'] }
@@ -46,7 +46,7 @@ export const wSearch = async (
         for (let i = 0; i < n; i++) {
             z += `📗 *${
                 type === 'anime' || type === 'manga' ? `Title:* ${sim[i].title}` : `Name:* ${sim[i].name}`
-            }:\n🌐 *URL:* ${sim[i].url}\n🎀 *Full Info:* ${preifx}${
+            }:\n🌐 *URL:* ${sim[i].url}\n🎀 *Full Info:* ${prefix}${
                 type === 'anime' ? 'aid' : type === 'manga' ? 'mid' : 'chid'
             } ${sim[i].mal_id}\n\n`
         }

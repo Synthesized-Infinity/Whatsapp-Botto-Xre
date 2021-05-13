@@ -23,14 +23,14 @@
       "description": "Prefix of your bot"
     },
     "CRON": {
-      "description": "\"Cron\" string to clear all chats of the bot at specifed time",
+      "description": "\"Cron\" string to clear all chats of the bot at specified time",
       "required": false
     },
     "SESSION_ID": {
-      "description": "A string for the session to be classified and to get acesss to the server endpoints"
+      "description": "A string for the session to be classified and to get access to the server endpoints"
     },
     "ADMINS": {
-      "description": "The phone numbers of the users who you want to be admin for the bot (seperated by a comma \",\")",
+      "description": "The phone numbers of the users who you want to be admin for the bot (separated by a comma \",\")",
       "required": false
     },
     "MONGO_URI": {

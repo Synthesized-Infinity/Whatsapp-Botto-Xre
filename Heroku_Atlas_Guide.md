@@ -1,4 +1,4 @@
-# 🖤️ Whatsapp Botto: Xre 🖤️
+# 🖤️ WhatsApp Botto: Xre 🖤️
 ## 🤖️ Heroku Deployment Guide 🤖️
 
 ### Pre-requisite
@@ -8,7 +8,7 @@
 
 ### Notice!
 - I'd recommend using 🦊️ Firefox browser
-- I'd recommend you to disable extreme ad blocking extention or settings as it may cause some sites to break
+- I'd recommend you to disable extreme ad blocking extension or settings as it may cause some sites to break
 
 ## 💚️ Let's set up Mongo Atlas first 💚️ 
 1. Go to [MongoDB cloud atlas](https://www.mongodb.com/cloud/atlas)
@@ -53,7 +53,7 @@ PS: If you don't want to use your email, go to https://temp-mail.org/en/ and gen
 5. Wait for the building to finish, you should always keep an eye on log messages, you can find log messages in the Dashboard -> More -> View logs
 6. After it builds, click on the "View" or "Open App"
 7. Authenticate By Providing Your SESSION_ID and a QR Code Will Show Up
-8. Open WhatsApp on your phone -> Click on the 3 Dots on te top Right -> Click on WhatsApp Web -> Click on "Link a Device" and scan the QR from the previos step
+8. Open WhatsApp on your phone -> Click on the 3 Dots on te top Right -> Click on WhatsApp Web -> Click on "Link a Device" and scan the QR from the previous step
 9. Profit!
 
 ### 😼️ Enjoy and make sure to study!

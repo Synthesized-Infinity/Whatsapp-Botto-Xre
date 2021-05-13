@@ -7,7 +7,7 @@ import {
     toggleableGroupActions,
     getWById,
     wSearch,
-    ytSreach,
+    ytSearch,
     getYTMediaFromUrl,
     lyrics,
     convertStickerToImage
@@ -194,7 +194,7 @@ export class Message {
                         M
                     )
                 case 'yts':
-                    return void this.client.reply(from, { body: await ytSreach(slicedJoinedArgs.trim()) }, M)
+                    return void this.client.reply(from, { body: await ytSearch(slicedJoinedArgs.trim()) }, M)
                 case 'lyrics':
                     return void this.client.reply(from, { body: await lyrics(slicedJoinedArgs) }, M)
                 case 'info':

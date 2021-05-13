@@ -86,7 +86,7 @@ export class BaseRoutes {
                         })
                     await this.client.connect()
                     return res.json({
-                        message: 'Successfully Connected to Whatsapp'
+                        message: 'Successfully Connected to WhatsApp'
                     })
                 }
                 return res.json({ message: 'Invalid Query' })

@@ -101,7 +101,7 @@ export const start = async (PORT: number, MONGO_URI: string): Promise<void> => {
             console.log(
                 chalk.green('[SERVER]'),
                 chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')),
-                chalk.yellow('Chats Recived and Cached')
+                chalk.yellow('Chats Received and Cached')
             )
     })
 
@@ -109,7 +109,7 @@ export const start = async (PORT: number, MONGO_URI: string): Promise<void> => {
         console.log(
             chalk.green('[SERVER]'),
             chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')),
-            chalk.yellow('Contacts Recived and Cached')
+            chalk.yellow('Contacts Received and Cached')
         )
     })
 

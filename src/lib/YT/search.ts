@@ -1,7 +1,7 @@
 import yts from 'yt-search'
 import responses from '../responses.json'
 
-export const ytSreach = async (term: string): Promise<string> => {
+export const ytSearch = async (term: string): Promise<string> => {
     if (!term) return responses['wrong-format']
     const { videos } = await yts(term)
     if (!videos || videos.length <= 0) return responses['no-search-results'].replace('{T}', term)
