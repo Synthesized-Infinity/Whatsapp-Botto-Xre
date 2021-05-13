@@ -3,7 +3,7 @@ import { Client } from '../Client'
 import Utils from '../Utils'
 import responses from './responses.json'
 import moment from 'moment-timezone'
-import { IGroup, IGroupinfo, IReply } from '../Typings'
+import { IGroup, IGroupInfo, IReply } from '../Typings'
 import { join } from 'path'
 import { readFile } from 'fs-extra'
 export class GroupEx {
@@ -66,7 +66,7 @@ export class GroupEx {
             }
         await this.client.GroupModel.updateOne({ jid: chat.jid }, { $set: { [type]: register } })
         return {
-            body: responses[register ? 'enable-sucessful' : 'disable-successful'].replace('{T}', Utils.capitalize(type))
+            body: responses[register ? 'enable-successful' : 'disable-successful'].replace('{T}', Utils.capitalize(type))
         }
     }
 
@@ -89,7 +89,7 @@ export class GroupEx {
                     return {
                         body: all.includes(group.gid)
                             ? `Already in ${metadata.subject}`
-                            : `🎊 Sucessfully Joined!\n\n🎋 *Title:* ${metadata.subject}\n🏊 *Participiants:* ${metadata.participants.length}\n📑 *Description:* ${metadata.desc}\n👑 *Created By:* ${metadata.owner}`
+                            : `🎊 Sucessfully Joined!\n\n🎋 *Title:* ${metadata.subject}\n🏊 *Participants:* ${metadata.participants.length}\n📑 *Description:* ${metadata.desc}\n👑 *Created By:* ${metadata.owner}`
                     }
                 }
                 return { body: responses['failed-to-join'] }
@@ -100,7 +100,7 @@ export class GroupEx {
         }
     }
 
-    simplifiedGroupInfo = async (info: IGroupinfo): Promise<IReply> => {
+    simplifiedGroupInfo = async (info: IGroupInfo): Promise<IReply> => {
         const { metadata, data } = info
         const [mod, safe, events, NSFW, icon] = [
             data?.mod || false,
@@ -116,10 +116,10 @@ export class GroupEx {
                 owner?.notify || owner?.vname || owner?.name || metadata.owner.split('@')[0]
             }\n\n📅 *Created On:* ${moment(metadata.creation * 1000).format('DD/MM HH:mm:ss')}\n\n🔊 *Announce:* ${
                 metadata.announce || false
-            }\n\n🍀 *Restricted:* ${metadata.restrict || metadata.restrict || false}\n\n🏊 *Participiants:* ${
+            }\n\n🍀 *Restricted:* ${metadata.restrict || metadata.restrict || false}\n\n🏊 *Participants:* ${
                 metadata.participants.length
             }\n\n🏅 *Admins:* ${
-                metadata.participants.filter((participiant) => participiant.isAdmin).length
+                metadata.participants.filter((participant: { isAdmin: unknown }) => participant.isAdmin).length
             }\n\n🎯 *Moderation:* ${mod}\n\n🔮 *Events:* ${events}\n\n🌟 *Safe:* ${safe}\n\n🔞 *NSFW:* ${NSFW}\n\n〽 *Description:* \n${
                 metadata.desc
             }`,
@@ -142,7 +142,7 @@ export class GroupEx {
         if (!me) return { body: responses['no-permission'] }
         if (!this.purgeSet.has(metadata.id)) {
             this.addToPurge(metadata.id)
-            return { body: responses.warinings.purge }
+            return { body: responses.warnings.purge }
         }
         const participants = metadata.participants.map((user) => user.jid)
         for (const user of participants) {

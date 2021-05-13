@@ -6,7 +6,7 @@ export interface IParsedArgs {
 }
 
 export interface ICommandList {
-    [catogary: string]: command[]
+    [category: string]: command[]
 }
 
 export interface IEmbed {
@@ -29,7 +29,7 @@ export interface IReply {
     mime?: Mimetype
 }
 
-export interface IGroupinfo {
+export interface IGroupInfo {
     metadata: WAGroupMetadata
     admins: string[]
     data: IGroup

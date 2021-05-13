@@ -90,12 +90,12 @@ export class Client extends WAConnection {
         M?: WAMessage
     ): Promise<void> {
         if (!admin) return void this.reply(jid, { body: responses['no-permission'] }, M)
-        const mentionedJid = metadata.participants.map((participiant) => participiant.jid)
+        const mentionedJid = metadata.participants.map((participant) => participant.jid)
         const text = `🎀 *${metadata.subject}* 🎀\n${
             hidden
                 ? `🗣 *[TAGS HIDDEN]* 🗣`
                 : `${responses.spoilers.base}\n💮 ${mentionedJid
-                      .map((participiant) => `@${participiant.split('@')[0]}`)
+                      .map((participant) => `@${participant.split('@')[0]}`)
                       .join('\n💮 ')}`
         }`
         this.sendMessage(jid, text, MessageType.extendedText, { quoted: M, contextInfo: { mentionedJid } })
@@ -136,7 +136,7 @@ export class Client extends WAConnection {
         console.log(
             chalk.blueBright('[CRON]'),
             chalk.blue(moment(Date.now() * 1000).format('DD/MM HH:mm:ss')),
-            chalk.yellow('Cron Job for Clearing all chas has been scheduled for'),
+            chalk.yellow('Cron Job for Clearing all chats has been scheduled for'),
             chalk.greenBright(time)
         )
         schedule(time, async () => {

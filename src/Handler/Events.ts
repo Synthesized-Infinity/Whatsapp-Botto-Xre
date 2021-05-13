@@ -3,7 +3,7 @@ import chalk from 'chalk'
 import { Client } from '../Client'
 import Utils from '../Utils'
 import moment from 'moment-timezone'
-import { IEvent, IGroupinfo } from '../Typings'
+import { IEvent, IGroupInfo } from '../Typings'
 export class EventHandler {
     constructor(public client: Client) {}
 
@@ -22,8 +22,8 @@ export class EventHandler {
         if (event.action === 'remove') return this.leave(event)
     }
 
-    add = async (event: IEvent, group: IGroupinfo): Promise<void> => {
-        const participiants = event.participants.map(
+    add = async (event: IEvent, group: IGroupInfo): Promise<void> => {
+        const participants = event.participants.map(
             (user) =>
                 `${
                     this.client.contacts?.[user]?.['notify'] ||
@@ -34,7 +34,7 @@ export class EventHandler {
         )
 
         const picture = await this.client.getPfp(event.jid)
-        const text = `Welcome to ${group.metadata.subject}\n\n${group.metadata.desc}\n\n${participiants}`
+        const text = `Welcome to ${group.metadata.subject}\n\n${group.metadata.desc}\n\n${participants}`
         if (picture)
             return void this.client.sendMessage(event.jid, await Utils.download(picture), MessageType.image, {
                 caption: text

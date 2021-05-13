@@ -6,8 +6,8 @@ import { ICommandList } from '../Typings'
 
 export const help = (client: Client, command?: string): string => {
     if (command) {
-        for (const catogary in commands) {
-            for (const index of (commands as ICommandList)[catogary]) {
+        for (const category in commands) {
+            for (const index of (commands as ICommandList)[category]) {
                 if (index.command === command) {
                     return `*📗 Command:* ${index.command}\n📙 *Description:* ${index.description}\n📘 *Usage:* ${client._config.prefix}${index.usage}`
                 }
@@ -19,7 +19,7 @@ export const help = (client: Client, command?: string): string => {
     const cmds = commands as ICommandList
     const cats = Object.keys(cmds)
     for (const cat in cmds) {
-        base += `*${Utils.capitalize(cat)}* ${Utils.emojies[cats.indexOf(cat)]}\n\`\`\``
+        base += `*${Utils.capitalize(cat)}* ${Utils.emojis[cats.indexOf(cat)]}\n\`\`\``
         cmds[cat].forEach((cmd) => {
             base += `${cmd.command}${cmds[cat][cmds[cat].length - 1] === cmd ? '' : ', '}`
         })

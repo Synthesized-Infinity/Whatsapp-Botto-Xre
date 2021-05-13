@@ -40,7 +40,7 @@
                     "session",
                     "jid"
                 ],
-                "description":"retrives the given user's info"
+                "description":"retrieves the given user's info"
             },
             {
                 "endpoint":"/pfp",
@@ -49,7 +49,7 @@
                     "session",
                     "jid"
                 ],
-                "description":"Retrives the pfp of the given JID"
+                "description":"Retrieves the pfp of the given JID"
             },
             {
                 "endpoint":"/client",
