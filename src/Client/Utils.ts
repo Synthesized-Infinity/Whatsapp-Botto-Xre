@@ -1,12 +1,13 @@
-import { MessageType, WAConnection, WAContact, WAGroupMetadata, WAMessage } from '@adiwajshing/baileys/'
+import { MessageType, WAConnection, WAGroupMetadata, WAMessage } from '@adiwajshing/baileys/'
 import { Model } from 'mongoose'
 import responses from '../lib/responses.json'
 import { schedule, validate } from 'node-cron'
 import chalk from 'chalk'
 import moment from 'moment-timezone'
-import { IReply, IConfig, IGroupModel, IUserModel, ISessionModel, ISession } from '../Typings'
-import { existsSync } from 'fs-extra'
+import { IReply, IConfig, IGroupModel, IUserModel, ISessionModel, ISession, IUserInfo } from '../Typings'
+import { existsSync, promises } from 'fs-extra'
 import { join } from 'path'
+import Utils from '../Utils'
 const browser: [string, string, string] = ['WhatsApp-Botto-Xre', 'Well', 'Indeed']
 export class Client extends WAConnection {
     assets = join(__dirname, '..', '..', 'assets')
@@ -67,8 +68,8 @@ export class Client extends WAConnection {
         return this.config
     }
 
-    async getUser(jid: string): Promise<{ user: WAContact; data: IUserModel }> {
-        let data = await this.UserModel.findOne({ jid })
+    async getUser(jid: string): Promise<IUserInfo> {
+        let data: IUserModel | null = await this.UserModel.findOne({ jid })
         if (!data) data = await new this.UserModel({ jid }).save()
         return { user: this.contacts[jid], data }
     }
@@ -177,5 +178,21 @@ export class Client extends WAConnection {
             fromMe: true
         })
         return `Sucessfully Deleted Message`
+    }
+
+    getUserProfile = async (jid: string, userinfo: IUserInfo, admin = false): Promise<IReply> => {
+        const pfp = await this.getPfp(jid)
+        const caption = `🍁 *Username: ${
+            userinfo.user.notify || userinfo.user.vname || userinfo.user.name || 'None'
+        }*\n\n🍥 *About: ${(await this.getStatus(jid)).status || 'None'}*\n\n🎖️ *Admin: ${admin}*\n\n🎯 *Ban: ${
+            userinfo.data.ban || false
+        }*`
+        return {
+            body: pfp
+                ? await Utils.download(pfp)
+                : await promises.readFile(join(__dirname, '..', '..', 'assets', 'images', 'Error-404.jpg')),
+            caption,
+            type: MessageType.image
+        }
     }
 }

@@ -69,7 +69,7 @@ export class Message {
                   message.extendedTextMessage.contextInfo.participant
                 ? [message.extendedTextMessage.contextInfo.participant]
                 : []
-
+        const tag = mentioned[0] || sender
         console.log(
             chalk.green('[EXEC]'),
             chalk.blue(moment(Number(M.messageTimestamp) * 1000).format('DD/MM HH:mm:ss')),
@@ -89,6 +89,16 @@ export class Message {
                     break
                 case 'id':
                     return void this.client.reply(from, { body: `GID: ${from}` }, M)
+                case 'profile':
+                    return void this.client.reply(
+                        from,
+                        await this.client.getUserProfile(
+                            tag,
+                            tag === sender ? { user, data: userData } : await this.client.getUser(tag),
+                            group.admins.includes(tag)
+                        ),
+                        M
+                    )
                 case 'everyone':
                     return void this.client.everyone(from, group.metadata, admin, flags.includes('--hide'), M)
                 case 'group':

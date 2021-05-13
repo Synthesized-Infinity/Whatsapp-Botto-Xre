@@ -1,4 +1,5 @@
-import { WAParticipantAction } from '@adiwajshing/baileys'
+import { WAParticipantAction, WAContact } from '@adiwajshing/baileys'
+import { IUserModel } from './Mongo'
 
 export interface IConfig {
     name: string
@@ -33,6 +34,11 @@ export interface IUser {
     jid: string
     ban: boolean
     warnings: number
+}
+
+export interface IUserInfo {
+    user: WAContact
+    data: IUserModel
 }
 
 export interface ISession {
