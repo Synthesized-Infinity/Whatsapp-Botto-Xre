@@ -7,7 +7,7 @@
         },
         {
             "command": "profile",
-            "description": "Displays the profile of the tagged uset",
+            "description": "Displays the profile of the tagged user",
             "usage": "profile (tag) | (@mention)"
         },
         {
