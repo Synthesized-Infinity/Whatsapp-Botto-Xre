@@ -43,7 +43,6 @@ export const convertStickerToVideo = async (filename: string): Promise<IReply> =
     let frames = img.anim.frames.length
 
     for (let i = 0; frames > i; i++) {
-        console.log(`frame number -> ${i}`)
         await execute(`webpmux -get frame ${i} ${filename} -o ${temp}/${i}.webp`)
         await execute(`dwebp ${temp}/${i}.webp -o ${temp}/${i}.png`)
     }
@@ -53,8 +52,8 @@ export const convertStickerToVideo = async (filename: string): Promise<IReply> =
 
     // delete frames
     for (frames === 0; frames--;) {
-        fs.unlink(`${temp}/$/${frames}.webp`)
-        fs.unlink(`${temp}/$/${frames}.png`)
+        fs.unlink(`${temp}/${frames}.webp`)
+        fs.unlink(`${temp}/${frames}.png`)
     }
 
     return { body: await fs.readFile(out), type: MessageType.video, mime: Mimetype.gif, caption: `Here you go.` }
