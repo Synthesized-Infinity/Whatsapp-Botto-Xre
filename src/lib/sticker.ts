@@ -45,7 +45,7 @@ export const convertStickerToVideo = async (filename: string): Promise<IReply> =
     for (let i = 0; frames > i; i++) {
         console.log(`frame number -> ${i}`)
         await execute(`webpmux -get frame ${i} ${filename} -o ${temp}/${i}.webp`)
-        await execute(`dwebp ${temp}/$/${i}.webp -o ${temp}/${i}.png`)
+        await execute(`dwebp ${temp}/${i}.webp -o ${temp}/${i}.png`)
     }
 
     // build frames into mp4
