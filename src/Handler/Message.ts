@@ -10,7 +10,8 @@ import {
     ytSearch,
     getYTMediaFromUrl,
     lyrics,
-    convertStickerToImage
+    convertStickerToImage,
+    convertStickerToVideo
 } from '../lib'
 import moment from 'moment-timezone'
 import responses from '../lib/responses.json'
@@ -137,11 +138,12 @@ export class Message {
                     this.client.reply(from, { body: help(this.client, slicedJoinedArgs.toLowerCase().trim()) }, M)
                     break
                 case 'img':
-                    return void await this.client.reply(from, 
-                        (!media || !M.message?.extendedTextMessage?.contextInfo?.quotedMessage?.stickerMessage) ? { body: `Tag the sticker you want to convert`} : 
-                        (M.message?.extendedTextMessage?.contextInfo?.quotedMessage?.stickerMessage.isAnimated) ? { body: `Cannot convert animated stickers yet`} : 
-                        await convertStickerToImage(await this.client.downloadAndSaveMediaMessage(media, `${tmpdir()}/${Math.random().toString(36)}`))
-                        ,M)
+                    return void await this.client.reply(from,
+                        (!media || !M.message?.extendedTextMessage?.contextInfo?.quotedMessage?.stickerMessage) ? { body: `Tag the sticker you want to convert`} :
+                            (M.message?.extendedTextMessage?.contextInfo?.quotedMessage?.stickerMessage.isAnimated) ?
+                                await convertStickerToVideo(await this.client.downloadAndSaveMediaMessage(media, `${tmpdir()}/${Math.random().toString(36)}`)) :
+                                await convertStickerToImage(await this.client.downloadAndSaveMediaMessage(media, `${tmpdir()}/${Math.random().toString(36)}`)
+                        ),M)
                 case 'sticker':
                     const sticker = !media || (M.message?.extendedTextMessage?.contextInfo?.quotedMessage?.stickerMessage) 
                         ? { body: responses['wrong-format-media'] }
