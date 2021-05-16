@@ -25,7 +25,7 @@
 ## 💮 Self-Hosting
 
 - See the [Self-Hosting Guide](https://github.com/Synthesized-Infinity/Whatsapp-Botto-Xre/blob/master/Self-Hosting.md) 
-- See the [Heroku Deploy Guide](https://github.com/Synthesized-Infinity/Whatsapp-Botto-Xre/blob/master/Self-Hosting.md)
+- See the [Heroku Deploy Guide](https://github.com/Synthesized-Infinity/Whatsapp-Botto-Xre/blob/master/Heroku_Atlas_Guide.md)
 
 ## 💪 Contribution
 
