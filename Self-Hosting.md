@@ -68,3 +68,6 @@ npm start
 Running the above command will start the bot. 
 To authenticate scan the QR which shows up in the terminal or the link which is logged when the QR event fires using the WA-Web Scanner on your WhatsApp.
 Now you're on your own. Good Luck!
+
+## 🤡 Don't want to do the hassle of setting up on your own PC?
+[Set it up on Heroku](https://github.com/Synthezied-Infinity/Whatsapp-Botto-Xre/Heroku_Atlas_Guide.md)
