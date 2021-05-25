@@ -197,6 +197,41 @@ export class Message {
                     )
                 case 'yts':
                     return void this.client.reply(from, { body: await ytSearch(slicedJoinedArgs.trim()) }, M)
+                case 'gify': 
+                    if(slicedJoinedArgs === "") {
+                        return void this.client.reply(from, {body: "Wrong Format! Use [prefix]+ gify + keyword"}, M)
+                    }
+                    const url = await getGify(slicedJoinedArgs);
+                    return void this.client.reply(from, {
+                        body: await Utils.download(url) ,
+                        type: MessageType.video,
+                        mime: Mimetype.gif,
+                        //caption: `${username} ${slicedJoinedArgs} ${this.client.contacts[tag].notify || this.client.contacts[tag].vname || this.client.contacts[tag].name}`
+                    }, M)
+                case 'slap':
+                    const well = await getGify("slap");
+                    return void this.client.reply(from, {
+                        body: await Utils.download(well) ,
+                        type: MessageType.video,
+                        mime: Mimetype.gif,
+                        caption: `*${username}* _SLAPPED_ *${this.client.contacts[tag].notify || this.client.contacts[tag].vname || this.client.contacts[tag].name}*`
+                    })
+                  case 'pat':
+                    const well1 = await getGify("pat");
+                    return void this.client.reply(from, {
+                        body: await Utils.download(well1) ,
+                        type: MessageType.video,
+                        mime: Mimetype.gif,
+                        caption: `*${username}* _PATTED_ *${this.client.contacts[tag].notify || this.client.contacts[tag].vname || this.client.contacts[tag].name}*`
+                    })
+                  case 'punch':
+                    const well2 = await getGify("punch");
+                    return void this.client.reply(from, {
+                        body: await Utils.download(well2) ,
+                        type: MessageType.video,
+                        mime: Mimetype.gif,
+                        caption: `*${username}* _PUNCHED_ *${this.client.contacts[tag].notify || this.client.contacts[tag].vname || this.client.contacts[tag].name}*`
+                    })
                 case 'lyrics':
                     return void this.client.reply(from, { body: await lyrics(slicedJoinedArgs) }, M)
                 case 'info':
