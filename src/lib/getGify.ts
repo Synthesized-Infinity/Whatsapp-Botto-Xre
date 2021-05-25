@@ -9,7 +9,7 @@ const getGify = async (keyword: string): Promise<string | null> => {
         `https://g.tenor.com/v1/search?q=${keyword}&key=LIVDSRZULELA&limit=8`,
         {}
     )
-    return data.results[Math.floor(Math.random() * data.results.length)].media[0].mp4.url
+    return data.results?.[Math.floor(Math.random() * data.results.length)]?.media[0]?.mp4?.url
 }
 
 // Side-note
