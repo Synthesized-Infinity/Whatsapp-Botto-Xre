@@ -100,6 +100,11 @@
             "usage": "subred subreddit"
         },
         {
+            "command": "gify",
+            "description": "Fetches random gifs from a given keyword",
+            "usages": "gify neko"
+        },
+        {
             "command": "yts",
             "description": "Searches for videos on https://youtube.com",
             "usage": "yts search_term"
@@ -118,6 +123,23 @@
             "command": "lyrics",
             "description": "Fetches lyrics from the given song title",
             "usage": "lyrics term"
+        }
+    ],
+    "fun": [
+        {
+            "command": "pat",
+            "description": "Pats the mentioned or quoted person",
+            "usage": "pat"
+        },
+        {
+            "command": "punch",
+            "description": "Punches the mentioned or quoted person",
+            "usage": "punch"
+        },
+        {
+            "command": "slap",
+            "description": "slaps the mentioned or quoted person",
+            "usage": "slap"
         }
     ],
     "weeb": [
