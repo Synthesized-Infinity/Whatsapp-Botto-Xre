@@ -187,7 +187,9 @@ export class Client extends WAConnection {
             userinfo.data.ban || false
         }*`
         return {
-            body: await Utils.download(await this.getPfp(jid) || 'https://img.wallpapersafari.com/tablet/1536/2048/19/44/evOxST.jpg'),
+            body: await Utils.download(
+                (await this.getPfp(jid)) || 'https://img.wallpapersafari.com/tablet/1536/2048/19/44/evOxST.jpg'
+            ),
             caption,
             type: MessageType.image
         }

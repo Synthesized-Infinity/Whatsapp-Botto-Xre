@@ -13,6 +13,6 @@ export const validate = (): void => {
                 `\nNeed help? Read the self-hosting guide. https://github.com/Synthesized-Infinity/Whatsapp-Botto-Xre/blob/master/Self-Hosting.md`
             )
         )
-        process.exit()                                      
+        process.exit()
     }
 }

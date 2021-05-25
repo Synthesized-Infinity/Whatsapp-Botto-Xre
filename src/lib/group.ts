@@ -66,7 +66,10 @@ export class GroupEx {
             }
         await this.client.GroupModel.updateOne({ jid: chat.jid }, { $set: { [type]: register } })
         return {
-            body: responses[register ? 'enable-successful' : 'disable-successful'].replace('{T}', Utils.capitalize(type))
+            body: responses[register ? 'enable-successful' : 'disable-successful'].replace(
+                '{T}',
+                Utils.capitalize(type)
+            )
         }
     }
 

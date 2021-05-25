@@ -139,21 +139,35 @@ export class Message {
                     this.client.reply(from, { body: help(this.client, slicedJoinedArgs.toLowerCase().trim()) }, M)
                     break
                 case 'img':
-                    return void await this.client.reply(from,
-                        (!media || !M.message?.extendedTextMessage?.contextInfo?.quotedMessage?.stickerMessage) ? { body: `Tag the sticker you want to convert`} :
-                            (M.message?.extendedTextMessage?.contextInfo?.quotedMessage?.stickerMessage.isAnimated) ?
-                                await convertStickerToVideo(await this.client.downloadAndSaveMediaMessage(media, `${tmpdir()}/${Math.random().toString(36)}`)) :
-                                await convertStickerToImage(await this.client.downloadAndSaveMediaMessage(media, `${tmpdir()}/${Math.random().toString(36)}`)
-                        ),M)
+                    return void (await this.client.reply(
+                        from,
+                        !media || !M.message?.extendedTextMessage?.contextInfo?.quotedMessage?.stickerMessage
+                            ? { body: `Tag the sticker you want to convert` }
+                            : M.message?.extendedTextMessage?.contextInfo?.quotedMessage?.stickerMessage.isAnimated
+                            ? await convertStickerToVideo(
+                                  await this.client.downloadAndSaveMediaMessage(
+                                      media,
+                                      `${tmpdir()}/${Math.random().toString(36)}`
+                                  )
+                              )
+                            : await convertStickerToImage(
+                                  await this.client.downloadAndSaveMediaMessage(
+                                      media,
+                                      `${tmpdir()}/${Math.random().toString(36)}`
+                                  )
+                              ),
+                        M
+                    ))
                 case 'sticker':
-                    const sticker = !media || (M.message?.extendedTextMessage?.contextInfo?.quotedMessage?.stickerMessage) 
-                        ? { body: responses['wrong-format-media'] }
-                        : await createSticker(
-                              await this.client.downloadMediaMessage(media),
-                              flags.includes('--strech'),
-                              barSplit[1],
-                              barSplit[2]
-                          )
+                    const sticker =
+                        !media || M.message?.extendedTextMessage?.contextInfo?.quotedMessage?.stickerMessage
+                            ? { body: responses['wrong-format-media'] }
+                            : await createSticker(
+                                  await this.client.downloadMediaMessage(media),
+                                  flags.includes('--strech'),
+                                  barSplit[1],
+                                  barSplit[2]
+                              )
                     const m = await this.client.reply(from, sticker, M)
                     if (m && typeof m === 'object' && (m as WAMessage)?.message?.stickerMessage && ad === 5)
                         return void this.client.reply(from, { body: responses['ads']['sticker'] }, m as WAMessage)
@@ -198,15 +212,21 @@ export class Message {
                     )
                 case 'yts':
                     return void this.client.reply(from, { body: await ytSearch(slicedJoinedArgs.trim()) }, M)
-                case 'gify': 
+                case 'gify':
                     return void this.client.reply(from, await getGifReply(slicedJoinedArgs), M)
                 case 'slap':
                 case 'pat':
                 case 'punch':
-                    return void this.client.reply(from, await getGifReply(command, [
-                        username,
-                        this.client.contacts[tag].notify || this.client.contacts[tag].vname || this.client.contacts[tag].name || 'User'
-                    ]))
+                    return void this.client.reply(
+                        from,
+                        await getGifReply(command, [
+                            username,
+                            this.client.contacts[tag].notify ||
+                                this.client.contacts[tag].vname ||
+                                this.client.contacts[tag].name ||
+                                'User'
+                        ])
+                    )
                 case 'lyrics':
                     return void this.client.reply(from, { body: await lyrics(slicedJoinedArgs) }, M)
                 case 'info':
