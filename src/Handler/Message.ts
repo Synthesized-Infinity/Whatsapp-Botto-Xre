@@ -91,6 +91,11 @@ export class Message {
                 default:
                     this.client.reply(from, { body: responses['invalid-command'] }, M)
                     break
+                case 'bc':
+                    if (!mod) return void null
+                    return void this.client.reply(from, {
+                        body: await this.client.group.broadcast(slicedJoinedArgs, media || M)
+                    })
                 case 'id':
                     return void this.client.reply(from, { body: `GID: ${from}` }, M)
                 case 'profile':
