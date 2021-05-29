@@ -1,9 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { MessageType, Mimetype } from '@adiwajshing/baileys'
 import { IReply } from '../Typings'
-import Utils from '../Utils' // Importing Utils to get JSON fetch function
-// Main function: returns a Promise of type string
-
+import Utils from '../Utils' 
 
 /** Side-note
 * To get gif in other formats, I'd recommed you exploring the json itself which provided link returns.
