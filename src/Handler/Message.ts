@@ -127,7 +127,6 @@ export class Message {
                 case 'unban':
                     if (!mod || mentioned.length === 0) return
                     return this.client.banAction(from, mentioned, command === 'ban', M)
-                    break
                 case 'hi':
                     this.client.reply(from, { body: `Hi! ${username}` }, M)
                     break
@@ -266,6 +265,8 @@ export class Message {
                 from,
                 {
                     body: await readFile(join(this.client.assets, 'images', 'Error-500.gif')),
+                    //eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    //@ts-ignore
                     caption: !mod ? responses.error[500].regular : responses.error[500].mod.replace('{M}', err.message),
                     type: MessageType.video,
                     mime: Mimetype.gif
