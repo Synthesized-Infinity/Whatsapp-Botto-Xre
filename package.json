@@ -65,6 +65,6 @@
     "qr-image": "^3.2.0",
     "wa-sticker-formatter": "^3.6.0",
     "yt-search": "^2.7.6",
-    "ytdl-core": "^4.5.0"
+    "ytdl-core": "^4.8.3"
   }
 }
