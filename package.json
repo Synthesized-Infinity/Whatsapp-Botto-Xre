@@ -1,7 +1,7 @@
 {
   "name": "whatsapp-botto-xre",
   "version": "1.0.0",
-  "description": "Well....",
+  "description": "Working....",
   "main": "dist/index.js",
   "files": [
     "src",
