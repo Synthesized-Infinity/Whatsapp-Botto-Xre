@@ -51,20 +51,20 @@
     "@adiwajshing/baileys": "^3.5.1",
     "@tensorflow/tfjs-node": "^3.3.0",
     "anime-wallpaper": "^1.0.0",
-    "axios": "^0.21.1",
+    "axios": ">=0.21.2",
     "chalk": "^4.1.0",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "fs-extra": "^9.1.0",
     "moment-timezone": "^0.5.33",
-    "mongoose": "^5.12.2",
+    "mongoose": "^6.0.7",
     "node-cron": "^3.0.0",
     "node-webpmux": "^2.0.1",
     "nsfwjs": "^2.4.0",
     "qr-image": "^3.2.0",
     "wa-sticker-formatter": "^3.6.0",
-    "yt-search": "^2.7.6",
+    "yt-search": "^2.10.1",
     "ytdl-core": "^4.8.3"
   }
 }
