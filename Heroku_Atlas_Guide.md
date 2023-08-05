@@ -35,8 +35,8 @@ PS: If you don't want to use your email, go to https://temp-mail.org/en/ and gen
 4. Enter the following fields
     | KEY | VALUE |
     | --- | ----------- |
-    | BOTNAME | Xre |
-    | PREFIX | ! |
+    | BOTNAME |medusa|
+    | PREFIX | # |
     | CRON | 'null' |
     | SESSION_ID | Any text you want but make sure to remember and don't share it |
     | ADMINS |  |
